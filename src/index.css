@@ -5,9 +5,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url("https://buddhify.com/wp-content/uploads/2018/07/iStock-689785084.jpg") repeat;
+  background-size: 100%;
+  background-position: top;
+  min-height: 100%;
+}
+
+form {
+  padding: 20px;
+  margin-left: 20px ;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.leftmargin {
+  margin-left: 20px ;
 }
