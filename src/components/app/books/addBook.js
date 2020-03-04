@@ -53,23 +53,23 @@ class AddBook extends Component {
                     <h2>Add a new book:</h2>
                     <div>
                         <label htmlFor="title">Title: </label>
-                        <input type="title" id="title" value={this.state.title} onChange={this.handleChange}/>
+                        <input type="title" id="title" placeholder="Enter book name" value={this.state.title} onChange={this.handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="author">Author: </label>
-                        <input type="author" id="author" value={this.state.author} onChange={this.handleChange}/>
+                        <input type="author" id="author" placeholder="Enter author name" value={this.state.author} onChange={this.handleChange}/>
                     </div>
                     <div>
-                        <label htmlFor="published_date">Published_date: </label>
-                        <input type="published_date" id="published_date" value={this.state.published_date} onChange={this.handleChange}/>
+                        <label htmlFor="published_date">Published date: </label>
+                        <input type="month" id="published_date" placeholder="dd/mm/yyyy" value={this.state.published_date} onChange={this.handleChange}/>
                     </div>
                     <div>
-                        <label htmlFor="book_cover">Book_cover: </label>
-                        <input type="book_cover" id="book_cover" value={this.state.book_cover} onChange={this.handleChange}/>
+                        <label htmlFor="book_cover">Book cover: </label>
+                        <input type="url" id="book_cover" placeholder="http://..." value={this.state.book_cover} onChange={this.handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="quantity">Quantity: </label>
-                        <input type="quantity" id="quantity" value={this.state.quantity} onChange={this.handleChange}/>
+                        <input type="number" id="quantity" placeholder="Enter quantity" value={this.state.quantity} onChange={this.handleChange}/>
                     </div>
                 </form>
                     <div className="leftmargin">

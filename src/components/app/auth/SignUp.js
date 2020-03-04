@@ -59,19 +59,19 @@ class SignUp extends Component {
                     <h2>Sign Up:</h2>
                     <div>
                         <label htmlFor="name">Name: </label>
-                        <input type="name" id="name" value={this.state.name} onChange={this.handleChange}/>
+                        <input type="name" id="name" placeholder="Enter your first name" value={this.state.name} onChange={this.handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="surname">Surname: </label>
-                        <input type="surname" id="surname" value={this.state.surname} onChange={this.handleChange}/>
+                        <input type="surname" id="surname" placeholder="Enter your last name" value={this.state.surname} onChange={this.handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="username">Username: </label>
-                        <input type="username" id="username" value={this.state.username} onChange={this.handleChange}/>
+                        <input type="username" id="username" placeholder="Enter your username" value={this.state.username} onChange={this.handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="password">Password: </label>
-                        <input type="password" id="password" value={this.state.password} onChange={this.handleChange}/>
+                        <input type="password" id="password" placeholder="Enter your password" value={this.state.password} onChange={this.handleChange}/>
                     </div>
                 </form>
                     <div className="leftmargin">
