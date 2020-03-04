@@ -7,7 +7,6 @@ export const receiveUserList = (json) => ({type: RECEIVE_USER_LIST, payload: jso
 export const receiveUserListFailure = (error) => ({type: RECEIVE_USER_LIST_FAILURE, payload: error});
 
 
-
 export const REQUEST_ADD_USER = 'REQUEST_ADD_USER';
 export const RECEIVE_ADD_USER = 'RECEIVE_ADD_USER';
 export const RECEIVE_ADD_USER_FAILURE = 'RECEIVE_ADD_USER_FAILURE';
@@ -15,7 +14,6 @@ export const RECEIVE_ADD_USER_FAILURE = 'RECEIVE_ADD_USER_FAILURE';
 export const requestAddUser = () => ({type: REQUEST_ADD_USER,});
 export const receiveAddUser = (json) => ({type: RECEIVE_ADD_USER, payload: json});
 export const receiveAddUserFailure = (error) => ({type: RECEIVE_ADD_USER_FAILURE, payload: error});
-
 
 
 export const REQUEST_DELETE_USER = 'REQUEST_DELETE_USER';
@@ -34,6 +32,8 @@ export const fetchUser = () => {
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveUserList(json))
+                    console.log('Response fetchUser json:');
+                    console.log(json);
                 })
             })
             .catch((error) => {
@@ -43,12 +43,12 @@ export const fetchUser = () => {
 };
 
 
-export const addUser = (user) => {
+export const addClient = (user) => {
     console.log('Atejau iki action addUser: ' + user.name);
-    return (dispatch) => {
+    return (dispatch) =>  {
 
         dispatch(requestAddUser());
-        fetch('http://localhost:8080/user/add', {
+        fetch('http://localhost:8080/user/add-client', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -61,17 +61,51 @@ export const addUser = (user) => {
                 password: user.password,
             })
         })
-
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveAddUser(json))
-                })
+                    console.log('Response addClient json:');
+                    console.log(json);
+                    dispatch(receiveAddUser(json));
+                });
             })
             .catch((error) => {
                 dispatch(receiveAddUserFailure(error))
-            })
+            });
     }
 };
+
+
+export const addAdmin = (user) => {
+    console.log('Atejau iki action addUser: ' + user.name);
+    return (dispatch) =>  {
+
+        dispatch(requestAddUser());
+        fetch('http://localhost:8080/user/add-admin', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: user.name,
+                surname: user.surname,
+                username: user.username,
+                password: user.password,
+            })
+        })
+            .then((result) => {
+                result.json().then((json) => {
+                    dispatch(receiveAddUser(json));
+                    console.log('Response addAdmin json:');
+                    console.log(json);
+                });
+            })
+            .catch((error) => {
+                dispatch(receiveAddUserFailure(error))
+            });
+    }
+};
+
 
 export const deleteUser = (id) => {
     console.log('atejau iki action deleteUser ' + id);
@@ -87,6 +121,8 @@ export const deleteUser = (id) => {
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveDeleteUser(json.user_id));
+                    console.log('Response deleteUser json:');
+                    console.log(json);
                 })
 
             })

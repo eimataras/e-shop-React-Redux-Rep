@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {HashRouter, Route, Switch} from "react-router-dom";
 import Navbar from "./layout/Navbar";
 import Dashboard from "./dashboard/dashboard";
 import SignIn from "./auth/SignIn";
@@ -14,7 +14,7 @@ class App extends React.Component {
     render() {
 
         return (
-            <BrowserRouter>
+            <HashRouter>
                 <Navbar/>
                 <Switch>
                     <Route path='/' exact={true} component={Dashboard}/>
@@ -22,10 +22,9 @@ class App extends React.Component {
                     <Route path='/signup' exact={true} component={SignUp}/>
                     <Route path='/addbook' exact={true} component={AddBook}/>
                     <Route path='/userlist' exact={true} component={UserList}/>
-                    {/*<Route path='/book/:id' exact={true} component={BookDetails}/>*/}
 
                 </Switch>
-            </BrowserRouter>
+            </HashRouter>
         );
     }
 }

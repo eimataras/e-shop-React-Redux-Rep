@@ -63,6 +63,8 @@ export const addBook = (knyga) => {
 
             .then((result) => {
                 result.json().then((json) => {
+                    console.log('Response json:')
+                    console.log(json)
                     dispatch(receiveAddBook(json))
                 })
             })

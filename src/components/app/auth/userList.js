@@ -11,7 +11,9 @@ import Divider from "@material-ui/core/Divider";
 
 
 const mapStateToProps = (state) => {
-    return {users: state.users};
+    return {
+        user: state.user,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -22,28 +24,47 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 class UserList extends Component {
 
+
     componentDidMount() {
         this.props.uzkraukVartotojuSarasa();
     }
 
     handleSubmit = (id) => {
-        this.props.istrinkVartotoja(id)
+
+        this.props.istrinkVartotoja(id);
     };
+
 
     render() {
 
-        const items = this.props.users.data;
-        console.log('Gavau items i userList propsus:');
-        console.log(items);
+        const items = this.props.user.data;
+
+        // Tikrina ar uzkrove items i propsus, jei ne, tai render dalies toliau nevykdo, bet rodo ekrane "Loading"
+        if (!items.length) {
+
+            return (<h1>Loading</h1>);
+        }
+
 
         return (
             <div>
                 {
                     items.map((item) => {
+
+                        // Surandu roles irasa (irasas tik vienas), kuriame yra reikiamas user_id
+                        const myRole = item.roles.find(role => {
+
+                            return role.user_id === item.user_id
+                        });
+
+                        if (!myRole) {
+                            return null;
+                        }
                         return (
-                            <List key={item.user_id} >
+                            <List key={item.user_id}>
                                 <ListItem>
-                                    <ListItemText primary={(<>{item.name} {item.surname}</>)} secondary={(<>Username: {item.username}<br/>Password: {item.password}</>)}/>
+                                    <ListItemText primary={(<>{item.name} {item.surname}</>)}
+                                                  secondary={(<>Username: {item.username}<br/>Password: {item.password}<br/>Role: {myRole.role_name} </>)}/>
                                 </ListItem>
 
                                 <div className="leftmargin">
@@ -53,15 +74,11 @@ class UserList extends Component {
                                 <Divider variant="inset" component="li"/>
                             </List>
                         )
-
                     })
                 }
-
             </div>
         )
-
     }
-
 }
 
 export default compose(

@@ -9,7 +9,7 @@ import {
 } from "../actions/user-actions";
 
 
-const userReducer = (state = cloneDeep(initialState.users), action) => {
+const userReducer = (state = cloneDeep(initialState.user), action) => {
     switch (action.type) {
 
         //--------------GET USER LIST FROM  INTERNET ----------
@@ -75,13 +75,14 @@ const userReducer = (state = cloneDeep(initialState.users), action) => {
         case RECEIVE_DELETE_USER: {
             console.log('Atejau i reduceri deleteUser ' + action.payload);
             console.log(state.data);
+            const data = state.data.filter(user => {
+                return user.user_id !== action.payload
+            });
             return Object.assign({}, {
                 isFetching: false,
                 error: undefined,
-                data: [...state.data.filter(user => {
-                    return user.user_id !== action.payload
-                })]
-            })
+                data: data,
+            });
         }
         case RECEIVE_DELETE_USER_FAILURE: {
             return Object.assign({}, {

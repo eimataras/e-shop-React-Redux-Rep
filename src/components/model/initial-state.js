@@ -6,11 +6,12 @@ const initialState = {
 
     },
 
-    users: {
+    user: {
         isFetching: false,
         data: [],
         error: '',
-    }
+    },
+
 };
 
 export default initialState;

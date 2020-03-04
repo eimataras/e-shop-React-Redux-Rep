@@ -71,10 +71,10 @@ class AddBook extends Component {
                         <label htmlFor="quantity">Quantity: </label>
                         <input type="quantity" id="quantity" value={this.state.quantity} onChange={this.handleChange}/>
                     </div>
-                    <div>
+                </form>
+                    <div className="leftmargin">
                         <Button variant="contained" color="primary" onClick={this.handleSubmit}>Save</Button>
                     </div>
-                </form>
             </div>
         )
     }

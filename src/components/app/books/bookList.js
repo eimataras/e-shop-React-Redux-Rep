@@ -37,6 +37,12 @@ class BookList extends Component {
         console.log('Gavau items i bookList propsus:');
         console.log(items);
 
+        //Tikrina ar uzkrove items i propsus, jei dar ne, tai render dalies toliau nevykdo, bet rodo ekrane "Loading"
+        if(!items.length) {
+
+            return (<h1>Loading</h1>);
+        }
+
         return (
 
             <div>

@@ -3,11 +3,12 @@ import Button from "@material-ui/core/Button";
 import {bindActionCreators, compose} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {addUser} from "../../model/actions/user-actions";
+import {addAdmin, addClient} from "../../model/actions/user-actions";
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    pridekNaujaVartotoja: (user) => addUser(user)
+    pridekNaujaKlienta: (user) => addClient(user),
+    pridekNaujaAdmina: (user) => addAdmin(user)
 }, dispatch);
 
 
@@ -27,17 +28,28 @@ class SignUp extends Component {
 
     };
 
-    handleSubmit = (e) => {
+    handleSubmitClient = () => {
         console.log(this.state);
         const user = this.state;
-        this.props.pridekNaujaVartotoja(user);
+        this.props.pridekNaujaKlienta(user);
         this.setState({
             name: '',
             surname: '',
             username: '',
             password: '',
         })
+    };
 
+    handleSubmitAdmin = () => {
+        console.log(this.state);
+        const user = this.state;
+        this.props.pridekNaujaAdmina(user);
+        this.setState({
+            name: '',
+            surname: '',
+            username: '',
+            password: '',
+        })
     };
 
     render() {
@@ -61,10 +73,12 @@ class SignUp extends Component {
                         <label htmlFor="password">Password: </label>
                         <input type="password" id="password" value={this.state.password} onChange={this.handleChange}/>
                     </div>
-                    <div>
-                        <Button variant="contained" color="primary" onClick={this.handleSubmit}>Sign Up</Button>
-                    </div>
                 </form>
+                    <div className="leftmargin">
+                        <Button variant="contained" color="primary" onClick = {this.handleSubmitClient}>Create Client</Button>
+                        <span> </span>
+                        <Button variant="contained" color="primary" onClick = {this.handleSubmitAdmin}>Create Admin</Button>
+                    </div>
             </div>
         )
     }

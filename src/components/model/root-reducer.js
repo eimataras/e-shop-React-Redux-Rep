@@ -4,10 +4,7 @@ import userReducer from "./reducers/user-reducer";
 
 const rootReducer = combineReducers({
     book: bookReducer,
-    users: userReducer
-
-
-
+    user: userReducer
 });
 
 export default rootReducer;
