@@ -4,6 +4,9 @@ import {bindActionCreators, compose} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {addAdmin, addClient} from "../../model/actions/user-actions";
+import {Container} from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -25,7 +28,6 @@ class SignUp extends Component {
         this.setState({
             [e.target.id]: e.target.value
         })
-
     };
 
     handleSubmitClient = () => {
@@ -54,32 +56,28 @@ class SignUp extends Component {
 
     render() {
         return (
-            <div>
-                <form>
-                    <h2>Sign Up:</h2>
-                    <div>
-                        <label htmlFor="name">Name: </label>
-                        <input type="name" id="name" placeholder="Enter your first name" value={this.state.name} onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="surname">Surname: </label>
-                        <input type="surname" id="surname" placeholder="Enter your last name" value={this.state.surname} onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="username">Username: </label>
-                        <input type="username" id="username" placeholder="Enter your username" value={this.state.username} onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password: </label>
-                        <input type="password" id="password" placeholder="Enter your password" value={this.state.password} onChange={this.handleChange}/>
-                    </div>
-                </form>
-                    <div className="leftmargin">
-                        <Button variant="contained" color="primary" onClick = {this.handleSubmitClient}>Create Client</Button>
+            <Container fixed maxWidth="xs">
+                <Paper className="padding">
+                    <div align="center">
+                        <form autoComplete="off">
+                            <h1>Sign Up:</h1>
+                            <TextField id="name" type="name" variant="outlined" label="First name"
+                                       value={this.state.name} onChange={this.handleChange}/>
+                            <TextField id="surname" type="surname" variant="outlined" label="Last name"
+                                       value={this.state.surname} onChange={this.handleChange}/>
+                            <TextField id="username" type="username" variant="outlined" label="Username"
+                                       value={this.state.username} onChange={this.handleChange}/>
+                            <TextField id="password" type="password" variant="outlined" label="Password"
+                                       value={this.state.password} onChange={this.handleChange}/>
+                        </form>
+                        <Button variant="contained" color="primary" onClick={this.handleSubmitClient}>Create
+                            Client</Button>
                         <span> </span>
-                        <Button variant="contained" color="primary" onClick = {this.handleSubmitAdmin}>Create Admin</Button>
+                        <Button variant="contained" color="secondary" onClick={this.handleSubmitAdmin}>Create
+                            Admin</Button>
                     </div>
-            </div>
+                </Paper>
+            </Container>
         )
     }
 }

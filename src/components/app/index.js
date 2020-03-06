@@ -12,7 +12,6 @@ import UserList from "./auth/userList";
 class App extends React.Component {
 
     render() {
-
         return (
             <HashRouter>
                 <Navbar/>

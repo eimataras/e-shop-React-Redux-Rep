@@ -7,7 +7,7 @@ import {withRouter} from "react-router-dom";
 const SignedOutLinks = (props) => {
     return (
         <Toolbar>
-            <Button color="inherit" onClick={()=>props.history.push('/signin')}>Sign In</Button>
+            <Button color="inherit" onClick={()=>props.history.push('/signin')}>Log In</Button>
             <Button color="inherit" onClick={()=>props.history.push('/signup')}>Sign Up</Button>
         </Toolbar>
     )

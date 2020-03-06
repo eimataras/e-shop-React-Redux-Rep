@@ -4,6 +4,9 @@ import {bindActionCreators, compose} from "redux";
 import {connect} from "react-redux";
 import {addBook} from "../../model/actions/book-actions";
 import {withRouter} from "react-router-dom";
+import {Container} from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -44,38 +47,28 @@ class AddBook extends Component {
     };
 
     render() {
-        console.log('AddBook state:');
-        console.log(this.state);
 
         return (
-            <div>
-                <form>
-                    <h2>Add a new book:</h2>
-                    <div>
-                        <label htmlFor="title">Title: </label>
-                        <input type="title" id="title" placeholder="Enter book name" value={this.state.title} onChange={this.handleChange}/>
+            <Container fixed maxWidth="xs">
+                <Paper className="padding">
+                    <div align="center">
+                        <form autoComplete="off">
+                            <h1>Add a new book:</h1>
+                            <TextField id="title" variant="outlined" label="Title" value={this.state.title}
+                                       onChange={this.handleChange}/>
+                            <TextField id="author" variant="outlined" label="Author" value={this.state.author}
+                                       onChange={this.handleChange}/>
+                            <TextField id="published_date" variant="outlined" label="Published date"
+                                       value={this.state.published_date} onChange={this.handleChange}/>
+                            <TextField id="book_cover" variant="outlined" label="Book cover http://..."
+                                       value={this.state.book_cover} onChange={this.handleChange}/>
+                            <TextField id="quantity" variant="outlined" label="Quantity" value={this.state.quantity}
+                                       onChange={this.handleChange}/>
+                        </form>
+                        <Button variant="contained" color="secondary" onClick={this.handleSubmit}>Save</Button>
                     </div>
-                    <div>
-                        <label htmlFor="author">Author: </label>
-                        <input type="author" id="author" placeholder="Enter author name" value={this.state.author} onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="published_date">Published date: </label>
-                        <input type="month" id="published_date" placeholder="dd/mm/yyyy" value={this.state.published_date} onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="book_cover">Book cover: </label>
-                        <input type="url" id="book_cover" placeholder="http://..." value={this.state.book_cover} onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="quantity">Quantity: </label>
-                        <input type="number" id="quantity" placeholder="Enter quantity" value={this.state.quantity} onChange={this.handleChange}/>
-                    </div>
-                </form>
-                    <div className="leftmargin">
-                        <Button variant="contained" color="primary" onClick={this.handleSubmit}>Save</Button>
-                    </div>
-            </div>
+                </Paper>
+            </Container>
         )
     }
 }

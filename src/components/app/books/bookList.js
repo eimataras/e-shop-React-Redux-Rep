@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 import {bindActionCreators, compose} from "redux";
-import {deleteBook, fetchBook} from "../../model/actions/book-actions";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import List from "@material-ui/core/List";
-import {ListItemText} from "@material-ui/core";
+import {Container, ListItemText} from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import Button from "@material-ui/core/Button";
+import Iconos from "./icons";
+import {fetchBook} from "../../model/actions/book-actions";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
 
 const mapStateToProps = (state) => {
@@ -15,55 +16,41 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    uzkraukKnyguSarasa: () => fetchBook(),
-    istrinkKnyga: (id) => deleteBook(id),
+    fetchBook: () => fetchBook(),
 }, dispatch);
 
 
 class BookList extends Component {
-
     componentDidMount() {
-        this.props.uzkraukKnyguSarasa();
+        this.props.fetchBook();
     }
 
-    handleSubmit = (id) => {
-        this.props.istrinkKnyga(id)
-    };
-
-
     render() {
-
         const items = this.props.book.data;
-        console.log('Gavau items i bookList propsus:');
-        console.log(items);
 
-        //Tikrina ar uzkrove items i propsus, jei dar ne, tai render dalies toliau nevykdo, bet rodo ekrane "Loading"
-        if(!items.length) {
-
+        if (!items.length) {
             return (<h1>Loading</h1>);
         }
 
         return (
-
             <div>
-                {
-                    items.map((item) => {
-                        return (
-                            <List key={item.book_id} component="nav" aria-label="mailbox folders">
-                                <ListItem>
-                                    <ListItemText primary={(<>"{item.title}"</>)}
-                                                  secondary={(<>Autorius: {item.author}<br/>Išleista: {item.published_date}<br/>Kiekis: {item.quantity}</>)}/>
-                                </ListItem>
-
-                                <div className="leftmargin">
-                                    <Button variant="contained" color="primary"
-                                            onClick={() => this.handleSubmit(item.book_id)}>Delete</Button>
-                                </div>
-
-                                <Divider variant="inset" component="li"/>
+                {items.map((item) => {
+                    return (
+                        <Container fixed maxWidth="xs" key={item.book_id}>
+                            <List>
+                                <Paper>
+                                    <ListItem button>
+                                        <Grid container spacing={0}>
+                                            <ListItemText primary={(<>"{item.title}"</>)}
+                                                          secondary={(<>Autorius: {item.author}<br/>Išleista: {item.published_date}<br/>Kiekis: {item.quantity}</>)}/>
+                                            <Iconos id={item.book_id}/>
+                                        </Grid>
+                                    </ListItem>
+                                </Paper>
                             </List>
-                        )
-                    })
+                        </Container>
+                    )
+                })
                 }
             </div>
         )

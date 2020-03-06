@@ -9,6 +9,7 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
     title: {
         flexGrow: 1,
+        padding: 5
     },
 }));
 
@@ -16,8 +17,8 @@ const Navbar = () => {
     const classes = useStyles();
 
     return (
-        <AppBar position="static">
-            <Toolbar>
+        <AppBar  position="static">
+            <Toolbar className="appbar">
                 <Typography variant="h5" className={classes.title}>Book shop</Typography>
                 <SignedInLinks/>
                 <SignedOutLinks/>

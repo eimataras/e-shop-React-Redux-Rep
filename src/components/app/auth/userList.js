@@ -5,9 +5,11 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import {ListItemText} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
+import {Container, ListItemText} from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Icon from "@material-ui/core/Icon";
+import IconButton from "@material-ui/core/IconButton";
 
 
 const mapStateToProps = (state) => {
@@ -30,51 +32,50 @@ class UserList extends Component {
     }
 
     handleSubmit = (id) => {
-
         this.props.istrinkVartotoja(id);
     };
 
 
     render() {
-
         const items = this.props.user.data;
 
-        // Tikrina ar uzkrove items i propsus, jei ne, tai render dalies toliau nevykdo, bet rodo ekrane "Loading"
         if (!items.length) {
-
             return (<h1>Loading</h1>);
         }
 
 
         return (
-            <div>
-                {
-                    items.map((item) => {
+            <div align="center">
+                <h1>Users list</h1>
+                {items.map((item) => {
 
-                        // Surandu roles irasa (irasas tik vienas), kuriame yra reikiamas user_id
-                        const myRole = item.roles.find(role => {
+                    // Surandu roles irasa (irasas tik vienas), kuriame yra reikiamas user_id
+                    const myRole = item.roles.find(role => {
+                        return role.user_id === item.user_id
+                    });
 
-                            return role.user_id === item.user_id
-                        });
-
-                        if (!myRole) {
-                            return null;
-                        }
-                        return (
-                            <List key={item.user_id}>
-                                <ListItem>
-                                    <ListItemText primary={(<>{item.name} {item.surname}</>)}
-                                                  secondary={(<>Username: {item.username}<br/>Password: {item.password}<br/>Role: {myRole.role_name} </>)}/>
-                                </ListItem>
-
-                                <div className="leftmargin">
-                                    <Button variant="contained" color="primary"
-                                            onClick={() => this.handleSubmit(item.user_id)}>Delete account</Button>
-                                </div>
-                                <Divider variant="inset" component="li"/>
+                    if (!myRole) {
+                        return null;
+                    }
+                    return (
+                        <Container fixed maxWidth="xs" key={item.user_id}>
+                            <List>
+                                <Paper>
+                                    <ListItem button>
+                                        <Grid container spacing={0}>
+                                            <ListItemText primary={(<>{item.name} {item.surname}</>)}
+                                                          secondary={(<>Username: {item.username}<br/>Password: {item.password}<br/>Role: {myRole.role_name} </>)}/>
+                                            <IconButton onClick={() => this.handleSubmit(item.user_id)}>
+                                                <Icon className="material-icons" color="secondary"
+                                                      fontSize="large">delete_forever</Icon>
+                                            </IconButton>
+                                        </Grid>
+                                    </ListItem>
+                                </Paper>
                             </List>
-                        )
-                    })
+                        </Container>
+                    )
+                })
                 }
             </div>
         )

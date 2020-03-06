@@ -11,7 +11,6 @@ const initialState = {
         data: [],
         error: '',
     },
-
 };
 
 export default initialState;

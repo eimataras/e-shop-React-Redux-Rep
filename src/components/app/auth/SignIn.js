@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import Button from "@material-ui/core/Button";
-
-
-
+import {Container} from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
 
 
 class SignIn extends Component {
@@ -13,7 +13,7 @@ class SignIn extends Component {
 
     handleChange = (e) => {
         this.setState({
-        [e.target.id]: e.target.value
+            [e.target.id]: e.target.value
         })
 
     };
@@ -25,23 +25,20 @@ class SignIn extends Component {
 
     render() {
         return (
-            <div>
-                <form >
-                    <h2>Sign In:</h2>
-                    <div>
-                        <label htmlFor="username">Username: </label>
-                        <input type="username" id="username" onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password: </label>
-                        <input type="password" id="password" onChange={this.handleChange}/>
-                    </div>
-                    <div>
+            <Container fixed maxWidth="xs">
+                <Paper className="padding">
+                    <div align="center">
+                        <form autoComplete="off">
+                            <h1>Log In:</h1>
+                            <TextField id="username" type="username" variant="outlined" label="Username"
+                                       value={this.state.username} onChange={this.handleChange}/>
+                            <TextField id="password" type="password" variant="outlined" label="Password"
+                                       value={this.state.password} onChange={this.handleChange}/>
+                        </form>
                         <Button variant="contained" color="primary" onClick={this.handleSubmit}>Login</Button>
                     </div>
-                </form>
-
-            </div>
+                </Paper>
+            </Container>
         )
     }
 }

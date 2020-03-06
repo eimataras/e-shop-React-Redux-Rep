@@ -7,11 +7,10 @@ class Dashboard extends Component {
     render() {
 
         return (
-            <BookList />
-
-            //Next task to do a UserList component
-            // <UserList />
-
+            <div align="center">
+                <h1>Books for sale</h1>
+                <BookList/>
+            </div>
         )
     }
 }
