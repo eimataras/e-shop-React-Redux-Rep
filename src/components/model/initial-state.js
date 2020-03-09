@@ -11,6 +11,12 @@ const initialState = {
         data: [],
         error: '',
     },
+
+    order: {
+        isFetching: false,
+        data: [],
+        error: '',
+    }
 };
 
 export default initialState;
