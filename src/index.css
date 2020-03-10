@@ -32,3 +32,12 @@ code {
 .padding {
   padding: 20px;
 }
+
+.sidemargin {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.redtext {
+  color: red;
+}

@@ -10,7 +10,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import IconButton from "@material-ui/core/IconButton";
-import {fetchOrder} from "../../model/actions/order-actions";
+import {deleteOrder, fetchOrder, updateOrder} from "../../model/actions/order-actions";
+import Button from "@material-ui/core/Button";
 
 
 const mapStateToProps = (state) => {
@@ -24,14 +25,15 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchUser: () => fetchUser(),
     deleteUser: (id) => deleteUser(id),
     fetchOrder: () => fetchOrder(),
+    updateOrder: (order_id, user_id, status_id) => updateOrder(order_id, user_id, status_id),
+    deleteOrder: (order_id) => deleteOrder(order_id),
 
 }, dispatch);
 
 
 class UserList extends Component {
 
-    state = {
-    };
+    state = {};
 
     componentDidMount() {
         this.props.fetchUser();
@@ -43,7 +45,15 @@ class UserList extends Component {
     };
 
     handleSelectedUserOrders = (id) => {
-       this.props.history.push(`/userlist/${id}`);
+        this.props.history.push(`/userlist/${id}`);
+    };
+
+    handleChangeStatus = (order_id, user_id, status_id) => {
+        this.props.updateOrder(order_id, user_id, status_id);
+    };
+
+    handleDeleteOrder = (order_id) => {
+      this.props.deleteOrder(order_id);
     };
 
 
@@ -54,7 +64,6 @@ class UserList extends Component {
         const myOrders = orders.filter((order) => {
             return order.user_id === id
         });
-        console.log('Isfiltruoti orderiai: ' + myOrders);
 
         if (!items.length) {
             return (<h1>Loading</h1>);
@@ -103,7 +112,7 @@ class UserList extends Component {
                         {myOrders.map((order) => {
 
                             return (
-                                <Container fixed maxWidth="xs" key={order.order_id}>
+                                <Container fixed maxWidth="sm" key={order.order_id}>
                                     <List>
                                         <Paper>
                                             <ListItem>
@@ -122,7 +131,25 @@ class UserList extends Component {
                                                             )
                                                         })}
                                                     </div>
-                                                    <div>Order status: {order.type}<br/>Order ID: {order.order_id}</div>
+                                                    <div>Order status: {order.type}
+                                                        <br/>Order ID: {order.order_id}
+                                                        <div className="redtext"> Change status to:
+                                                            <span className="sidemargin"/>
+                                                            <Button onClick={() => {
+                                                                this.handleChangeStatus(order.order_id, order.user_id, 3)
+                                                            }} size="small" variant="contained">Sent</Button>
+                                                            <span className="sidemargin"/>
+                                                            <Button onClick={() => {
+                                                                this.handleChangeStatus(order.order_id, order.user_id, 4)
+                                                            }} size="small" variant="contained">Canceled</Button>
+                                                            <span className="sidemargin"/>
+                                                            <IconButton
+                                                                onClick={() => this.handleDeleteOrder(order.order_id)}>
+                                                                <Icon className="material-icons" color="secondary"
+                                                                      fontSize="large">delete_forever</Icon>
+                                                            </IconButton>
+                                                        </div>
+                                                    </div>
                                                 </Grid>
                                             </ListItem>
                                         </Paper>
