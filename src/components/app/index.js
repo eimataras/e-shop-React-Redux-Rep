@@ -21,7 +21,7 @@ class App extends React.Component {
                     <Route path='/signup' exact={true} component={SignUp}/>
                     <Route path='/addbook' exact={true} component={AddBook}/>
                     <Route path='/userlist' exact={true} component={UserList}/>
-
+                    <Route path='/userlist/:userId' exact={true} component={UserList}/>
                 </Switch>
             </HashRouter>
         );

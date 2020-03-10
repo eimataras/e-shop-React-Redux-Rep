@@ -31,7 +31,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 class UserList extends Component {
 
     state = {
-        user_id: null
     };
 
     componentDidMount() {
@@ -44,18 +43,14 @@ class UserList extends Component {
     };
 
     handleSelectedUserOrders = (id) => {
-        console.log(id);
-        console.log(this.props.order.data);
-        this.setState({
-            user_id: id
-        });
+       this.props.history.push(`/userlist/${id}`);
     };
 
 
     render() {
         const items = this.props.user.data;
         const orders = this.props.order.data;
-        const id = this.state.user_id;
+        const id = Number(this.props.match.params.userId);
         const myOrders = orders.filter((order) => {
             return order.user_id === id
         });
@@ -111,20 +106,23 @@ class UserList extends Component {
                                 <Container fixed maxWidth="xs" key={order.order_id}>
                                     <List>
                                         <Paper>
-                                            <ListItem button>
+                                            <ListItem>
                                                 <Grid container spacing={0}>
-                                                    <ListItemText primary={(<>Buyer: {order.name} {order.surname}</>)}
-                                                                  secondary={(<>{order.items.map((item) => {
-                                                                      return (
-                                                                          <ul key={item.order_item_id}>
-                                                                              <li>
-                                                                                  <ListItemText
-                                                                                      secondary={(<>"{item.title}" {item.author}<br/>Quantity: {item.quantity} </>)}/>
-                                                                              </li>
-                                                                          </ul>
-                                                                      )
-                                                                  })}<br/>
-                                                                      Order status: {order.type}</>)}/>
+                                                    <div>Buyer: {order.name} {order.surname}</div>
+                                                    <div>
+                                                        {order.items.map((item) => {
+                                                            return (
+                                                                <ul key={item.order_item_id}>
+                                                                    <ListItem>
+                                                                        <ListItemText
+                                                                            secondary={(
+                                                                                <span>"{item.title}" {item.author}<br/>Quantity: {item.quantity} </span>)}/>
+                                                                    </ListItem>
+                                                                </ul>
+                                                            )
+                                                        })}
+                                                    </div>
+                                                    <div>Order status: {order.type}<br/>Order ID: {order.order_id}</div>
                                                 </Grid>
                                             </ListItem>
                                         </Paper>
