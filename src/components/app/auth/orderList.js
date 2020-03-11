@@ -18,7 +18,6 @@ const style = {
 const OrderList = (props) => {
     return (
         <Grid item sm>
-            <h5> Click on specific user to see his orders </h5>
             {props.myOrders.map((order) => {
 
                 return (
