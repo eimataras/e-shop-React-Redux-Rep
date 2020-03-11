@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
         padding: 5
     },
+    color: {
+        backgroundColor: 'darkred'
+    }
 }));
 
 const Navbar = () => {
@@ -18,7 +21,7 @@ const Navbar = () => {
 
     return (
         <AppBar  position="static">
-            <Toolbar className="appbar">
+            <Toolbar className={classes.color}>
                 <Typography variant="h5" className={classes.title}>Book shop</Typography>
                 <SignedInLinks/>
                 <SignedOutLinks/>

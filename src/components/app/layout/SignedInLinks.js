@@ -5,7 +5,6 @@ import {withRouter} from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
@@ -16,13 +15,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignedInLinks = (props) => {
-
     const classes = useStyles();
 
     return (
-
         <Toolbar>
-
             <Button color="inherit" onClick={()=>props.history.push('/')}>Home</Button>
             <Button color="inherit" onClick={()=>props.history.push('/')}>Sign Out</Button>
             <Button color="inherit" onClick={()=>props.history.push('/')}>My Order</Button>

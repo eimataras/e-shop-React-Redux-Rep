@@ -11,8 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import IconButton from "@material-ui/core/IconButton";
 import {deleteOrder, fetchOrder, updateOrder} from "../../model/actions/order-actions";
-import Button from "@material-ui/core/Button";
-
+import OrderList from "./orderList";
 
 const mapStateToProps = (state) => {
     return {
@@ -27,12 +26,10 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchOrder: () => fetchOrder(),
     updateOrder: (order_id, user_id, status_id) => updateOrder(order_id, user_id, status_id),
     deleteOrder: (order_id) => deleteOrder(order_id),
-
 }, dispatch);
 
 
 class UserList extends Component {
-
     state = {};
 
     componentDidMount() {
@@ -53,7 +50,7 @@ class UserList extends Component {
     };
 
     handleDeleteOrder = (order_id) => {
-      this.props.deleteOrder(order_id);
+        this.props.deleteOrder(order_id);
     };
 
 
@@ -72,7 +69,7 @@ class UserList extends Component {
 
         return (
             <div align="center">
-                <h1>Users list</h1>
+                <h1>User list</h1>
                 <Grid container>
                     <Grid item sm>
                         {items.map((item) => {
@@ -107,57 +104,10 @@ class UserList extends Component {
                         })
                         }
                     </Grid>
-                    <Grid item sm>
-                        <h5> Click on specific user to see his orders </h5>
-                        {myOrders.map((order) => {
-
-                            return (
-                                <Container fixed maxWidth="sm" key={order.order_id}>
-                                    <List>
-                                        <Paper>
-                                            <ListItem>
-                                                <Grid container spacing={0}>
-                                                    <div>Buyer: {order.name} {order.surname}</div>
-                                                    <div>
-                                                        {order.items.map((item) => {
-                                                            return (
-                                                                <ul key={item.order_item_id}>
-                                                                    <ListItem>
-                                                                        <ListItemText
-                                                                            secondary={(
-                                                                                <span>"{item.title}" {item.author}<br/>Quantity: {item.quantity} </span>)}/>
-                                                                    </ListItem>
-                                                                </ul>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                    <div>Order status: {order.type}
-                                                        <br/>Order ID: {order.order_id}
-                                                        <div className="redtext"> Change status to:
-                                                            <span className="sidemargin"/>
-                                                            <Button onClick={() => {
-                                                                this.handleChangeStatus(order.order_id, order.user_id, 3)
-                                                            }} size="small" variant="contained">Sent</Button>
-                                                            <span className="sidemargin"/>
-                                                            <Button onClick={() => {
-                                                                this.handleChangeStatus(order.order_id, order.user_id, 4)
-                                                            }} size="small" variant="contained">Canceled</Button>
-                                                            <span className="sidemargin"/>
-                                                            <IconButton
-                                                                onClick={() => this.handleDeleteOrder(order.order_id)}>
-                                                                <Icon className="material-icons" color="secondary"
-                                                                      fontSize="large">delete_forever</Icon>
-                                                            </IconButton>
-                                                        </div>
-                                                    </div>
-                                                </Grid>
-                                            </ListItem>
-                                        </Paper>
-                                    </List>
-                                </Container>
-                            )
-                        })}
-                    </Grid>
+                    <OrderList
+                        handleDeleteOrder={this.handleDeleteOrder}
+                        handleChangeStatus={this.handleChangeStatus}
+                        myOrders={myOrders}/>
                 </Grid>
             </div>
         )
