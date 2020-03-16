@@ -10,7 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import IconButton from "@material-ui/core/IconButton";
-import {deleteOrder, fetchOrder, updateOrder} from "../../model/actions/order-actions";
+import {deleteOrder, fetchOrder, updateOrderStatus} from "../../model/actions/order-actions";
 import OrderList from "./orderList";
 
 const mapStateToProps = (state) => {
@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchUser: () => fetchUser(),
     deleteUser: (id) => deleteUser(id),
     fetchOrder: () => fetchOrder(),
-    updateOrder: (order_id, user_id, status_id) => updateOrder(order_id, user_id, status_id),
+    updateOrderStatus: (order_id, user_id, status_id) => updateOrderStatus(order_id, user_id, status_id),
     deleteOrder: (order_id) => deleteOrder(order_id),
 }, dispatch);
 
@@ -46,7 +46,7 @@ class UserList extends Component {
     };
 
     handleChangeStatus = (order_id, user_id, status_id) => {
-        this.props.updateOrder(order_id, user_id, status_id);
+        this.props.updateOrderStatus(order_id, user_id, status_id);
     };
 
     handleDeleteOrder = (order_id) => {

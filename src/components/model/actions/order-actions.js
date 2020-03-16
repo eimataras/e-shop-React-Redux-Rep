@@ -53,7 +53,7 @@ export const fetchOrder = () => {
 
 
 
-export const addOrder = (book_id) => {
+export const addOrder = (loginUserId, statusNewId, book_id) => {
     console.log('Atejau iki action addOrder: ' + book_id);
     return (dispatch) => {
 
@@ -65,8 +65,8 @@ export const addOrder = (book_id) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                user_id: 1,  //Automatiskai orderi kuria Eimantui Taraseviciui
-                status_id: 1, //Automatiskai parenka OrderStatus "new"
+                user_id: loginUserId,
+                status_id: statusNewId,
                 book_id: book_id,
             })
         })
@@ -85,7 +85,39 @@ export const addOrder = (book_id) => {
 };
 
 
-export const updateOrder = (order_id, user_id, status_id) => {
+export const addOrderItem = (order_id, book_id) => {
+    console.log('Atejau iki action addOrderItem. Book id: ' + book_id + '. Order id: '+ order_id);
+    return (dispatch) => {
+
+        dispatch(requestUpdateOrder());
+        fetch('http://localhost:8080/orderItems/add', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                order_id: order_id,
+                book_id: book_id,
+                quantity: 1
+            })
+        })
+
+            .then((result) => {
+                result.json().then((json) => {
+                    console.log('Response json:');
+                    console.log(json);
+                    dispatch(receiveUpdateOrder(json))
+                })
+            })
+            .catch((error) => {
+                dispatch(receiveUpdateOrderFailure(error))
+            })
+    }
+};
+
+
+export const updateOrderStatus = (order_id, user_id, status_id) => {
     console.log('Atejau iki action updateOrder: ' + order_id, user_id, status_id);
     return (dispatch) => {
 

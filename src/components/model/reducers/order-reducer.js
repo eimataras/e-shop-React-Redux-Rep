@@ -52,8 +52,6 @@ const orderReducer = (state = cloneDeep(initialState.order), action) => {
         }
 
         case RECEIVE_ADD_ORDER: {
-            console.log('Order data: ');
-            console.log(state.data);
             return Object.assign({}, {
                 isFetching: false,
                 error: undefined,

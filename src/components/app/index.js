@@ -8,6 +8,7 @@ import SignUp from "./auth/SignUp";
 import AddBook from "./books/addBook";
 import UserList from "./auth/userList";
 import MyOrder from "./myOrder/myOrder";
+import MyOrderHistory from "./myOrder/myOrderHistory";
 
 
 class App extends React.Component {
@@ -24,6 +25,7 @@ class App extends React.Component {
                     <Route path='/userlist' exact={true} component={UserList}/>
                     <Route path='/userlist/:userId' exact={true} component={UserList}/>
                     <Route path='/myOrder/:userId' exact={true} component={MyOrder}/>
+                    <Route path='/myOrderHistory/:userId' exact={true} component={MyOrderHistory}/>
                 </Switch>
             </HashRouter>
         );
