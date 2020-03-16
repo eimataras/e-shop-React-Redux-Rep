@@ -21,7 +21,7 @@ const SignedInLinks = (props) => {
         <Toolbar>
             <Button color="inherit" onClick={()=>props.history.push('/')}>Home</Button>
             <Button color="inherit" onClick={()=>props.history.push('/')}>Sign Out</Button>
-            <Button color="inherit" onClick={()=>props.history.push('/')}>My Order</Button>
+            <Button color="inherit" onClick={()=>props.history.push('/myOrder/1')}>My Order</Button>
             <Button color="inherit" onClick={()=>props.history.push('/')}>My Orders History</Button>
             <Button color="inherit" onClick={()=>props.history.push('/addbook')}>Add New Book</Button>
             <Button color="inherit" onClick={()=>props.history.push('/userlist')}>Users</Button>

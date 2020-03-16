@@ -70,7 +70,7 @@ class UserList extends Component {
         return (
             <div align="center">
                 <h1>User list</h1>
-                <h5> Select a user to see his order </h5>
+                <h5> Select a user to see his orders history</h5>
                 <Grid container>
                     <Grid item sm>
                         {items.map((item) => {

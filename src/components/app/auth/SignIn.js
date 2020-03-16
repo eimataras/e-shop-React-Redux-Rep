@@ -3,7 +3,19 @@ import Button from "@material-ui/core/Button";
 import {Container} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
+import {bindActionCreators, compose} from "redux";
+import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 
+const mapStateToProps = (state) => {
+    return {
+        logInUser: state.logInId
+    };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    // fetchLogIn: (username, password) => fetchLogIn(username, password),
+}, dispatch);
 
 class SignIn extends Component {
     state = {
@@ -20,7 +32,7 @@ class SignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state)
+        this.props.fetchLogIn(this.state.username, this.state.password);
     };
 
     render() {
@@ -43,4 +55,7 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
+)(SignIn);

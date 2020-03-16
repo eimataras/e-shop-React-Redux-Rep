@@ -7,6 +7,7 @@ import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import AddBook from "./books/addBook";
 import UserList from "./auth/userList";
+import MyOrder from "./myOrder/myOrder";
 
 
 class App extends React.Component {
@@ -22,6 +23,7 @@ class App extends React.Component {
                     <Route path='/addbook' exact={true} component={AddBook}/>
                     <Route path='/userlist' exact={true} component={UserList}/>
                     <Route path='/userlist/:userId' exact={true} component={UserList}/>
+                    <Route path='/myOrder/:userId' exact={true} component={MyOrder}/>
                 </Switch>
             </HashRouter>
         );
