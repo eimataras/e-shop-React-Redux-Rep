@@ -35,7 +35,7 @@ class BookList extends Component {
         const loginUserId = 1;
         const statusNewId = 1;
 
-        //Gaunam vartotojo 1 orderi su statusu NEW
+        //Gaunam prisiloginusio vartotojo orderi su statusu NEW
         const myOrder = this.props.order.data.find(order => {
             return order.user_id === loginUserId && order.status_id === statusNewId
         });

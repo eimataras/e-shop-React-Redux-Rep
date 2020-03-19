@@ -16,13 +16,14 @@ const useStyles = makeStyles(theme => ({
 
 const SignedInLinks = (props) => {
     const classes = useStyles();
+    const loginUserId = 1;
 
     return (
         <Toolbar>
             <Button color="inherit" onClick={()=>props.history.push('/')}>Home</Button>
             <Button color="inherit" onClick={()=>props.history.push('/')}>Sign Out</Button>
-            <Button color="inherit" onClick={()=>props.history.push('/myOrder/1')}>My Order</Button>
-            <Button color="inherit" onClick={()=>props.history.push('/myOrderHistory/1')}>My Orders History</Button>
+            <Button color="inherit" onClick={()=>props.history.push(`/myOrder/${loginUserId}`)}>My Order</Button>
+            <Button color="inherit" onClick={()=>props.history.push(`/myOrderHistory/${loginUserId}`)}>My Orders History</Button>
             <Button color="inherit" onClick={()=>props.history.push('/addbook')}>Add New Book</Button>
             <Button color="inherit" onClick={()=>props.history.push('/userlist')}>Users</Button>
 

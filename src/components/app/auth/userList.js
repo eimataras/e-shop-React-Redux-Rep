@@ -115,7 +115,4 @@ class UserList extends Component {
     }
 }
 
-export default compose(
-    withRouter,
-    connect(mapStateToProps, mapDispatchToProps)
-)(UserList);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(UserList);

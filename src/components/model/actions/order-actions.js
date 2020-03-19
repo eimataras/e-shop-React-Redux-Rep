@@ -117,6 +117,39 @@ export const addOrderItem = (order_id, book_id) => {
 };
 
 
+export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quantity) => {
+    console.log('Atejau iki action updateOrderItemQuantity. Book id: ' + book_id + '. Order id: '+ order_id);
+    return (dispatch) => {
+
+        dispatch(requestUpdateOrder());
+        fetch('http://localhost:8080/orderItems/edit', {
+            method: 'put',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                order_item_id: order_item_id,
+                order_id: order_id,
+                book_id: book_id,
+                quantity: quantity
+            })
+        })
+
+            .then((result) => {
+                result.json().then((json) => {
+                    console.log('Response json:');
+                    console.log(json);
+                    dispatch(receiveUpdateOrder(json))
+                })
+            })
+            .catch((error) => {
+                dispatch(receiveUpdateOrderFailure(error))
+            })
+    }
+};
+
+
 export const updateOrderStatus = (order_id, user_id, status_id) => {
     console.log('Atejau iki action updateOrder: ' + order_id, user_id, status_id);
     return (dispatch) => {
