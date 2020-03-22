@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import {bindActionCreators, compose} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import {postLogin} from "../../model/actions/login-action";
 
 const mapStateToProps = (state) => {
     return {
@@ -14,7 +15,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    // fetchLogIn: (username, password) => fetchLogIn(username, password),
+    postLogin: (username, password) => postLogin(username, password),
 }, dispatch);
 
 class SignIn extends Component {
@@ -32,7 +33,7 @@ class SignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.fetchLogIn(this.state.username, this.state.password);
+        this.props.postLogin(this.state.username, this.state.password);
     };
 
     render() {

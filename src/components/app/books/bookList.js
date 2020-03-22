@@ -15,7 +15,8 @@ import {fetchOrder} from "../../model/actions/order-actions";
 const mapStateToProps = (state) => {
     return {
         order: state.order,
-        book: state.book};
+        book: state.book
+    };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -42,33 +43,31 @@ class BookList extends Component {
         const order_id = myOrder ? (myOrder.order_id) : null;
 
 
-
         const items = this.props.book.data;
         if (!items.length) {
             return (<h1>Loading</h1>);
         }
 
         return (
-            <div>
+            <Container fixed maxWidth="md">
                 {items.map((item) => {
                     return (
-                        <Container fixed maxWidth="xs" key={item.book_id}>
-                            <List>
-                                <Paper>
-                                    <ListItem button>
-                                        <Grid container spacing={0}>
-                                            <ListItemText primary={(<>"{item.title}"</>)}
-                                                          secondary={(<>Autorius: {item.author}<br/>Išleista: {item.published_date}<br/>Kiekis: {item.quantity}</>)}/>
-                                            <Icons loginUserId={loginUserId} statusNewId={statusNewId} book_id={item.book_id} order_id={order_id}/>
-                                        </Grid>
-                                    </ListItem>
-                                </Paper>
-                            </List>
-                        </Container>
+                        <List key={item.book_id}>
+                            <Paper>
+                                <ListItem button>
+                                    <Grid container spacing={0}>
+                                        <ListItemText primary={(<>"{item.title}"</>)}
+                                                      secondary={(<>Autorius: {item.author}<br/>Išleista: {item.published_date}<br/>Kiekis: {item.quantity}</>)}/>
+                                        <Icons loginUserId={loginUserId} statusNewId={statusNewId}
+                                               book_id={item.book_id} order_id={order_id}/>
+                                    </Grid>
+                                </ListItem>
+                            </Paper>
+                        </List>
                     )
                 })
                 }
-            </div>
+            </Container>
         )
     }
 }

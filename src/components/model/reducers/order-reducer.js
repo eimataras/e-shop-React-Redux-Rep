@@ -104,13 +104,13 @@ const orderReducer = (state = cloneDeep(initialState.order), action) => {
         case RECEIVE_DELETE_ORDER: {
             console.log('Atejau i reduceri deleteOrder ' + action.payload);
             console.log(state.data);
-            const data = state.data.filter(order => {
+            const newData = state.data.filter(order => {
                 return order.order_id !== action.payload
             });
             return Object.assign({}, {
                 isFetching: false,
                 error: undefined,
-                data: data,
+                data: newData,
             });
         }
         case RECEIVE_DELETE_ORDER_FAILURE: {

@@ -71,9 +71,9 @@ class MyOrder extends Component {
 
 
         return (
-            <Grid align='center' item sm>
+            <div align="center">
                 <h1>My order</h1>
-                <Container fixed maxWidth='sm'>
+                <Container fixed maxWidth='md'>
                     <Paper>
                         <div style={{padding: 10}}>
                             <div>Hello: <span style={{fontStyle: "italic"}}>{myOrder.name} {myOrder.surname}</span>,
@@ -130,7 +130,7 @@ class MyOrder extends Component {
                         </div>
                     </Paper>
                 </Container>
-            </Grid>
+            </div>
         )
     };
 }
