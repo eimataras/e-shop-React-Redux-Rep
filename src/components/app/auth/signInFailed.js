@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     // postLogin: (username, password) => postLogin(username, password),
 }, dispatch);
 
-class SignIn extends Component {
+class SignInFailed extends Component {
     state = {
         username: '',
         password: '',
@@ -36,6 +36,7 @@ class SignIn extends Component {
                     <div align="center">
                         <form action="/login" method="post" autoComplete="off">
                             <h1>Log In:</h1>
+                            <h5 style={{color: "red"}}>Wrong username or password!</h5>
                             <TextField id="username" name="username" type="username" variant="outlined" label="Username"
                                        value={this.state.username} onChange={this.handleChange}/>
                             <TextField id="password" name="password" type="password" variant="outlined" label="Password"
@@ -60,4 +61,4 @@ class SignIn extends Component {
 export default compose(
     withRouter,
     connect(null, mapDispatchToProps)
-)(SignIn);
+)(SignInFailed);

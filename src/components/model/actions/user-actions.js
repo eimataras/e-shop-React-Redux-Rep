@@ -26,17 +26,12 @@ export const receiveDeleteUserFailure = (error) => ({type: RECEIVE_DELETE_USER_F
 
 
 export const fetchUser = () => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/',
-        targetUrl = 'http://localhost:8080/user/all';
-
     return (dispatch) => {
         dispatch(requestUserList());
-
-        fetch(proxyUrl + targetUrl, {method: 'get'})
+        fetch('/user/all', {method: 'get'})
             .then((result) => {
                 result.json().then((json) => {
-                    document.querySelector("pre").innerHTML = JSON.stringify(json, null, 2);
-                    dispatch(receiveUserList(json));
+                    dispatch(receiveUserList(json))
                     console.log('Response fetchUser json:');
                     console.log(json);
                 })
@@ -50,10 +45,10 @@ export const fetchUser = () => {
 
 export const addClient = (user) => {
     console.log('Atejau iki action addUser: ' + user.name);
-    return (dispatch) => {
+    return (dispatch) =>  {
 
         dispatch(requestAddUser());
-        fetch('http://localhost:8080/user/add-client', {
+        fetch('/user/add-client', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -82,10 +77,10 @@ export const addClient = (user) => {
 
 export const addAdmin = (user) => {
     console.log('Atejau iki action addUser: ' + user.name);
-    return (dispatch) => {
+    return (dispatch) =>  {
 
         dispatch(requestAddUser());
-        fetch('http://localhost:8080/user/add-admin', {
+        fetch('/user/add-admin', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -116,7 +111,7 @@ export const deleteUser = (id) => {
     console.log('atejau iki action deleteUser ' + id);
     return (dispatch) => {
         dispatch(requestDeleteUser());
-        fetch('http://localhost:8080/user/delete?user_id=' + id, {
+        fetch('/user/delete?user_id=' + id, {
             method: 'delete',
             body: JSON.stringify(id),
             headers: new Headers({

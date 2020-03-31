@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import {bindActionCreators, compose} from "redux";
 import {withRouter} from "react-router-dom";
 import {fetchOrder, updateOrderItemQuantity, updateOrderStatus} from "../../model/actions/order-actions";
-import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import {ListItemText, Paper} from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
@@ -63,7 +62,7 @@ class MyOrder extends Component {
             return (
                 <div align='center'>
                     <h1>Your purchase basket is empty</h1>
-                    <Link component="button" onClick={() => this.props.history.push('/')}><h1>Start shopping?</h1>
+                    <Link component="button" onClick={() => this.props.history.push(`/myHomePage/${loginUserId}`)}><h1>Start shopping?</h1>
                     </Link>
                 </div>
             )

@@ -16,16 +16,19 @@ const useStyles = makeStyles(theme => ({
 
 const SignedInLinks = (props) => {
     const classes = useStyles();
-    const loginUserId = 1;
+    const loginUserId = props.loginUserId;
 
     return (
         <Toolbar>
-            <Button color="inherit" onClick={()=>props.history.push('/')}>Home</Button>
-            <Button color="inherit" onClick={()=>props.history.push('/')}>Sign Out</Button>
-            <Button color="inherit" onClick={()=>props.history.push(`/myOrder/${loginUserId}`)}>My Order</Button>
-            <Button color="inherit" onClick={()=>props.history.push(`/myOrderHistory/${loginUserId}`)}>My Orders History</Button>
-            <Button color="inherit" onClick={()=>props.history.push('/addbook')}>Add New Book</Button>
-            <Button color="inherit" onClick={()=>props.history.push('/userlist')}>Users</Button>
+            <Button color="inherit" onClick={() => props.history.push(`/myHomePage/${loginUserId}`)}>Home</Button>
+            <Button color="inherit" onClick={() => props.history.push(`/myOrder/${loginUserId}`)}>My Order</Button>
+            <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory/${loginUserId}`)}>My Orders
+                History</Button>
+            <Button color="inherit" onClick={() => props.history.push('/addbook')}>Add New Book</Button>
+            <Button color="inherit" onClick={() => props.history.push('/userlist')}>Users</Button>
+            <form action="/logout" method="post">
+                <Button color="inherit" type="submit" onClick={() => props.history.push('/')}>Sign Out</Button>
+            </form>
 
             <div className={classes.root}>
                 <Avatar className={classes.root}>ET</Avatar>

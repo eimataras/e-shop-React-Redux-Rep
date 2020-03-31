@@ -18,12 +18,19 @@ const useStyles = makeStyles(theme => ({
 
 const Navbar = () => {
     const classes = useStyles();
+    const loginUserId = 25;
 
     return (
         <AppBar  position="static">
             <Toolbar className={classes.color}>
                 <Typography variant="h5" className={classes.title}>Book shop</Typography>
-                <SignedInLinks/>
+                {/*{loginUserId ? (*/}
+                {/*    <SignedInLinks loginUserId={loginUserId}/>*/}
+                {/*) : (*/}
+                {/*    <SignedOutLinks/>*/}
+                {/*)}*/}
+
+                <SignedInLinks loginUserId={loginUserId}/>
                 <SignedOutLinks/>
             </Toolbar>
         </AppBar>

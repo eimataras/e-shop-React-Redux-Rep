@@ -61,6 +61,11 @@ class UserList extends Component {
         const myOrders = orders.filter((order) => {
             return order.user_id === id
         });
+        const error = this.props.user.data.error;
+
+        if (error === "Forbidden") {
+            return (<h1>Only ADMIN user can see this page</h1>)
+        }
 
         if (!items.length) {
             return (<h1>Loading</h1>);
@@ -83,6 +88,12 @@ class UserList extends Component {
                             if (!myRole) {
                                 return null;
                             }
+
+                            const passwordLength = item.password.length;
+                            if (passwordLength > 20) {
+                                item.password = "*****";
+                            }
+
                             return (
                                 <Container fixed maxWidth="xs" key={item.user_id}>
                                     <List>

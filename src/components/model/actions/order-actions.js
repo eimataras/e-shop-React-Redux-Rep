@@ -37,7 +37,7 @@ export const receiveDeleteOrderFailure = (error) => ({type: RECEIVE_DELETE_ORDER
 export const fetchOrder = () => {
     return (dispatch) => {
         dispatch(requestOrderList());
-        fetch('http://localhost:8080/order/all', {method: 'get'})
+        fetch('/order/all', {method: 'get'})
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveOrderList(json));
@@ -58,7 +58,7 @@ export const addOrder = (loginUserId, statusNewId, book_id) => {
     return (dispatch) => {
 
         dispatch(requestAddOrder());
-        fetch('http://localhost:8080/order/add', {
+        fetch('/order/add', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -90,7 +90,7 @@ export const addOrderItem = (order_id, book_id) => {
     return (dispatch) => {
 
         dispatch(requestUpdateOrder());
-        fetch('http://localhost:8080/orderItems/add', {
+        fetch('/orderItems/add', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -122,7 +122,7 @@ export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quanti
     return (dispatch) => {
 
         dispatch(requestUpdateOrder());
-        fetch('http://localhost:8080/orderItems/edit', {
+        fetch('/orderItems/edit', {
             method: 'put',
             headers: {
                 'Accept': 'application/json',
@@ -155,7 +155,7 @@ export const updateOrderStatus = (order_id, user_id, status_id) => {
     return (dispatch) => {
 
         dispatch(requestUpdateOrder());
-        fetch('http://localhost:8080/order/edit', {
+        fetch('/order/edit', {
             method: 'put',
             headers: {
                 'Accept': 'application/json',
@@ -186,7 +186,7 @@ export const deleteOrder = (order_id) => {
     console.log('atejau iki action deleteOrder ' + order_id);
     return (dispatch) => {
         dispatch(requestDeleteOrder());
-        fetch('http://localhost:8080/order/delete?order_id=' + order_id, {
+        fetch('/order/delete?order_id=' + order_id, {
             method: 'delete',
             body: JSON.stringify(order_id),
             headers: new Headers({

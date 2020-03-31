@@ -28,7 +28,7 @@ export const receiveDeleteBookFailure = (error) => ({type: RECEIVE_DELETE_BOOK_F
 export const fetchBook = () => {
     return (dispatch) => {
         dispatch(requestBookList());
-        fetch('http://localhost:8080/book/all', {method: 'get'})
+        fetch('/book/all', {method: 'get'})
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveBookList(json))
@@ -46,7 +46,7 @@ export const addBook = (knyga) => {
     return (dispatch) => {
 
         dispatch(requestAddBook());
-        fetch('http://localhost:8080/book/add', {
+        fetch('/book/add', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -78,7 +78,7 @@ export const deleteBook = (id) => {
     console.log('atejau iki action delete ' + id);
     return (dispatch) => {
         dispatch(requestDeleteBook());
-        fetch('http://localhost:8080/book/delete?book_id=' + id, {
+        fetch('/book/delete?book_id=' + id, {
             method: 'delete',
             body: JSON.stringify(id),
             headers: new Headers({

@@ -33,7 +33,7 @@ class BookList extends Component {
 
     render() {
 
-        const loginUserId = 1;
+        const loginUserId = Number(this.props.match.params.userId);
         const statusNewId = 1;
 
         //Gaunam prisiloginusio vartotojo orderi su statusu NEW

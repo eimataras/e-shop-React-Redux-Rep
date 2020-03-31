@@ -23,7 +23,10 @@ const Icons = (props) => {
     };
 
     const handleAddSubmit = (loginUserId, statusNewId, order_id, book_id) => {
-        if (order_id !== null) {
+        console.log("Cia mano loginUserId: "+String(loginUserId));
+        if (String(loginUserId) === "NaN") {
+            props.history.push('/signin')
+        } else if (order_id !== null) {
             console.log('Toks orderis jau yra: ' + order_id);
             props.addOrderItem(order_id, book_id)
         } else {

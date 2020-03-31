@@ -16,6 +16,12 @@ const initialState = {
         isFetching: false,
         data: [],
         error: '',
+    },
+
+    login: {
+        isFetching: false,
+        data: [],
+        error: '',
     }
 };
 
