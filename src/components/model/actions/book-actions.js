@@ -89,7 +89,6 @@ export const deleteBook = (id) => {
                 result.json().then((json) => {
                     dispatch(receiveDeleteBook(json.book_id));
                 })
-
             })
             .catch((error) => {
                 dispatch(receiveDeleteBookFailure(error));

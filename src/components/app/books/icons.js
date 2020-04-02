@@ -10,28 +10,37 @@ import IconButton from "@material-ui/core/IconButton";
 import {addOrder, addOrderItem} from "../../model/actions/order-actions";
 
 
+const mapStateToProps = (state) => {
+    return {
+        login: state.login,
+        book: state.book
+    };
+};
+
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     deleteBook: (id) => deleteBook(id),
-    addOrder: (loginUserId, statusNewId, book_id) => addOrder(loginUserId, statusNewId, book_id),
-    addOrderItem: (order_id, book_id) => addOrderItem(order_id, book_id),
+    addOrder: (loginUserId, statusNewId, book_id, jwt) => addOrder(loginUserId, statusNewId, book_id, jwt),
+    addOrderItem: (order_id, book_id, jwt) => addOrderItem(order_id, book_id, jwt),
 }, dispatch);
 
 
 const Icons = (props) => {
+    const jwt = props.jwt;
+
     const handleDeleteSubmit = (id) => {
         props.deleteBook(id)
     };
 
     const handleAddSubmit = (loginUserId, statusNewId, order_id, book_id) => {
-        console.log("Cia mano loginUserId: "+String(loginUserId));
+        console.log("Cia mano loginUserId: " + String(loginUserId));
         if (String(loginUserId) === "NaN") {
             props.history.push('/signin')
         } else if (order_id !== null) {
             console.log('Toks orderis jau yra: ' + order_id);
-            props.addOrderItem(order_id, book_id)
+            props.addOrderItem(order_id, book_id, jwt)
         } else {
             console.log('Kursim nauja orderi, su knyga: ' + book_id);
-            props.addOrder(loginUserId, statusNewId, book_id);
+            props.addOrder(loginUserId, statusNewId, book_id, jwt);
         }
     };
 
@@ -50,5 +59,5 @@ const Icons = (props) => {
 
 export default compose(
     withRouter,
-    connect(null, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps)
 )(Icons);

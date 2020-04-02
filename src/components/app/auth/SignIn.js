@@ -6,10 +6,11 @@ import TextField from "@material-ui/core/TextField";
 import {bindActionCreators, compose} from "redux";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import {postLogin} from "../../model/actions/login-action";
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    // postLogin: (username, password) => postLogin(username, password),
+    postLogin: (username, password) => postLogin(username, password),
 }, dispatch);
 
 class SignIn extends Component {
@@ -25,8 +26,9 @@ class SignIn extends Component {
     };
 
     handleSubmit = (e) => {
-        // e.preventDefault();
-        // this.props.postLogin(this.state.username, this.state.password);
+        e.preventDefault();
+        this.props.postLogin(this.state.username, this.state.password);
+        this.props.history.push(`/`)
     };
 
     render() {
@@ -34,7 +36,7 @@ class SignIn extends Component {
             <Container fixed maxWidth="xs">
                 <Paper className="padding">
                     <div align="center">
-                        <form action="/login" method="post" autoComplete="off">
+                        <form autoComplete="off">
                             <h1>Log In:</h1>
                             <TextField id="username" name="username" type="username" variant="outlined" label="Username"
                                        value={this.state.username} onChange={this.handleChange}/>
@@ -47,7 +49,7 @@ class SignIn extends Component {
                             </div>
                             <br/>
                             <div className="padding">
-                                <Button variant="contained" color="primary" type="submit">Login</Button>
+                                <Button variant="contained" color="primary" type="submit" onClick={this.handleSubmit}>Login</Button>
                             </div>
                         </form>
                     </div>

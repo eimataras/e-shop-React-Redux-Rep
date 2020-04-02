@@ -52,9 +52,8 @@ export const fetchOrder = () => {
 };
 
 
-
-export const addOrder = (loginUserId, statusNewId, book_id) => {
-    console.log('Atejau iki action addOrder: ' + book_id);
+export const addOrder = (loginUserId, statusNewId, book_id, jwt) => {
+    console.log('Atejau iki action addOrder: ' + book_id + '. JWT:' + jwt);
     return (dispatch) => {
 
         dispatch(requestAddOrder());
@@ -63,6 +62,7 @@ export const addOrder = (loginUserId, statusNewId, book_id) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + jwt
             },
             body: JSON.stringify({
                 user_id: loginUserId,
@@ -85,8 +85,8 @@ export const addOrder = (loginUserId, statusNewId, book_id) => {
 };
 
 
-export const addOrderItem = (order_id, book_id) => {
-    console.log('Atejau iki action addOrderItem. Book id: ' + book_id + '. Order id: '+ order_id);
+export const addOrderItem = (order_id, book_id, jwt) => {
+    console.log('Atejau iki action addOrderItem. Book id: ' + book_id + '. Order id: ' + order_id + '. JWT: ' + jwt);
     return (dispatch) => {
 
         dispatch(requestUpdateOrder());
@@ -95,6 +95,7 @@ export const addOrderItem = (order_id, book_id) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + jwt
             },
             body: JSON.stringify({
                 order_id: order_id,
@@ -118,7 +119,7 @@ export const addOrderItem = (order_id, book_id) => {
 
 
 export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quantity) => {
-    console.log('Atejau iki action updateOrderItemQuantity. Book id: ' + book_id + '. Order id: '+ order_id);
+    console.log('Atejau iki action updateOrderItemQuantity. Book id: ' + book_id + '. Order id: ' + order_id);
     return (dispatch) => {
 
         dispatch(requestUpdateOrder());

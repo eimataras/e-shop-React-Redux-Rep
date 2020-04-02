@@ -15,7 +15,8 @@ import {fetchOrder} from "../../model/actions/order-actions";
 const mapStateToProps = (state) => {
     return {
         order: state.order,
-        book: state.book
+        book: state.book,
+        login: state.login
     };
 };
 
@@ -32,6 +33,15 @@ class BookList extends Component {
     }
 
     render() {
+        //Issitraukiam is Redux state'o token'a - jwt
+        const myjwt = this.props.login.data.length ? (
+            this.props.login.data.find(token => {
+                return token
+            })
+        ) : "";
+        const jwt = myjwt.jwt;
+        console.log("My token: "+ jwt);
+
 
         const loginUserId = Number(this.props.match.params.userId);
         const statusNewId = 1;
@@ -40,6 +50,7 @@ class BookList extends Component {
         const myOrder = this.props.order.data.find(order => {
             return order.user_id === loginUserId && order.status_id === statusNewId
         });
+        console.log("myOrder: " + myOrder);
         const order_id = myOrder ? (myOrder.order_id) : null;
 
 
@@ -59,7 +70,7 @@ class BookList extends Component {
                                         <ListItemText primary={(<>"{item.title}"</>)}
                                                       secondary={(<>Autorius: {item.author}<br/>Išleista: {item.published_date}<br/>Kiekis: {item.quantity}</>)}/>
                                         <Icons loginUserId={loginUserId} statusNewId={statusNewId}
-                                               book_id={item.book_id} order_id={order_id}/>
+                                               book_id={item.book_id} order_id={order_id} jwt={jwt} />
                                     </Grid>
                                 </ListItem>
                             </Paper>
