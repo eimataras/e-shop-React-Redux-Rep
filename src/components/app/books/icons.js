@@ -12,21 +12,18 @@ import {addOrder, addOrderItem} from "../../model/actions/order-actions";
 
 const mapStateToProps = (state) => {
     return {
-        login: state.login,
         book: state.book
     };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     deleteBook: (id) => deleteBook(id),
-    addOrder: (loginUserId, statusNewId, book_id, jwt) => addOrder(loginUserId, statusNewId, book_id, jwt),
-    addOrderItem: (order_id, book_id, jwt) => addOrderItem(order_id, book_id, jwt),
+    addOrder: (loginUserId, statusNewId, book_id) => addOrder(loginUserId, statusNewId, book_id),
+    addOrderItem: (order_id, book_id) => addOrderItem(order_id, book_id),
 }, dispatch);
 
 
 const Icons = (props) => {
-    const jwt = props.jwt;
-
     const handleDeleteSubmit = (id) => {
         props.deleteBook(id)
     };
@@ -37,10 +34,10 @@ const Icons = (props) => {
             props.history.push('/signin')
         } else if (order_id !== null) {
             console.log('Toks orderis jau yra: ' + order_id);
-            props.addOrderItem(order_id, book_id, jwt)
+            props.addOrderItem(order_id, book_id)
         } else {
             console.log('Kursim nauja orderi, su knyga: ' + book_id);
-            props.addOrder(loginUserId, statusNewId, book_id, jwt);
+            props.addOrder(loginUserId, statusNewId, book_id);
         }
     };
 

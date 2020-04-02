@@ -1,66 +1,33 @@
 import {cloneDeep} from "lodash";
 import initialState from "../initial-state";
-import {
-    RECEIVE_FETCH_LOGIN, RECEIVE_FETCH_LOGIN_FAILURE,
-    RECEIVE_POST_LOGIN,
-    RECEIVE_POST_LOGIN_FAILURE,
-    REQUEST_FETCH_LOGIN,
-    REQUEST_POST_LOGIN
-} from "../actions/login-action";
+import {RECEIVE_CURRENT_USER, RECEIVE_CURRENT_USER_FAILURE, REQUEST_CURRENT_USER} from "../actions/login-action";
 
 
-const loginReducer = (state = cloneDeep(initialState.login), action) => {
+const loginReducer = (state = cloneDeep(initialState.currentUser), action) => {
     switch (action.type) {
 
-        //--------------GET LOGIN USER DETAILS FROM  INTERNET ----------
-        case REQUEST_FETCH_LOGIN: {
+
+        //--------------POST LOGIN ---------------------------
+        case REQUEST_CURRENT_USER: {
             return Object.assign({}, {
                 ...state,
-                isFetching: true,
                 error: undefined,
             })
         }
 
-        case RECEIVE_FETCH_LOGIN: {
+        case RECEIVE_CURRENT_USER: {
+            console.log('Atejau i loginReducer ' + action.payload);
             return Object.assign({}, {
-                isFetching: false,
+                isAuthenticated: true,
                 error: undefined,
-                data: action.payload,
+                data: action.payload
             })
         }
 
-        case RECEIVE_FETCH_LOGIN_FAILURE: {
+        case RECEIVE_CURRENT_USER_FAILURE: {
             return Object.assign({}, {
                 ...state,
-                isFetching: false,
-                error: action.payload,
-            })
-        }
-
-
-
-        //--------------ADD NEW USER ---------------------------
-        case REQUEST_POST_LOGIN: {
-            return Object.assign({}, {
-                ...state,
-                isFetching: true,
-                error: undefined,
-            })
-        }
-
-        case RECEIVE_POST_LOGIN: {
-            console.log('Atejau i reduceri postLogin ' + action.payload);
-            return Object.assign({}, {
-                isFetching: false,
-                error: undefined,
-                data: [...state.data, action.payload]
-            })
-        }
-
-        case RECEIVE_POST_LOGIN_FAILURE: {
-            return Object.assign({}, {
-                ...state,
-                isFetching: false,
+                isAuthenticated: false,
                 error: action.payload,
             })
         }

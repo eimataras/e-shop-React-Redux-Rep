@@ -64,8 +64,11 @@ class AddBook extends Component {
                                        value={this.state.book_cover} onChange={this.handleChange}/>
                             <TextField id="quantity" variant="outlined" label="Quantity" value={this.state.quantity}
                                        onChange={this.handleChange}/>
+                            <div className="padding">
+                                <Button variant="contained" color="secondary" type="submit"
+                                        onClick={this.handleSubmit}>Save</Button>
+                            </div>
                         </form>
-                        <Button variant="contained" color="secondary" onClick={this.handleSubmit}>Save</Button>
                     </div>
                 </Paper>
             </Container>

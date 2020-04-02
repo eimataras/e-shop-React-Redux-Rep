@@ -1,3 +1,5 @@
+import setHeaders from "./login-action";
+
 export const REQUEST_USER_LIST = 'REQUEST_USER_LIST';
 export const RECEIVE_USER_LIST = 'RECEIVE_USER_LIST';
 export const RECEIVE_USER_LIST_FAILURE = 'RECEIVE_USER_LIST_FAILURE';
@@ -28,7 +30,12 @@ export const receiveDeleteUserFailure = (error) => ({type: RECEIVE_DELETE_USER_F
 export const fetchUser = () => {
     return (dispatch) => {
         dispatch(requestUserList());
-        fetch('/user/all', {method: 'get'})
+        fetch('/user/all', {
+            method: 'get',
+            headers: setHeaders({
+                'Accept': 'application/json',
+            })
+        })
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveUserList(json))
@@ -50,10 +57,10 @@ export const addClient = (user) => {
         dispatch(requestAddUser());
         fetch('/user/add-client', {
             method: 'post',
-            headers: {
+            headers: setHeaders({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            },
+            }),
             body: JSON.stringify({
                 name: user.name,
                 surname: user.surname,
@@ -82,10 +89,10 @@ export const addAdmin = (user) => {
         dispatch(requestAddUser());
         fetch('/user/add-admin', {
             method: 'post',
-            headers: {
+            headers: setHeaders({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            },
+            }),
             body: JSON.stringify({
                 name: user.name,
                 surname: user.surname,
@@ -114,7 +121,7 @@ export const deleteUser = (id) => {
         fetch('/user/delete?user_id=' + id, {
             method: 'delete',
             body: JSON.stringify(id),
-            headers: new Headers({
+            headers: setHeaders({
                 'Content-Type': 'application/json',
             }),
         })

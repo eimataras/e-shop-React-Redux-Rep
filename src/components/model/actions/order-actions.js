@@ -1,3 +1,5 @@
+import setHeaders from "./login-action";
+
 export const REQUEST_ORDER_LIST = 'REQUEST_ORDER_LIST';
 export const RECEIVE_ORDER_LIST = 'RECEIVE_ORDER_LIST';
 export const RECEIVE_ORDER_LIST_FAILURE = 'RECEIVE_ORDER_LIST_FAILURE';
@@ -37,7 +39,12 @@ export const receiveDeleteOrderFailure = (error) => ({type: RECEIVE_DELETE_ORDER
 export const fetchOrder = () => {
     return (dispatch) => {
         dispatch(requestOrderList());
-        fetch('/order/all', {method: 'get'})
+        fetch('/order/all', {
+            method: 'get',
+            headers: setHeaders({
+                'Accept': 'application/json',
+            })
+        })
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveOrderList(json));
@@ -59,11 +66,10 @@ export const addOrder = (loginUserId, statusNewId, book_id, jwt) => {
         dispatch(requestAddOrder());
         fetch('/order/add', {
             method: 'post',
-            headers: {
+            headers: setHeaders({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + jwt
-            },
+            }),
             body: JSON.stringify({
                 user_id: loginUserId,
                 status_id: statusNewId,
@@ -92,11 +98,10 @@ export const addOrderItem = (order_id, book_id, jwt) => {
         dispatch(requestUpdateOrder());
         fetch('/orderItems/add', {
             method: 'post',
-            headers: {
+            headers: setHeaders({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + jwt
-            },
+            }),
             body: JSON.stringify({
                 order_id: order_id,
                 book_id: book_id,
@@ -125,10 +130,10 @@ export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quanti
         dispatch(requestUpdateOrder());
         fetch('/orderItems/edit', {
             method: 'put',
-            headers: {
+            headers: setHeaders({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            },
+            }),
             body: JSON.stringify({
                 order_item_id: order_item_id,
                 order_id: order_id,
@@ -158,10 +163,10 @@ export const updateOrderStatus = (order_id, user_id, status_id) => {
         dispatch(requestUpdateOrder());
         fetch('/order/edit', {
             method: 'put',
-            headers: {
+            headers: setHeaders({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            },
+            }),
             body: JSON.stringify({
                 order_id: order_id,
                 user_id: user_id,
@@ -190,7 +195,7 @@ export const deleteOrder = (order_id) => {
         fetch('/order/delete?order_id=' + order_id, {
             method: 'delete',
             body: JSON.stringify(order_id),
-            headers: new Headers({
+            headers: setHeaders({
                 'Content-Type': 'application/json',
             }),
         })

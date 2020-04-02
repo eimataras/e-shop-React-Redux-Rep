@@ -1,3 +1,5 @@
+import setHeaders from "./login-action";
+
 export const REQUEST_BOOK_LIST = 'REQUEST_BOOK_LIST';
 export const RECEIVE_BOOK_LIST = 'RECEIVE_BOOK_LIST';
 export const RECEIVE_BOOK_LIST_FAILURE = 'RECEIVE_BOOK_LIST_FAILURE';
@@ -28,7 +30,12 @@ export const receiveDeleteBookFailure = (error) => ({type: RECEIVE_DELETE_BOOK_F
 export const fetchBook = () => {
     return (dispatch) => {
         dispatch(requestBookList());
-        fetch('/book/all', {method: 'get'})
+        fetch('/book/all', {
+            method: 'get',
+            headers: setHeaders({
+                'Accept': 'application/json',
+            })
+        })
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveBookList(json))
@@ -48,10 +55,10 @@ export const addBook = (knyga) => {
         dispatch(requestAddBook());
         fetch('/book/add', {
             method: 'post',
-            headers: {
+            headers: setHeaders({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            },
+            }),
             body: JSON.stringify({
                 title: knyga.title,
                 author: knyga.author,
@@ -81,7 +88,7 @@ export const deleteBook = (id) => {
         fetch('/book/delete?book_id=' + id, {
             method: 'delete',
             body: JSON.stringify(id),
-            headers: new Headers({
+            headers: setHeaders({
                 'Content-Type': 'application/json',
             }),
         })

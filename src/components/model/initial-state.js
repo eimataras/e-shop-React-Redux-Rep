@@ -18,8 +18,8 @@ const initialState = {
         error: '',
     },
 
-    login: {
-        isFetching: false,
+    currentUser: {
+        isAuthenticated: false,
         data: [],
         error: '',
     }

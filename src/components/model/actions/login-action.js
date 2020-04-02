@@ -1,35 +1,12 @@
-export const REQUEST_FETCH_LOGIN = 'REQUEST_FETCH_LOGIN';
-export const RECEIVE_FETCH_LOGIN = 'RECEIVE_FETCH_LOGIN';
-export const RECEIVE_FETCH_LOGIN_FAILURE = 'RECEIVE_FETCH_LOGIN_FAILURE';
+import jwt from 'jsonwebtoken';
 
-export const requestFetchLogin = () => ({type: REQUEST_FETCH_LOGIN,});
-export const receiveFetchLogin = (json) => ({type: RECEIVE_FETCH_LOGIN, payload: json});
-export const receiveFetchLoginFailure = (error) => ({type: RECEIVE_FETCH_LOGIN_FAILURE, payload: error});
+export const REQUEST_CURRENT_USER = 'REQUEST_CURRENT_USER';
+export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
+export const RECEIVE_CURRENT_USER_FAILURE = 'RECEIVE_CURRENT_USER_FAILURE';
 
-
-export const REQUEST_POST_LOGIN = 'REQUEST_POST_LOGIN';
-export const RECEIVE_POST_LOGIN = 'RECEIVE_POST_LOGIN';
-export const RECEIVE_POST_LOGIN_FAILURE = 'RECEIVE_POST_LOGIN_FAILURE';
-
-export const requestPostLogin = () => ({type: REQUEST_POST_LOGIN,});
-export const receivePostLogin = (json) => ({type: RECEIVE_POST_LOGIN, payload: json});
-export const receivePostLoginFailure = (error) => ({type: RECEIVE_POST_LOGIN_FAILURE, payload: error});
-
-
-export const fetchLogin = () => {
-    return (dispatch) => {
-        dispatch(requestFetchLogin());
-        fetch('/auth', {method: 'get'})
-            .then((result) => {
-                result.json().then((json) => {
-                    dispatch(receiveFetchLogin(json))
-                })
-            })
-            .catch((error) => {
-                dispatch(receiveFetchLoginFailure(error))
-            })
-    }
-};
+export const requestCurrentUser = () => ({type: REQUEST_CURRENT_USER,});
+export const receiveCurrentUser = (user) => ({type: RECEIVE_CURRENT_USER, payload: user});
+export const receiveCurrentUserFailure = (error) => ({type: RECEIVE_CURRENT_USER_FAILURE, payload: error});
 
 
 
@@ -37,8 +14,8 @@ export const postLogin = (username, password) => {
     console.log('Atejau iki action postLogin: ' + username + password);
     return (dispatch) =>  {
 
-        dispatch(requestPostLogin());
-        fetch('/authenticate', {
+        dispatch(requestCurrentUser());
+        fetch('/api/auth', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -51,13 +28,27 @@ export const postLogin = (username, password) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    console.log('Response postLogin json:');
-                    console.log(json);
-                    dispatch(receivePostLogin(json));
+                    const token = json.jwt;
+                    console.log(token);
+                    localStorage.setItem('jwtToken', token);
+                    console.log(`JWT in local storage: ${localStorage.jwtToken}`);
+                    console.log(jwt.decode(token));
+                    dispatch(receiveCurrentUser(jwt.decode(token)));
                 });
             })
             .catch((error) => {
-                dispatch(receivePostLoginFailure(error))
+                dispatch(receiveCurrentUserFailure(error))
             });
     }
 };
+
+export default function setHeaders(headers) {
+    if(localStorage.jwtToken) {
+        return {
+            ...headers,
+            'Authorization': `Bearer ${localStorage.jwtToken}`
+        }
+    } else {
+        return headers;
+    }
+}
