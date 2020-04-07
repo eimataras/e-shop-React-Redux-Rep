@@ -1,40 +1,59 @@
-import React from "react";
+import React, {Component} from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import SignedInLinks from "./SignedInLinks";
 import SignedOutLinks from "./SingedOutLinks";
-import {makeStyles} from "@material-ui/core/styles";
+import {connect} from "react-redux";
 
-const useStyles = makeStyles(theme => ({
-    title: {
-        flexGrow: 1,
-        padding: 5
-    },
-    color: {
-        backgroundColor: 'darkred'
-    }
-}));
 
-const Navbar = () => {
-    const classes = useStyles();
-    const loginUserId = 25;
-
-    return (
-        <AppBar  position="static">
-            <Toolbar className={classes.color}>
-                <Typography variant="h5" className={classes.title}>Book shop</Typography>
-                {/*{loginUserId ? (*/}
-                {/*    <SignedInLinks loginUserId={loginUserId}/>*/}
-                {/*) : (*/}
-                {/*    <SignedOutLinks/>*/}
-                {/*)}*/}
-
-                <SignedInLinks loginUserId={loginUserId}/>
-                <SignedOutLinks/>
-            </Toolbar>
-        </AppBar>
-    )
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.currentUser
+    };
 };
 
-export default Navbar;
+class Navbar extends Component {
+    render() {
+
+        const {isAuthenticated} = this.props.currentUser;
+        const currentUserInfo = isAuthenticated? (
+            this.props.currentUser.data.roles.length? (
+                this.props.currentUser.data.roles.find(info => {
+                    return info
+                })
+        ) : undefined ) : ('');
+
+        console.log("isAuthenticated: ");
+        console.log(isAuthenticated);
+        console.log("currentUserInfo: ");
+        console.log(currentUserInfo);
+
+        // const currentUser = localStorage.jwtToken ? (jwt.decode(localStorage.jwtToken)) : false;
+        // console.log(currentUser);
+        // const currentUserInfo = currentUser ? (
+        //     currentUser.roles.length ? (
+        //         currentUser.roles.find(info => {
+        //             return info
+        //         })
+        //     ) : undefined
+        // ) : ('');
+        // console.log(currentUserInfo);
+
+        const loginUserId = currentUserInfo.user_id;
+        const loginUserRole = currentUserInfo.role_name;
+
+        return (
+            <AppBar position="static" style={{backgroundColor: 'darkred'}}>
+                <Toolbar>
+                    <Typography variant="h5" style={{flexGrow: 1, padding: 5}}>Book shop</Typography>
+                    {isAuthenticated ? (<SignedInLinks loginUserId={loginUserId} loginUserRole={loginUserRole}/>
+                    ) : (<SignedOutLinks/>
+                    )}
+                </Toolbar>
+            </AppBar>
+        )
+    };
+}
+
+export default connect(mapStateToProps, undefined)(Navbar);

@@ -16,7 +16,8 @@ const loginReducer = (state = cloneDeep(initialState.currentUser), action) => {
         }
 
         case RECEIVE_CURRENT_USER: {
-            console.log('Atejau i loginReducer ' + action.payload);
+            console.log('Atejau i loginReducer ')
+            console.log(action.payload);
             return Object.assign({}, {
                 isAuthenticated: true,
                 error: undefined,

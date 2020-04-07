@@ -32,7 +32,6 @@ export const postLogin = (username, password) => {
                     console.log(token);
                     localStorage.setItem('jwtToken', token);
                     console.log(`JWT in local storage: ${localStorage.jwtToken}`);
-                    console.log(jwt.decode(token));
                     dispatch(receiveCurrentUser(jwt.decode(token)));
                 });
             })

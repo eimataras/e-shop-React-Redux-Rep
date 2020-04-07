@@ -10,14 +10,12 @@ import UserList from "./auth/userList";
 import MyOrder from "./myOrder/myOrder";
 import MyOrderHistory from "./myOrder/myOrderHistory";
 import SignInFailed from "./auth/signInFailed";
-import jwt from "jsonwebtoken";
-import {receiveCurrentUser} from "../model/actions/login-action";
-import configureStore from "../model/reduxStore";
 
 //Refreshinant puslapi is naujo uzsetinam Redux receiveCurrentUser paeme token is LocalStore
-if (localStorage.jwtToken) {
-    configureStore().dispatch(receiveCurrentUser(jwt.decode(localStorage.jwtToken)))
-}
+// if (localStorage.jwtToken) {
+//     configureStore().dispatch(requestCurrentUser());
+//     configureStore().dispatch(receiveCurrentUser(jwt.decode(localStorage.jwtToken)))
+// }
 
 class App extends React.Component {
 
