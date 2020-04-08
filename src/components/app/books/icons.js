@@ -11,9 +11,7 @@ import {addOrder, addOrderItem} from "../../model/actions/order-actions";
 
 
 const mapStateToProps = (state) => {
-    return {
-        book: state.book
-    };
+    return {};
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -24,15 +22,16 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 
 const Icons = (props) => {
+    // debugger;
     const handleDeleteSubmit = (id) => {
         props.deleteBook(id)
     };
 
     const handleAddSubmit = (loginUserId, statusNewId, order_id, book_id) => {
-        console.log("Cia mano loginUserId: " + String(loginUserId));
-        if (String(loginUserId) === "NaN") {
+        console.log("Cia mano loginUserId: " + loginUserId);
+        if (loginUserId === undefined) {
             props.history.push('/signin')
-        } else if (order_id !== null) {
+        } else if (order_id !== undefined) {
             console.log('Toks orderis jau yra: ' + order_id);
             props.addOrderItem(order_id, book_id)
         } else {
@@ -41,13 +40,25 @@ const Icons = (props) => {
         }
     };
 
+    if (props.loginUserId && (props.loginUserRole === "ADMIN")) {
+        return (
+            <div>
+                <IconButton
+                    onClick={() => handleAddSubmit(props.loginUserId, props.statusNewId, props.order_id, props.book_id)}>
+                    <AddShoppingCartIcon fontSize="large" style={{color: green[500]}}/>
+                </IconButton>
+                <IconButton onClick={() => handleDeleteSubmit(props.book_id)}>
+                    <Icon className="material-icons" color="secondary" fontSize="large">delete_forever</Icon>
+                </IconButton>
+            </div>
+        )
+    }
+
     return (
         <div>
-            <IconButton onClick={() => handleAddSubmit(props.loginUserId, props.statusNewId, props.order_id, props.book_id)}>
+            <IconButton
+                onClick={() => handleAddSubmit(props.loginUserId, props.statusNewId, props.order_id, props.book_id)}>
                 <AddShoppingCartIcon fontSize="large" style={{color: green[500]}}/>
-            </IconButton>
-            <IconButton onClick={() => handleDeleteSubmit(props.book_id)}>
-                <Icon className="material-icons" color="secondary" fontSize="large">delete_forever</Icon>
             </IconButton>
         </div>
     );

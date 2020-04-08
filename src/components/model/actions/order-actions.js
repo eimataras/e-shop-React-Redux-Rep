@@ -60,7 +60,7 @@ export const fetchOrder = () => {
 
 
 export const addOrder = (loginUserId, statusNewId, book_id, jwt) => {
-    console.log('Atejau iki action addOrder: ' + book_id + '. JWT:' + jwt);
+    console.log('Atejau iki action addOrder: ' + book_id);
     return (dispatch) => {
 
         dispatch(requestAddOrder());

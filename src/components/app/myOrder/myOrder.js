@@ -22,7 +22,8 @@ const style = {
 
 const mapStateToProps = (state) => {
     return {
-        order: state.order
+        order: state.order,
+        currentUser: state.currentUser
     }
 };
 
@@ -52,7 +53,16 @@ class MyOrder extends Component {
     };
 
     render() {
-        const loginUserId = Number(this.props.match.params.userId);
+        // const loginUserId = Number(this.props.match.params.userId);
+        const {isAuthenticated} = this.props.currentUser;
+        const currentUserInfo = isAuthenticated ? (
+            this.props.currentUser.data.roles.length ? (
+                this.props.currentUser.data.roles.find(info => {
+                    return info
+                })
+            ) : undefined) : ('');
+
+        const loginUserId = currentUserInfo.user_id;
         const order = this.props.order.data;
         const myOrder = order.find((order) => {
             return order.user_id === loginUserId && order.status_id === 1
@@ -61,9 +71,16 @@ class MyOrder extends Component {
         if (myOrder == null) {
             return (
                 <div align='center'>
-                    <h1>Your purchase basket is empty</h1>
-                    <Link component="button" onClick={() => this.props.history.push(`/myHomePage/${loginUserId}`)}><h1>Start shopping?</h1>
-                    </Link>
+                    {isAuthenticated ? (
+                        <div>
+                            <h1>Your purchase basket is empty</h1>
+                            <Link component="button"
+                                  onClick={() => this.props.history.push(`/`)}><h1>Start
+                                shopping?</h1>
+                            </Link>
+                        </div>
+                    ) : (this.props.history.push('/signin')
+                    )}
                 </div>
             )
         }

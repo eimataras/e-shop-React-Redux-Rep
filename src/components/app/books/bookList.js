@@ -16,6 +16,7 @@ const mapStateToProps = (state) => {
     return {
         order: state.order,
         book: state.book,
+        currentUser: state.currentUser
     };
 };
 
@@ -32,14 +33,24 @@ class BookList extends Component {
     }
 
     render() {
-        const loginUserId = Number(this.props.match.params.userId);
+        // const loginUserId = Number(this.props.match.params.userId);
+        const {isAuthenticated} = this.props.currentUser;
+        const currentUserInfo = isAuthenticated ? (
+            this.props.currentUser.data.roles.length ? (
+                this.props.currentUser.data.roles.find(info => {
+                    return info
+                })
+            ) : undefined) : ('');
+
+        const loginUserId = currentUserInfo.user_id;
+        const loginUserRole = currentUserInfo.role_name;
         const statusNewId = 1;
 
         //Gaunam prisiloginusio vartotojo orderi su statusu NEW
         const myOrder = this.props.order.data.find(order => {
             return order.user_id === loginUserId && order.status_id === statusNewId
         });
-        const order_id = myOrder ? (myOrder.order_id) : null;
+        const order_id = myOrder ? (myOrder.order_id) : undefined;
 
 
         const items = this.props.book.data;
@@ -57,7 +68,7 @@ class BookList extends Component {
                                     <Grid container spacing={0}>
                                         <ListItemText primary={(<>"{item.title}"</>)}
                                                       secondary={(<>Autorius: {item.author}<br/>Išleista: {item.published_date}<br/>Kiekis: {item.quantity}</>)}/>
-                                        <Icons loginUserId={loginUserId} statusNewId={statusNewId}
+                                        <Icons loginUserId={loginUserId} loginUserRole={loginUserRole} statusNewId={statusNewId}
                                                book_id={item.book_id} order_id={order_id}/>
                                     </Grid>
                                 </ListItem>

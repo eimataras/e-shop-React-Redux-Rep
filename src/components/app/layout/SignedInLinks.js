@@ -28,7 +28,7 @@ const SignedInLinks = (props) => {
     if (loginUserRole === "ADMIN") {
         return (
             <Toolbar>
-                <Button color="inherit" onClick={() => props.history.push(`/myHomePage/${loginUserId}`)}>Home</Button>
+                <Button color="inherit" onClick={() => props.history.push(`/`)}>Home</Button>
                 <Button color="inherit" onClick={() => props.history.push(`/myOrder/${loginUserId}`)}>My Order</Button>
                 <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory/${loginUserId}`)}>My Orders
                     History</Button>
@@ -45,7 +45,7 @@ const SignedInLinks = (props) => {
     } else {
         return (
             <Toolbar>
-                <Button color="inherit" onClick={() => props.history.push(`/myHomePage/${loginUserId}`)}>Home</Button>
+                <Button color="inherit" onClick={() => props.history.push(`/`)}>Home</Button>
                 <Button color="inherit" onClick={() => props.history.push(`/myOrder/${loginUserId}`)}>My Order</Button>
                 <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory/${loginUserId}`)}>My Orders
                     History</Button>
