@@ -21,8 +21,9 @@ const SignedInLinks = (props) => {
     const loginUserRole = props.loginUserRole;
 
     const handleLogout = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         localStorage.removeItem('jwtToken');
+        props.history.push('/')
     };
 
     if (loginUserRole === "ADMIN") {
