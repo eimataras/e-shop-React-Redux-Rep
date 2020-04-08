@@ -25,15 +25,14 @@ class App extends React.Component {
                 <Navbar/>
                 <Switch>
                     <Route path='/' exact={true} component={Dashboard}/>
-                    {/*<Route path='/myHomePage/:userId' exact={true} component={Dashboard}/>*/}
                     <Route path='/signin' exact={true} component={SignIn}/>
                     <Route path='/signin/failed' exact={true} component={SignInFailed}/>
                     <Route path='/signup' exact={true} component={SignUp}/>
                     <Route path='/addbook' exact={true} component={AddBook}/>
                     <Route path='/userlist' exact={true} component={UserList}/>
                     <Route path='/userlist/:userId' exact={true} component={UserList}/>
-                    <Route path='/myOrder/:userId' exact={true} component={MyOrder}/>
-                    <Route path='/myOrderHistory/:userId' exact={true} component={MyOrderHistory}/>
+                    <Route path='/myOrder' exact={true} component={MyOrder}/>
+                    <Route path='/myOrderHistory' exact={true} component={MyOrderHistory}/>
                 </Switch>
             </HashRouter>
         );

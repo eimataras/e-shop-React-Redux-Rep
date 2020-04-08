@@ -36,7 +36,6 @@ class MyOrderHistory extends Component {
                     return info
                 })
             ) : undefined) : ('');
-
         const loginUserId = currentUserInfo.user_id;
         const orders = this.props.order.data;
         const myOrders = orders.filter((order) => order.user_id === loginUserId ? order : null);

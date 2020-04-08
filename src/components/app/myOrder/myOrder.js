@@ -61,7 +61,6 @@ class MyOrder extends Component {
                     return info
                 })
             ) : undefined) : ('');
-
         const loginUserId = currentUserInfo.user_id;
         const order = this.props.order.data;
         const myOrder = order.find((order) => {

@@ -17,21 +17,21 @@ const useStyles = makeStyles(theme => ({
 
 const SignedInLinks = (props) => {
     const classes = useStyles();
-    const loginUserId = props.loginUserId;
     const loginUserRole = props.loginUserRole;
 
     const handleLogout = (e) => {
         // e.preventDefault();
         localStorage.removeItem('jwtToken');
-        props.history.push('/')
+        props.history.push('/');
+        window.location.reload();
     };
 
     if (loginUserRole === "ADMIN") {
         return (
             <Toolbar>
                 <Button color="inherit" onClick={() => props.history.push(`/`)}>Home</Button>
-                <Button color="inherit" onClick={() => props.history.push(`/myOrder/${loginUserId}`)}>My Order</Button>
-                <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory/${loginUserId}`)}>My Orders
+                <Button color="inherit" onClick={() => props.history.push(`/myOrder`)}>My Order</Button>
+                <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory`)}>My Orders
                     History</Button>
                 <Button color="inherit" onClick={() => props.history.push('/addbook')}>Add New Book</Button>
                 <Button color="inherit" onClick={() => props.history.push('/userlist')}>Users</Button>
@@ -47,8 +47,8 @@ const SignedInLinks = (props) => {
         return (
             <Toolbar>
                 <Button color="inherit" onClick={() => props.history.push(`/`)}>Home</Button>
-                <Button color="inherit" onClick={() => props.history.push(`/myOrder/${loginUserId}`)}>My Order</Button>
-                <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory/${loginUserId}`)}>My Orders
+                <Button color="inherit" onClick={() => props.history.push(`/myOrder`)}>My Order</Button>
+                <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory`)}>My Orders
                     History</Button>
                 <Button color="inherit" type="submit" onClick={handleLogout}>Sign Out</Button>
 
