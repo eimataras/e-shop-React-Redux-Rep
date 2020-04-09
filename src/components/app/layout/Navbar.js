@@ -5,6 +5,9 @@ import Typography from "@material-ui/core/Typography";
 import SignedInLinks from "./SignedInLinks";
 import SignedOutLinks from "./SingedOutLinks";
 import {connect} from "react-redux";
+import {postCurrentUser} from "../../model/actions/login-action";
+import * as jwt from "jsonwebtoken";
+import {bindActionCreators} from "redux";
 
 
 const mapStateToProps = (state) => {
@@ -13,10 +16,21 @@ const mapStateToProps = (state) => {
     };
 };
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    postCurrentUser: (currentUser) => postCurrentUser(currentUser),
+}, dispatch);
+
+
 class Navbar extends Component {
 
     render() {
         const {isAuthenticated} = this.props.currentUser;
+
+        // Refreshinant puslapi is naujo uzsetinam Redux receiveCurrentUser paeme token is LocalStore
+        if ((localStorage.jwtToken) && (!isAuthenticated)) {
+            this.props.postCurrentUser(jwt.decode(localStorage.jwtToken))
+        }
+
         const currentUserInfo = isAuthenticated ? (
             this.props.currentUser.data.roles.length ? (
                 this.props.currentUser.data.roles.find(info => {
@@ -38,4 +52,4 @@ class Navbar extends Component {
     };
 }
 
-export default connect(mapStateToProps, undefined)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

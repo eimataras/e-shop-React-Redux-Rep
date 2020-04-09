@@ -9,6 +9,14 @@ export const receiveCurrentUser = (user) => ({type: RECEIVE_CURRENT_USER, payloa
 export const receiveCurrentUserFailure = (error) => ({type: RECEIVE_CURRENT_USER_FAILURE, payload: error});
 
 
+export const postCurrentUser = (currentUser) => {
+  return (dispatch) => {
+      dispatch(requestCurrentUser());
+      dispatch(receiveCurrentUser(currentUser))
+  }
+};
+
+
 export const postLogin = (username, password, props) => {
     return (dispatch) => {
         dispatch(requestCurrentUser());
