@@ -10,7 +10,7 @@ import {postLogin} from "../../model/actions/login-action";
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    postLogin: (username, password) => postLogin(username, password),
+    postLogin: (username, password, props) => postLogin(username, password, props),
 }, dispatch);
 
 class SignIn extends Component {
@@ -27,8 +27,7 @@ class SignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.postLogin(this.state.username, this.state.password);
-        this.props.history.push('/')
+        this.props.postLogin(this.state.username, this.state.password, this.props);
     };
 
     render() {
@@ -49,7 +48,8 @@ class SignIn extends Component {
                             </div>
                             <br/>
                             <div className="padding">
-                                <Button variant="contained" color="primary" type="submit" onClick={this.handleSubmit}>Login</Button>
+                                <Button variant="contained" color="primary" type="submit"
+                                        onClick={this.handleSubmit}>Login</Button>
                             </div>
                         </form>
                     </div>

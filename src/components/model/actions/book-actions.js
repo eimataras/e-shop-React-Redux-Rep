@@ -49,9 +49,7 @@ export const fetchBook = () => {
 
 
 export const addBook = (knyga) => {
-    console.log('Atejau iki action add: ' + knyga.title);
     return (dispatch) => {
-
         dispatch(requestAddBook());
         fetch('/book/add', {
             method: 'post',
@@ -67,11 +65,8 @@ export const addBook = (knyga) => {
                 quantity: knyga.quantity
             })
         })
-
             .then((result) => {
                 result.json().then((json) => {
-                    console.log('Response json:')
-                    console.log(json)
                     dispatch(receiveAddBook(json))
                 })
             })
@@ -81,8 +76,8 @@ export const addBook = (knyga) => {
     }
 };
 
+
 export const deleteBook = (id) => {
-    console.log('atejau iki action delete ' + id);
     return (dispatch) => {
         dispatch(requestDeleteBook());
         fetch('/book/delete?book_id=' + id, {

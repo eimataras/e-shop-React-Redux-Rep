@@ -9,11 +9,8 @@ export const receiveCurrentUser = (user) => ({type: RECEIVE_CURRENT_USER, payloa
 export const receiveCurrentUserFailure = (error) => ({type: RECEIVE_CURRENT_USER_FAILURE, payload: error});
 
 
-
-export const postLogin = (username, password) => {
-    console.log('Atejau iki action postLogin: ' + username + password);
-    return (dispatch) =>  {
-
+export const postLogin = (username, password, props) => {
+    return (dispatch) => {
         dispatch(requestCurrentUser());
         fetch('/api/auth', {
             method: 'post',
@@ -29,10 +26,15 @@ export const postLogin = (username, password) => {
             .then((result) => {
                 result.json().then((json) => {
                     const token = json.jwt;
-                    console.log(token);
-                    localStorage.setItem('jwtToken', token);
-                    console.log(`JWT in local storage: ${localStorage.jwtToken}`);
-                    dispatch(receiveCurrentUser(jwt.decode(token)));
+                    if (token) {
+                        localStorage.setItem('jwtToken', token);
+                        dispatch(receiveCurrentUser(jwt.decode(token)));
+                        props.history.push('/')
+                    } else {
+                        dispatch(receiveCurrentUserFailure(jwt.decode(token)));
+                        props.history.push('/signin/failed');
+                        window.location.reload()
+                    }
                 });
             })
             .catch((error) => {
@@ -42,7 +44,7 @@ export const postLogin = (username, password) => {
 };
 
 export default function setHeaders(headers) {
-    if(localStorage.jwtToken) {
+    if (localStorage.jwtToken) {
         return {
             ...headers,
             'Authorization': `Bearer ${localStorage.jwtToken}`

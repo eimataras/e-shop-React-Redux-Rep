@@ -48,8 +48,6 @@ export const fetchOrder = () => {
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveOrderList(json));
-                    console.log('Response fetchOrder json:');
-                    console.log(json);
                 })
             })
             .catch((error) => {
@@ -59,10 +57,8 @@ export const fetchOrder = () => {
 };
 
 
-export const addOrder = (loginUserId, statusNewId, book_id, jwt) => {
-    console.log('Atejau iki action addOrder: ' + book_id);
+export const addOrder = (loginUserId, statusNewId, book_id) => {
     return (dispatch) => {
-
         dispatch(requestAddOrder());
         fetch('/order/add', {
             method: 'post',
@@ -76,11 +72,8 @@ export const addOrder = (loginUserId, statusNewId, book_id, jwt) => {
                 book_id: book_id,
             })
         })
-
             .then((result) => {
                 result.json().then((json) => {
-                    console.log('Response json:');
-                    console.log(json);
                     dispatch(receiveAddOrder(json))
                 })
             })
@@ -91,10 +84,8 @@ export const addOrder = (loginUserId, statusNewId, book_id, jwt) => {
 };
 
 
-export const addOrderItem = (order_id, book_id, jwt) => {
-    console.log('Atejau iki action addOrderItem. Book id: ' + book_id + '. Order id: ' + order_id + '. JWT: ' + jwt);
+export const addOrderItem = (order_id, book_id) => {
     return (dispatch) => {
-
         dispatch(requestUpdateOrder());
         fetch('/orderItems/add', {
             method: 'post',
@@ -108,11 +99,8 @@ export const addOrderItem = (order_id, book_id, jwt) => {
                 quantity: 1
             })
         })
-
             .then((result) => {
                 result.json().then((json) => {
-                    console.log('Response json:');
-                    console.log(json);
                     dispatch(receiveUpdateOrder(json))
                 })
             })
@@ -124,9 +112,7 @@ export const addOrderItem = (order_id, book_id, jwt) => {
 
 
 export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quantity) => {
-    console.log('Atejau iki action updateOrderItemQuantity. Book id: ' + book_id + '. Order id: ' + order_id);
     return (dispatch) => {
-
         dispatch(requestUpdateOrder());
         fetch('/orderItems/edit', {
             method: 'put',
@@ -141,11 +127,8 @@ export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quanti
                 quantity: quantity
             })
         })
-
             .then((result) => {
                 result.json().then((json) => {
-                    console.log('Response json:');
-                    console.log(json);
                     dispatch(receiveUpdateOrder(json))
                 })
             })
@@ -157,9 +140,7 @@ export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quanti
 
 
 export const updateOrderStatus = (order_id, user_id, status_id) => {
-    console.log('Atejau iki action updateOrder: ' + order_id, user_id, status_id);
     return (dispatch) => {
-
         dispatch(requestUpdateOrder());
         fetch('/order/edit', {
             method: 'put',
@@ -173,11 +154,8 @@ export const updateOrderStatus = (order_id, user_id, status_id) => {
                 status_id: status_id,
             })
         })
-
             .then((result) => {
                 result.json().then((json) => {
-                    console.log('Response json:');
-                    console.log(json);
                     dispatch(receiveUpdateOrder(json))
                 })
             })
@@ -189,7 +167,6 @@ export const updateOrderStatus = (order_id, user_id, status_id) => {
 
 
 export const deleteOrder = (order_id) => {
-    console.log('atejau iki action deleteOrder ' + order_id);
     return (dispatch) => {
         dispatch(requestDeleteOrder());
         fetch('/order/delete?order_id=' + order_id, {
@@ -202,10 +179,7 @@ export const deleteOrder = (order_id) => {
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveDeleteOrder(json.order_id));
-                    console.log('Response deleteOrder json:');
-                    console.log(json);
                 })
-
             })
             .catch((error) => {
                 dispatch(receiveDeleteOrderFailure(error));

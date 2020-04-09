@@ -39,8 +39,6 @@ export const fetchUser = () => {
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveUserList(json))
-                    console.log('Response fetchUser json:');
-                    console.log(json);
                 })
             })
             .catch((error) => {
@@ -51,9 +49,7 @@ export const fetchUser = () => {
 
 
 export const addClient = (user) => {
-    console.log('Atejau iki action addUser: ' + user.name);
-    return (dispatch) =>  {
-
+    return (dispatch) => {
         dispatch(requestAddUser());
         fetch('/user/add-client', {
             method: 'post',
@@ -70,8 +66,6 @@ export const addClient = (user) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    console.log('Response addClient json:');
-                    console.log(json);
                     dispatch(receiveAddUser(json));
                 });
             })
@@ -83,9 +77,7 @@ export const addClient = (user) => {
 
 
 export const addAdmin = (user) => {
-    console.log('Atejau iki action addUser: ' + user.name);
-    return (dispatch) =>  {
-
+    return (dispatch) => {
         dispatch(requestAddUser());
         fetch('/user/add-admin', {
             method: 'post',
@@ -103,8 +95,6 @@ export const addAdmin = (user) => {
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveAddUser(json));
-                    console.log('Response addAdmin json:');
-                    console.log(json);
                 });
             })
             .catch((error) => {
@@ -115,7 +105,6 @@ export const addAdmin = (user) => {
 
 
 export const deleteUser = (id) => {
-    console.log('atejau iki action deleteUser ' + id);
     return (dispatch) => {
         dispatch(requestDeleteUser());
         fetch('/user/delete?user_id=' + id, {
@@ -128,10 +117,7 @@ export const deleteUser = (id) => {
             .then((result) => {
                 result.json().then((json) => {
                     dispatch(receiveDeleteUser(json.user_id));
-                    console.log('Response deleteUser json:');
-                    console.log(json);
                 })
-
             })
             .catch((error) => {
                 dispatch(receiveDeleteUserFailure(error));
