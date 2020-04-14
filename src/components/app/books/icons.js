@@ -30,21 +30,23 @@ const Icons = (props) => {
     };
 
     const handleAddSubmit = (loginUserId, statusNewId, book_id) => {
-        props.fetchOrder();
+        if (!props.order.data.error) {
+            //Gaunam prisiloginusio vartotojo orderi su statusu NEW
+            const myOrder = props.order.data.find(order => {
+                return order.user_id === loginUserId && order.status_id === statusNewId
+            });
+            const order_id = myOrder ? (myOrder.order_id) : undefined;
 
-        //Gaunam prisiloginusio vartotojo orderi su statusu NEW
-        const myOrder = props.order.data.find(order => {
-            return order.user_id === loginUserId && order.status_id === statusNewId
-        });
-        const order_id = myOrder ? (myOrder.order_id) : undefined;
 
-
-        if (loginUserId === undefined) {
-            props.history.push('/signin')
-        } else if (order_id !== undefined) {
-            props.addOrderItem(order_id, book_id)
+            if (loginUserId === undefined) {
+                props.history.push('/signin')
+            } else if (order_id !== undefined) {
+                props.addOrderItem(order_id, book_id)
+            } else {
+                props.addOrder(loginUserId, statusNewId, book_id);
+            }
         } else {
-            props.addOrder(loginUserId, statusNewId, book_id);
+            props.history.push('/signin')
         }
     };
 

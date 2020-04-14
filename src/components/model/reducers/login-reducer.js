@@ -16,8 +16,9 @@ const loginReducer = (state = cloneDeep(initialState.currentUser), action) => {
         }
 
         case RECEIVE_CURRENT_USER: {
-            console.log('Atejau i loginReducer. Cia yra decodintas token: ')
+            console.log('Atejau i loginReducer. Cia yra decodintas token: ');
             console.log(action.payload);
+            console.log('Pasidedam ji i redux store kaip currentUser ir naudojam kur reikia.');
             return Object.assign({}, {
                 isAuthenticated: true,
                 error: undefined,
