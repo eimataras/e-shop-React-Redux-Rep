@@ -38,7 +38,7 @@ const SignedInLinks = (props) => {
                 <Button color="inherit" type="submit" onClick={handleLogout}>Sign Out</Button>
 
                 <div className={classes.root}>
-                    <Avatar style={{backgroundColor: 'grey'}} className={classes.root}>{loginUserRole}</Avatar>
+                    <Avatar style={{backgroundColor: 'grey'}} className={classes.root}>{props.NameFirstLetter}{props.SurnameFirstLetter}</Avatar>
                 </div>
 
             </Toolbar>
@@ -53,7 +53,7 @@ const SignedInLinks = (props) => {
                 <Button color="inherit" type="submit" onClick={handleLogout}>Sign Out</Button>
 
                 <div className={classes.root}>
-                    <Avatar className={classes.root}>{loginUserRole}</Avatar>
+                    <Avatar className={classes.root}>{props.NameFirstLetter}{props.SurnameFirstLetter}</Avatar>
                 </div>
             </Toolbar>
         )

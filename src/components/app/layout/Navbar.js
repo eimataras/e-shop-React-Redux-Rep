@@ -38,12 +38,15 @@ class Navbar extends Component {
                 })
             ) : undefined) : ('');
         const loginUserRole = currentUserInfo.role_name;
+        const NameFirstLetter = this.props.currentUser.data.NameFirstLetter;
+        const SurnameFirstLetter = this.props.currentUser.data.SurnameFirstLetter;
+
 
         return (
             <AppBar position="static" style={{backgroundColor: 'darkred'}}>
                 <Toolbar>
                     <Typography variant="h5" style={{flexGrow: 1, padding: 5}}>Book shop</Typography>
-                    {isAuthenticated ? (<SignedInLinks loginUserRole={loginUserRole}/>
+                    {isAuthenticated ? (<SignedInLinks loginUserRole={loginUserRole} NameFirstLetter={NameFirstLetter} SurnameFirstLetter={SurnameFirstLetter}/>
                     ) : (<SignedOutLinks/>
                     )}
                 </Toolbar>
