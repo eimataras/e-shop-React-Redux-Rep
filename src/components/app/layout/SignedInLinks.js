@@ -34,16 +34,18 @@ const SignedInLinks = (props) => {
                 <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory`)}>My Orders
                     History</Button>
                 <Button color="inherit" onClick={() => props.history.push('/addbook')}>Add New Book</Button>
+                <Button color="inherit" onClick={() => props.history.push('/signup')}>Add New User</Button>
                 <Button color="inherit" onClick={() => props.history.push('/userlist')}>Users</Button>
                 <Button color="inherit" type="submit" onClick={handleLogout}>Sign Out</Button>
 
                 <div className={classes.root}>
-                    <Avatar style={{backgroundColor: 'grey'}} className={classes.root}>{props.NameFirstLetter}{props.SurnameFirstLetter}</Avatar>
+                    <Avatar style={{backgroundColor: 'grey'}}
+                            className={classes.root}>{props.NameFirstLetter}{props.SurnameFirstLetter}</Avatar>
                 </div>
 
             </Toolbar>
         )
-    } else {
+    } else if (loginUserRole === "CLIENT") {
         return (
             <Toolbar>
                 <Button color="inherit" onClick={() => props.history.push(`/`)}>Home</Button>
