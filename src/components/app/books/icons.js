@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {green} from '@material-ui/core/colors';
 import Icon from '@material-ui/core/Icon';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
@@ -12,7 +12,8 @@ import {addOrder, addOrderItem, fetchOrder} from "../../model/actions/order-acti
 
 const mapStateToProps = (state) => {
     return {
-        order: state.order
+        order: state.order,
+        currentUser: state.currentUser
     };
 };
 
@@ -25,6 +26,28 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 
 const Icons = (props) => {
+
+    useEffect(() => {
+        console.log("Component Did Mount equivalent");
+        props.fetchOrder();
+        return () => {
+            console.log("Component Will Unmount equivalent")
+        };
+    }, []);
+
+
+    const {isAuthenticated} = props.currentUser;
+    const currentUserInfo = isAuthenticated ? (
+        props.currentUser.data.roles.length ? (
+            props.currentUser.data.roles.find(info => {
+                return info
+            })
+        ) : undefined) : ('');
+    const loginUserId = currentUserInfo.user_id;
+    const loginUserRole = currentUserInfo.role_name;
+    const statusNewId = 1;
+
+
     const handleDeleteSubmit = (id) => {
         props.deleteBook(id)
     };
@@ -37,12 +60,12 @@ const Icons = (props) => {
             });
             const order_id = myOrder ? (myOrder.order_id) : undefined;
 
-
             if (loginUserId === undefined) {
                 props.history.push('/signin')
             } else if (order_id !== undefined) {
                 props.addOrderItem(order_id, book_id)
             } else {
+                console.log("addOrder clicked")
                 props.addOrder(loginUserId, statusNewId, book_id);
             }
         } else {
@@ -50,11 +73,11 @@ const Icons = (props) => {
         }
     };
 
-    if (props.loginUserId && (props.loginUserRole === "ADMIN")) {
+    if (loginUserId && (loginUserRole === "ADMIN")) {
         return (
             <div>
                 <IconButton
-                    onClick={() => handleAddSubmit(props.loginUserId, props.statusNewId, props.book_id)}>
+                    onClick={() => handleAddSubmit(loginUserId, statusNewId, props.book_id)}>
                     <AddShoppingCartIcon fontSize="large" style={{color: green[500]}}/>
                 </IconButton>
                 <IconButton onClick={() => handleDeleteSubmit(props.book_id)}>
@@ -66,7 +89,7 @@ const Icons = (props) => {
         return (
             <div>
                 <IconButton
-                    onClick={() => handleAddSubmit(props.loginUserId, props.statusNewId, props.book_id)}>
+                    onClick={() => handleAddSubmit(loginUserId, statusNewId, props.book_id)}>
                     <AddShoppingCartIcon fontSize="large" style={{color: green[500]}}/>
                 </IconButton>
             </div>
