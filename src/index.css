@@ -24,6 +24,10 @@ code {
     monospace;
 }
 
+h1 {
+  text-align: center;
+}
+
 .padding {
   padding: 20px;
 }

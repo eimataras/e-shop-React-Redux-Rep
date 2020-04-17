@@ -39,6 +39,7 @@ class BookList extends Component {
 
         return (
             <Container fixed maxWidth="md">
+                <h1>Books for sale</h1>
                 {items.map((item) => {
                     return (
                         <List key={item.book_id}>
