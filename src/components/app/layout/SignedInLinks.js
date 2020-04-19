@@ -6,7 +6,7 @@ import Avatar from "@material-ui/core/Avatar";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {connect} from "react-redux";
 import {bindActionCreators, compose} from "redux";
-import {setCurrentUserToDefault} from "../../model/actions/login-action";
+import {saveCurrentUser} from "../../model/actions/login-action";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    setCurrentUserToDefault: () => setCurrentUserToDefault()
+    saveCurrentUser: () => saveCurrentUser()
 }, dispatch);
 
 
@@ -44,7 +44,7 @@ const SignedInLinks = (props) => {
     const handleLogout = (e) => {
         // e.preventDefault();
         localStorage.removeItem('jwtToken');
-        props.setCurrentUserToDefault();
+        props.saveCurrentUser();
         props.history.push('/');
     };
 
