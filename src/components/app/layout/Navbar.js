@@ -7,7 +7,9 @@ import SignedOutLinks from "./SingedOutLinks";
 import {connect} from "react-redux";
 import {saveCurrentUser} from "../../model/actions/login-action";
 import * as jwt from "jsonwebtoken";
-import {bindActionCreators} from "redux";
+import {bindActionCreators, compose} from "redux";
+import {withRouter} from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 
 const mapStateToProps = (state) => {
@@ -37,7 +39,10 @@ const Navbar = (props) => {
     return (
         <AppBar position="static" style={{backgroundColor: 'darkred'}}>
             <Toolbar>
-                <Typography variant="h5" style={{flexGrow: 1, padding: 5}}>Book shop</Typography>
+                <Button style={{flexGrow: 1, textAlign: "left"}} color="inherit"
+                        onClick={() => props.history.push(`/`)}>
+                    <Typography variant="h5" style={{flexGrow: 1, padding: 5}}>Book shop</Typography>
+                </Button>
                 {isAuthenticated ? (<SignedInLinks/>) : (<SignedOutLinks/>)}
             </Toolbar>
         </AppBar>
@@ -45,4 +50,4 @@ const Navbar = (props) => {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Navbar);
