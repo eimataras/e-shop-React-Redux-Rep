@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {green} from '@material-ui/core/colors';
 import Icon from '@material-ui/core/Icon';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
@@ -25,15 +25,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 
 const Icons = (props) => {
-
-    useEffect(() => {
-        console.log("Component Did Mount equivalent");
-        // props.fetchOrder();
-        return () => {
-            console.log("Component Will Unmount equivalent")
-        };
-    }, []);
-
 
     const {isAuthenticated} = props.currentUser;
     const currentUserInfo = isAuthenticated ? (

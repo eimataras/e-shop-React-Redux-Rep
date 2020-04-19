@@ -3,17 +3,25 @@ import jwt from 'jsonwebtoken';
 export const REQUEST_CURRENT_USER = 'REQUEST_CURRENT_USER';
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const RECEIVE_CURRENT_USER_FAILURE = 'RECEIVE_CURRENT_USER_FAILURE';
+export const RECEIVE_DEFAULT_CURRENT_USER = 'RECEIVE_DEFAULT_CURRENT_USER';
 
 export const requestCurrentUser = () => ({type: REQUEST_CURRENT_USER,});
 export const receiveCurrentUser = (user) => ({type: RECEIVE_CURRENT_USER, payload: user});
 export const receiveCurrentUserFailure = (error) => ({type: RECEIVE_CURRENT_USER_FAILURE, payload: error});
+export const receiveDefaultCurrentUser = () => ({type: RECEIVE_DEFAULT_CURRENT_USER, });
 
 
-export const postCurrentUser = (currentUser) => {
-  return (dispatch) => {
-      dispatch(requestCurrentUser());
-      dispatch(receiveCurrentUser(currentUser))
-  }
+export const saveCurrentUser = (currentUser) => {
+    return (dispatch) => {
+        dispatch(requestCurrentUser());
+        dispatch(receiveCurrentUser(currentUser))
+    }
+};
+
+export const setCurrentUserToDefault = () => {
+    return (dispatch) => {
+        dispatch(receiveDefaultCurrentUser());
+    }
 };
 
 
