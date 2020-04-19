@@ -9,25 +9,25 @@ import {fetchBook} from "../../model/actions/book-actions";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Icons from "./icons";
+import {fetchOrder} from "../../model/actions/order-actions";
 
 
 const mapStateToProps = (state) => {
     return {
         book: state.book,
-        // currentUser: state.currentUser
     };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchBook: () => fetchBook(),
-    // fetchOrder: () => fetchOrder(),
+    fetchOrder: () => fetchOrder(),
 }, dispatch);
 
 
 class BookList extends Component {
     componentDidMount() {
         this.props.fetchBook();
-        // this.props.fetchOrder();
+        this.props.fetchOrder();
     }
 
     render() {

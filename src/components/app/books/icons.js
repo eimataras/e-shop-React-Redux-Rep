@@ -7,7 +7,7 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {deleteBook} from "../../model/actions/book-actions";
 import IconButton from "@material-ui/core/IconButton";
-import {addOrder, addOrderItem, fetchOrder} from "../../model/actions/order-actions";
+import {addOrder, addOrderItem} from "../../model/actions/order-actions";
 
 
 const mapStateToProps = (state) => {
@@ -18,7 +18,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    fetchOrder: () => fetchOrder(),
     deleteBook: (id) => deleteBook(id),
     addOrder: (loginUserId, statusNewId, book_id) => addOrder(loginUserId, statusNewId, book_id),
     addOrderItem: (order_id, book_id) => addOrderItem(order_id, book_id),
@@ -29,7 +28,7 @@ const Icons = (props) => {
 
     useEffect(() => {
         console.log("Component Did Mount equivalent");
-        props.fetchOrder();
+        // props.fetchOrder();
         return () => {
             console.log("Component Will Unmount equivalent")
         };
@@ -61,14 +60,17 @@ const Icons = (props) => {
             const order_id = myOrder ? (myOrder.order_id) : undefined;
 
             if (loginUserId === undefined) {
+                console.log("nerado loginUserId");
                 props.history.push('/signin')
             } else if (order_id !== undefined) {
+                console.log("addOrderitem clicked");
                 props.addOrderItem(order_id, book_id)
             } else {
-                console.log("addOrder clicked")
+                console.log("addOrder clicked");
                 props.addOrder(loginUserId, statusNewId, book_id);
             }
         } else {
+            console.log("gavom order.data.error 403");
             props.history.push('/signin')
         }
     };
