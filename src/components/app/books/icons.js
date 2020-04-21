@@ -91,7 +91,4 @@ const Icons = (props) => {
 };
 
 
-export default compose(
-    withRouter,
-    connect(mapStateToProps, mapDispatchToProps)
-)(Icons);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Icons);

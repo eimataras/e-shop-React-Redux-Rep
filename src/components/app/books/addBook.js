@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useState} from "react";
 import Button from "@material-ui/core/Button";
 import {bindActionCreators, compose} from "redux";
 import {connect} from "react-redux";
@@ -10,34 +10,30 @@ import TextField from "@material-ui/core/TextField";
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    pridekNaujaKnyga: (knyga) => addBook(knyga)
+    addBook: (book) => addBook(book)
 }, dispatch);
 
 
-class AddBook extends Component {
-    state = {
+const AddBook = props => {
+    const [book, setBook] = useState({
         title: '',
         author: '',
         published_date: '',
         book_cover: '',
-        quantity: '',
-    };
+        quantity: ''
+    });
 
-
-    handleChange = (e) => {
-        this.setState({
+    const handleChange = (e) => {
+        setBook({
+            ...book,
             [e.target.id]: e.target.value
         });
-
     };
 
-    handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const knyga = this.state;
-        console.log('Siunciamas objektas "knyga": ');
-        console.log(knyga);
-        this.props.pridekNaujaKnyga(knyga);
-        this.setState({
+        props.addBook(book);
+        setBook({
             title: '',
             author: '',
             published_date: '',
@@ -46,36 +42,31 @@ class AddBook extends Component {
         })
     };
 
-    render() {
+    return (
+        <Container fixed maxWidth="xs">
+            <Paper className="padding">
+                <div align="center">
+                    <form autoComplete="off">
+                        <h1>Add a new book:</h1>
+                        <TextField id="title" variant="outlined" label="Title" value={book.title}
+                                   onChange={handleChange}/>
+                        <TextField id="author" variant="outlined" label="Author" value={book.author}
+                                   onChange={handleChange}/>
+                        <TextField id="published_date" variant="outlined" label="Published date"
+                                   value={book.published_date} onChange={handleChange}/>
+                        <TextField id="book_cover" variant="outlined" label="Book cover http://..."
+                                   value={book.book_cover} onChange={handleChange}/>
+                        <TextField id="quantity" variant="outlined" label="Quantity" value={book.quantity}
+                                   onChange={handleChange}/>
+                        <div className="padding">
+                            <Button variant="contained" color="secondary" type="submit"
+                                    onClick={handleSubmit}>Save</Button>
+                        </div>
+                    </form>
+                </div>
+            </Paper>
+        </Container>
+    )
+};
 
-        return (
-            <Container fixed maxWidth="xs">
-                <Paper className="padding">
-                    <div align="center">
-                        <form autoComplete="off">
-                            <h1>Add a new book:</h1>
-                            <TextField id="title" variant="outlined" label="Title" value={this.state.title}
-                                       onChange={this.handleChange}/>
-                            <TextField id="author" variant="outlined" label="Author" value={this.state.author}
-                                       onChange={this.handleChange}/>
-                            <TextField id="published_date" variant="outlined" label="Published date"
-                                       value={this.state.published_date} onChange={this.handleChange}/>
-                            <TextField id="book_cover" variant="outlined" label="Book cover http://..."
-                                       value={this.state.book_cover} onChange={this.handleChange}/>
-                            <TextField id="quantity" variant="outlined" label="Quantity" value={this.state.quantity}
-                                       onChange={this.handleChange}/>
-                            <div className="padding">
-                                <Button variant="contained" color="secondary" type="submit"
-                                        onClick={this.handleSubmit}>Save</Button>
-                            </div>
-                        </form>
-                    </div>
-                </Paper>
-            </Container>
-        )
-    }
-}
-
-export default compose(
-    withRouter,
-    connect(undefined, mapDispatchToProps))(AddBook)
+export default compose(withRouter, connect(undefined, mapDispatchToProps))(AddBook)

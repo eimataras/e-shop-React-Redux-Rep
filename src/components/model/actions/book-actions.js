@@ -48,7 +48,7 @@ export const fetchBook = () => {
 };
 
 
-export const addBook = (knyga) => {
+export const addBook = (book) => {
     return (dispatch) => {
         dispatch(requestAddBook());
         fetch('/book/add', {
@@ -58,11 +58,11 @@ export const addBook = (knyga) => {
                 'Content-Type': 'application/json',
             }),
             body: JSON.stringify({
-                title: knyga.title,
-                author: knyga.author,
-                published_date: knyga.published_date,
-                book_cover: knyga.book_cover,
-                quantity: knyga.quantity
+                title: book.title,
+                author: book.author,
+                published_date: book.published_date,
+                book_cover: book.book_cover,
+                quantity: book.quantity
             })
         })
             .then((result) => {

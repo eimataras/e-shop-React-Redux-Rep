@@ -15,7 +15,6 @@ const mapStateToProps = (state) => {
     }
 };
 
-
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     addClient: (user) => addClient(user),
     addAdmin: (user) => addAdmin(user)
@@ -30,7 +29,6 @@ class SignUp extends Component {
         password: '',
     };
 
-
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
@@ -38,7 +36,6 @@ class SignUp extends Component {
     };
 
     handleSubmitClient = () => {
-        console.log(this.state);
         const user = this.state;
         this.props.addClient(user);
         this.setState({
@@ -50,7 +47,6 @@ class SignUp extends Component {
     };
 
     handleSubmitAdmin = () => {
-        console.log(this.state);
         const user = this.state;
         this.props.addAdmin(user);
         this.setState({

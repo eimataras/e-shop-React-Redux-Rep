@@ -61,7 +61,4 @@ class BookList extends Component {
     }
 }
 
-export default compose(
-    withRouter,
-    connect(mapStateToProps, mapDispatchToProps)
-)(BookList);
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(BookList);
