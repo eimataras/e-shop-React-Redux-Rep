@@ -5,9 +5,9 @@ import Navbar from "./layout/Navbar";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import AddBook from "./books/addBook";
-import UserList from "./auth/userList";
-import MyOrder from "./myOrder/myOrder";
-import MyOrderHistory from "./myOrder/myOrderHistory";
+import UserList from "./orders/userList";
+import MyOrder from "./orders/myOrder";
+import MyOrderHistory from "./orders/myOrderHistory";
 import BookList from "./books/bookList";
 
 

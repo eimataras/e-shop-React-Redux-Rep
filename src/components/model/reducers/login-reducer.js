@@ -1,10 +1,6 @@
 import {cloneDeep} from "lodash";
 import initialState from "../initial-state";
-import {
-    RECEIVE_CURRENT_USER,
-    RECEIVE_CURRENT_USER_FAILURE,
-    REQUEST_CURRENT_USER
-} from "../actions/login-action";
+import {RECEIVE_CURRENT_USER, RECEIVE_CURRENT_USER_FAILURE, REQUEST_CURRENT_USER} from "../actions/login-action";
 
 
 const loginReducer = (state = cloneDeep(initialState.currentUser), action) => {
@@ -26,7 +22,7 @@ const loginReducer = (state = cloneDeep(initialState.currentUser), action) => {
             return Object.assign({}, {
                 isAuthenticated: !!action.payload,
                 error: undefined,
-                data: action.payload? action.payload : ''
+                data: action.payload ? action.payload : ''
             })
         }
 
