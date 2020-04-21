@@ -39,9 +39,8 @@ export const postLogin = (username, password, props) => {
                         dispatch(receiveCurrentUser(jwt.decode(token)));
                         props.history.push('/')
                     } else {
-                        dispatch(receiveCurrentUserFailure(jwt.decode(token)));
-                        props.history.push('/signin/failed');
-                        window.location.reload()
+                        localStorage.removeItem('jwtToken');
+                        dispatch(receiveCurrentUserFailure('loginFailed'));
                     }
                 });
             })

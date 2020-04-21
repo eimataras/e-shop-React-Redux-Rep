@@ -29,10 +29,11 @@ const Navbar = (props) => {
         if (localStorage.jwtToken) {
             console.log("Navbar useEffect saveCurrentUser");
             props.saveCurrentUser(jwt.decode(localStorage.jwtToken));
-        } else {
-            console.log("Navbar useEffect save no currentUser");
-            props.saveCurrentUser();
         }
+        // else {
+        //     console.log("Navbar useEffect save no currentUser");
+        //     props.saveCurrentUser();
+        // }
     }, []);
 
     const {isAuthenticated} = props.currentUser;

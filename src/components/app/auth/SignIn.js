@@ -8,6 +8,11 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {postLogin} from "../../model/actions/login-action";
 
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.currentUser
+    }
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     postLogin: (username, password, props) => postLogin(username, password, props),
@@ -28,6 +33,10 @@ class SignIn extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.postLogin(this.state.username, this.state.password, this.props);
+        this.setState({
+            username: '',
+            password: ''
+        })
     };
 
     render() {
@@ -37,9 +46,13 @@ class SignIn extends Component {
                     <div align="center">
                         <form autoComplete="off">
                             <h1>Log In:</h1>
-                            <TextField id="username" name="username" type="username" variant="outlined" label="Username"
+                            {this.props.currentUser.error ? (
+                                <h5 style={{color: "red"}}>Wrong username or password!</h5>) : ''}
+                            <TextField id="username" name="username" type="username" variant="outlined"
+                                       label="Username"
                                        value={this.state.username} onChange={this.handleChange}/>
-                            <TextField id="password" name="password" type="password" variant="outlined" label="Password"
+                            <TextField id="password" name="password" type="password" variant="outlined"
+                                       label="Password"
                                        value={this.state.password} onChange={this.handleChange}/>
                             <br/>
                             <div>
@@ -61,5 +74,5 @@ class SignIn extends Component {
 
 export default compose(
     withRouter,
-    connect(null, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps)
 )(SignIn);

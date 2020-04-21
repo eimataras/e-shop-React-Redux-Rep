@@ -8,7 +8,6 @@ import AddBook from "./books/addBook";
 import UserList from "./auth/userList";
 import MyOrder from "./myOrder/myOrder";
 import MyOrderHistory from "./myOrder/myOrderHistory";
-import SignInFailed from "./auth/signInFailed";
 import BookList from "./books/bookList";
 
 
@@ -21,7 +20,6 @@ class App extends React.Component {
                 <Switch>
                     <Route path='/' exact={true} component={BookList}/>
                     <Route path='/signin' exact={true} component={SignIn}/>
-                    <Route path='/signin/failed' exact={true} component={SignInFailed}/>
                     <Route path='/signup' exact={true} component={SignUp}/>
                     <Route path='/addbook' exact={true} component={AddBook}/>
                     <Route path='/userlist' exact={true} component={UserList}/>
