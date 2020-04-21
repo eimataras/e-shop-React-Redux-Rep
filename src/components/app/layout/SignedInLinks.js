@@ -1,21 +1,11 @@
 import React from "react";
-import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
 import {withRouter} from "react-router-dom";
-import Avatar from "@material-ui/core/Avatar";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import {connect} from "react-redux";
 import {bindActionCreators, compose} from "redux";
 import {saveCurrentUser} from "../../model/actions/login-action";
+import AdminLinks from "./adminLinks";
+import ClientLinks from "./clientLinks";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    }
-}));
 
 const mapStateToProps = (state) => {
     return {
@@ -29,7 +19,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 
 const SignedInLinks = (props) => {
-    const classes = useStyles();
     const {isAuthenticated} = props.currentUser;
     const currentUserInfo = isAuthenticated ? (
         props.currentUser.data.roles.length ? (
@@ -49,38 +38,11 @@ const SignedInLinks = (props) => {
     };
 
     if (loginUserRole === "ADMIN") {
-        return (
-            <Toolbar>
-                <Button color="inherit" onClick={() => props.history.push(`/`)}>Home</Button>
-                <Button color="inherit" onClick={() => props.history.push(`/myOrder`)}>My Order</Button>
-                <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory`)}>My Orders
-                    History</Button>
-                <Button color="inherit" onClick={() => props.history.push('/addbook')}>Add New Book</Button>
-                <Button color="inherit" onClick={() => props.history.push('/signup')}>Add New User</Button>
-                <Button color="inherit" onClick={() => props.history.push('/userlist')}>Users</Button>
-                <Button color="inherit" type="submit" onClick={handleLogout}>Sign Out</Button>
-
-                <div className={classes.root}>
-                    <Avatar style={{backgroundColor: 'grey'}}
-                            className={classes.root}>{nameFirstLetter}{surnameFirstLetter}</Avatar>
-                </div>
-
-            </Toolbar>
-        )
+        return (<AdminLinks handleLogout={handleLogout} nameFirstLetter={nameFirstLetter}
+                            surnameFirstLetter={surnameFirstLetter}/>)
     } else if (loginUserRole === "CLIENT") {
-        return (
-            <Toolbar>
-                <Button color="inherit" onClick={() => props.history.push(`/`)}>Home</Button>
-                <Button color="inherit" onClick={() => props.history.push(`/myOrder`)}>My Order</Button>
-                <Button color="inherit" onClick={() => props.history.push(`/myOrderHistory`)}>My Orders
-                    History</Button>
-                <Button color="inherit" type="submit" onClick={handleLogout}>Sign Out</Button>
-
-                <div className={classes.root}>
-                    <Avatar className={classes.root}>{nameFirstLetter}{surnameFirstLetter}</Avatar>
-                </div>
-            </Toolbar>
-        )
+        return (<ClientLinks handleLogout={handleLogout} nameFirstLetter={nameFirstLetter}
+                             surnameFirstLetter={surnameFirstLetter}/>)
     }
 };
 
