@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import Button from "@material-ui/core/Button";
-import {bindActionCreators, compose} from "redux";
-import {withRouter} from "react-router-dom";
+import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {addAdmin, addClient} from "../../model/actions/user-actions";
 import {Container} from "@material-ui/core";
@@ -67,58 +66,38 @@ class SignUp extends Component {
             ) : undefined) : ('');
         const loginUserRole = currentUserInfo.role_name;
 
-        if (loginUserRole === "ADMIN") {
-
-            return (
-                <Container fixed maxWidth="xs">
-                    <Paper className="padding">
-                        <div align="center">
-                            <form autoComplete="off">
-                                <h1>Sign Up:</h1>
-                                <TextField id="name" type="name" variant="outlined" label="First name"
-                                           value={this.state.name} onChange={this.handleChange}/>
-                                <TextField id="surname" type="surname" variant="outlined" label="Last name"
-                                           value={this.state.surname} onChange={this.handleChange}/>
-                                <TextField id="username" type="username" variant="outlined" label="Username"
-                                           value={this.state.username} onChange={this.handleChange}/>
-                                <TextField id="password" type="password" variant="outlined" label="Password"
-                                           value={this.state.password} onChange={this.handleChange}/>
-                            </form>
-                            <Button variant="contained" color="primary" onClick={this.handleSubmitClient}>Create
-                                Client</Button>
-                            <span> </span>
-                            <Button variant="contained" color="secondary" onClick={this.handleSubmitAdmin}>Create
-                                Admin</Button>
-                        </div>
-                    </Paper>
-                </Container>
-            )
-        } else {
-            return (
-                <Container fixed maxWidth="xs">
-                    <Paper className="padding">
-                        <div align="center">
-                            <form autoComplete="off">
-                                <h1>Sign Up:</h1>
-                                <TextField id="name" type="name" variant="outlined" label="First name"
-                                           value={this.state.name} onChange={this.handleChange}/>
-                                <TextField id="surname" type="surname" variant="outlined" label="Last name"
-                                           value={this.state.surname} onChange={this.handleChange}/>
-                                <TextField id="username" type="username" variant="outlined" label="Username"
-                                           value={this.state.username} onChange={this.handleChange}/>
-                                <TextField id="password" type="password" variant="outlined" label="Password"
-                                           value={this.state.password} onChange={this.handleChange}/>
-                            </form>
+        return (
+            <Container fixed maxWidth="xs">
+                <Paper className="padding">
+                    <div align="center">
+                        <form autoComplete="off">
+                            <h1>Sign Up:</h1>
+                            <TextField id="name" type="name" variant="outlined" label="First name"
+                                       value={this.state.name} onChange={this.handleChange}/>
+                            <TextField id="surname" type="surname" variant="outlined" label="Last name"
+                                       value={this.state.surname} onChange={this.handleChange}/>
+                            <TextField id="username" type="username" variant="outlined" label="Username"
+                                       value={this.state.username} onChange={this.handleChange}/>
+                            <TextField id="password" type="password" variant="outlined" label="Password"
+                                       value={this.state.password} onChange={this.handleChange}/>
+                        </form>
+                        {(loginUserRole === "ADMIN") ? (
+                            <div>
+                                <Button variant="contained" color="primary" onClick={this.handleSubmitClient}>Create
+                                    Client</Button>
+                                <span> </span>
+                                <Button variant="contained" color="secondary" onClick={this.handleSubmitAdmin}>Create
+                                    Admin</Button>
+                            </div>
+                        ) : (
                             <Button variant="contained" color="primary" onClick={this.handleSubmitClient}>Sign
                                 up</Button>
-                        </div>
-                    </Paper>
-                </Container>
-            )
-        }
+                        )}
+                    </div>
+                </Paper>
+            </Container>
+        )
     }
 }
 
-export default compose(
-    withRouter,
-    connect(mapStateToProps, mapDispatchToProps))(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

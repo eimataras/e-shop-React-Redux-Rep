@@ -3,8 +3,7 @@ import Button from "@material-ui/core/Button";
 import {Container} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
-import {bindActionCreators, compose} from "redux";
-import {withRouter} from "react-router-dom";
+import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {postLogin} from "../../model/actions/login-action";
 
@@ -69,4 +68,4 @@ const SignIn = props => {
     )
 };
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

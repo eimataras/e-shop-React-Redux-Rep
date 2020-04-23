@@ -20,6 +20,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 const SignedInLinks = (props) => {
     const {isAuthenticated} = props.currentUser;
+    const {nameFirstLetter} = props.currentUser.data;
+    const {surnameFirstLetter} = props.currentUser.data;
     const currentUserInfo = isAuthenticated ? (
         props.currentUser.data.roles.length ? (
             props.currentUser.data.roles.find(info => {
@@ -27,8 +29,6 @@ const SignedInLinks = (props) => {
             })
         ) : undefined) : ('');
     const loginUserRole = currentUserInfo.role_name;
-    const nameFirstLetter = props.currentUser.data.NameFirstLetter;
-    const surnameFirstLetter = props.currentUser.data.SurnameFirstLetter;
 
     const handleLogout = (e) => {
         // e.preventDefault();
@@ -37,13 +37,14 @@ const SignedInLinks = (props) => {
         props.history.push('/');
     };
 
-    if (loginUserRole === "ADMIN") {
-        return (<AdminLinks handleLogout={handleLogout} nameFirstLetter={nameFirstLetter}
-                            surnameFirstLetter={surnameFirstLetter}/>)
-    } else if (loginUserRole === "CLIENT") {
-        return (<ClientLinks handleLogout={handleLogout} nameFirstLetter={nameFirstLetter}
-                             surnameFirstLetter={surnameFirstLetter}/>)
-    }
+    return (
+        (loginUserRole === "ADMIN") ?
+            (<AdminLinks handleLogout={handleLogout} nameFirstLetter={nameFirstLetter}
+                         surnameFirstLetter={surnameFirstLetter}/>
+            ) : (loginUserRole === "CLIENT") ?
+            (<ClientLinks handleLogout={handleLogout} nameFirstLetter={nameFirstLetter}
+                          surnameFirstLetter={surnameFirstLetter}/>) : null
+    )
 };
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(SignedInLinks)

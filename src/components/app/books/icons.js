@@ -66,8 +66,8 @@ const Icons = (props) => {
         }
     };
 
-    if (loginUserId && (loginUserRole === "ADMIN")) {
-        return (
+    return (
+        (loginUserId && (loginUserRole === "ADMIN")) ? (
             <div>
                 <IconButton
                     onClick={() => handleAddSubmit(loginUserId, statusNewId, props.book_id)}>
@@ -77,17 +77,15 @@ const Icons = (props) => {
                     <Icon className="material-icons" color="secondary" fontSize="large">delete_forever</Icon>
                 </IconButton>
             </div>
-        )
-    } else {
-        return (
+        ) : (
             <div>
                 <IconButton
                     onClick={() => handleAddSubmit(loginUserId, statusNewId, props.book_id)}>
                     <AddShoppingCartIcon fontSize="large" style={{color: green[500]}}/>
                 </IconButton>
             </div>
-        );
-    }
+        )
+    );
 };
 
 
