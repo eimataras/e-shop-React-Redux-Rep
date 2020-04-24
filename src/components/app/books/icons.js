@@ -18,9 +18,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    deleteBook: (id) => deleteBook(id),
-    addOrder: (loginUserId, statusNewId, book_id) => addOrder(loginUserId, statusNewId, book_id),
-    addOrderItem: (order_id, book_id) => addOrderItem(order_id, book_id),
+    deleteBook: (id, props) => deleteBook(id, props),
+    addOrder: (loginUserId, statusNewId, book_id, props) => addOrder(loginUserId, statusNewId, book_id, props),
+    addOrderItem: (order_id, book_id, props) => addOrderItem(order_id, book_id, props),
 }, dispatch);
 
 
@@ -39,7 +39,7 @@ const Icons = (props) => {
 
 
     const handleDeleteSubmit = (id) => {
-        props.deleteBook(id)
+        props.deleteBook(id, props)
     };
 
     const handleAddSubmit = (loginUserId, statusNewId, book_id) => {
@@ -55,10 +55,10 @@ const Icons = (props) => {
                 props.history.push('/signin')
             } else if (order_id !== undefined) {
                 console.log("addOrderitem clicked");
-                props.addOrderItem(order_id, book_id)
+                props.addOrderItem(order_id, book_id, props)
             } else {
                 console.log("addOrder clicked");
-                props.addOrder(loginUserId, statusNewId, book_id);
+                props.addOrder(loginUserId, statusNewId, book_id, props);
             }
         } else {
             console.log("gavom order.data.error 403");

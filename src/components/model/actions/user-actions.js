@@ -76,7 +76,7 @@ export const addClient = (user) => {
 };
 
 
-export const addAdmin = (user) => {
+export const addAdmin = (user, props) => {
     return (dispatch) => {
         dispatch(requestAddUser());
         fetch('/user/add-admin', {
@@ -94,7 +94,12 @@ export const addAdmin = (user) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveAddUser(json));
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveAddUser(json));
+                    }
                 });
             })
             .catch((error) => {
@@ -104,7 +109,7 @@ export const addAdmin = (user) => {
 };
 
 
-export const deleteUser = (id) => {
+export const deleteUser = (id, props) => {
     return (dispatch) => {
         dispatch(requestDeleteUser());
         fetch('/user/delete?user_id=' + id, {
@@ -116,7 +121,13 @@ export const deleteUser = (id) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveDeleteUser(json.user_id));
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveDeleteUser(json.user_id));
+
+                    }
                 })
             })
             .catch((error) => {

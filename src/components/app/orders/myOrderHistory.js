@@ -10,6 +10,7 @@ import ListItem from "@material-ui/core/ListItem";
 import {green} from "@material-ui/core/colors";
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
 
 const mapStateToProps = (state) => {
     return {
@@ -28,7 +29,6 @@ class MyOrderHistory extends Component {
     }
 
     render() {
-        // const loginUserId = Number(this.props.match.params.userId);
         const {isAuthenticated} = this.props.currentUser;
         const currentUserInfo = isAuthenticated ? (
             this.props.currentUser.data.roles.length ? (
@@ -38,61 +38,74 @@ class MyOrderHistory extends Component {
             ) : undefined) : ('');
         const loginUserId = currentUserInfo.user_id;
         const orders = this.props.order.data;
-        const myOrders = orders.filter((order) => order.user_id === loginUserId ? order : null);
+        const fetchOrderErrorMessage = orders.message;
+        const myOrders = !orders.error ? orders.filter((order) => order.user_id === loginUserId ? order : null) : null;
 
         return (
-            <div align="center">
-                {isAuthenticated ? (
-                    <div>
-                        <h1>Orders history</h1>
-                        {myOrders.map(order => {
-                            return (
-                                <Container fixed maxWidth="md" key={order.order_id}>
-                                    <List>
-                                        <Paper>
-                                            <ListItem>
-                                                <Grid container spacing={0}>
-                                                    <div>
-                                                        Buyer: {order.name} {order.surname}<br/>Order
-                                                        ID: {order.order_id}<br/>Order status: {order.type}<br/>Ordered
-                                                        items:
-                                                    </div>
-                                                    <div>
-                                                        <br/><br/><br/>
-                                                        {order.items.map(item => {
-                                                            return (
-                                                                <Container fixed maxWidth="sm"
-                                                                           key={item.order_item_id}>
-                                                                    <List>
-                                                                        <Paper>
-                                                                            <ListItem>
-                                                                                <MenuBookIcon fontSize="large"
-                                                                                              style={{
-                                                                                                  color: green[500],
-                                                                                                  padding: 30
-                                                                                              }}/>
-                                                                                "{item.title}" {item.author}<br/>
-                                                                                Published
-                                                                                in {item.published_date}<br/>
-                                                                                Ordered quantity: {item.quantity}
-                                                                            </ListItem>
-                                                                        </Paper>
-                                                                    </List>
-                                                                </Container>
-                                                            )
-                                                        })}
-                                                    </div>
-                                                </Grid>
-                                            </ListItem>
-                                        </Paper>
-                                    </List>
-                                </Container>
-                            )
-                        })
-                        }
-                    </div>
-                ) : (this.props.history.push('/signin'))}
-            </div>
+            ((!orders.length) && (!fetchOrderErrorMessage)) ? (
+                <div align="center">
+                    <h1>My orders history</h1>
+                    <h3>Loading...</h3>
+                </div>
+            ) : ((!isAuthenticated) || (fetchOrderErrorMessage === "Access Denied")) ? (
+                <div align="center">
+                    <h1>My orders history</h1>
+                    <h3>{fetchOrderErrorMessage}... Please <span> </span>
+                        <Link component="button" onClick={() => this.props.history.push('/signin')}>
+                            <h3>log in</h3>
+                        </Link>
+                    </h3>
+                    {localStorage.removeItem('jwtToken')}
+                </div>
+            ) : (
+                <div>
+                    <h1>Orders history</h1>
+                    {myOrders.map(order => {
+                        return (
+                            <Container fixed maxWidth="md" key={order.order_id}>
+                                <List>
+                                    <Paper>
+                                        <ListItem>
+                                            <Grid container spacing={0}>
+                                                <div>
+                                                    Buyer: {order.name} {order.surname}<br/>Order
+                                                    ID: {order.order_id}<br/>Order status: {order.type}<br/>Ordered
+                                                    items:
+                                                </div>
+                                                <div>
+                                                    <br/><br/><br/>
+                                                    {order.items.map(item => {
+                                                        return (
+                                                            <Container fixed maxWidth="sm"
+                                                                       key={item.order_item_id}>
+                                                                <List>
+                                                                    <Paper>
+                                                                        <ListItem>
+                                                                            <MenuBookIcon fontSize="large"
+                                                                                          style={{
+                                                                                              color: green[500],
+                                                                                              padding: 30
+                                                                                          }}/>
+                                                                            "{item.title}" {item.author}<br/>
+                                                                            Published
+                                                                            in {item.published_date}<br/>
+                                                                            Ordered quantity: {item.quantity}
+                                                                        </ListItem>
+                                                                    </Paper>
+                                                                </List>
+                                                            </Container>
+                                                        )
+                                                    })}
+                                                </div>
+                                            </Grid>
+                                        </ListItem>
+                                    </Paper>
+                                </List>
+                            </Container>
+                        )
+                    })}
+                </div>
+            )
         )
     }
 }

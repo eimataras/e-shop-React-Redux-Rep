@@ -7,6 +7,10 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
+import {connect} from "react-redux";
+import {bindActionCreators, compose} from "redux";
+import {deleteOrder, updateOrderStatus} from "../../model/actions/order-actions";
+import {withRouter} from "react-router-dom";
 
 const style = {
     sideMargin: {
@@ -15,11 +19,31 @@ const style = {
     }
 };
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    updateOrderStatus: (order_id, user_id, status_id, props) => updateOrderStatus(order_id, user_id, status_id, props),
+    deleteOrder: (order_id, props) => deleteOrder(order_id, props),
+}, dispatch);
+
+
 const OrderList = (props) => {
+
+    const handleChangeStatus = (order_id, user_id, status_id) => {
+        props.updateOrderStatus(order_id, user_id, status_id, props);
+    };
+
+    const handleDeleteOrder = (order_id) => {
+        props.deleteOrder(order_id, props);
+    };
+
+    const {orders} = props;
+    const id = Number(props.match.params.userId);
+    const myOrders = orders.filter((order) => {
+        return order.user_id === id
+    });
+
     return (
         <Grid item sm>
-            {props.myOrders.map((order) => {
-
+            {myOrders.map((order) => {
                 return (
                     <Container fixed maxWidth="sm" key={order.order_id}>
                         <List>
@@ -46,18 +70,18 @@ const OrderList = (props) => {
                                             <div style={{color: "red"}}> Change status to:
                                                 <span style={style.sideMargin}/>
                                                 <Button onClick={() =>
-                                                    props.handleChangeStatus(order.order_id, order.user_id, 3)
+                                                    handleChangeStatus(order.order_id, order.user_id, 3)
                                                 } size="small" variant="contained">Sent</Button>
                                                 <span style={style.sideMargin}/>
                                                 <Button onClick={() =>
-                                                    props.handleChangeStatus(order.order_id, order.user_id, 4)
+                                                    handleChangeStatus(order.order_id, order.user_id, 4)
                                                 } size="small" variant="contained">Canceled</Button>
                                                 <span style={style.sideMargin}/>
                                             </div>
                                         </div>
                                     </Grid>
                                     <IconButton
-                                        onClick={() => props.handleDeleteOrder(order.order_id)}>
+                                        onClick={() => handleDeleteOrder(order.order_id)}>
                                         <Icon className="material-icons" color="secondary"
                                               fontSize="large">delete_forever</Icon>
                                     </IconButton>
@@ -71,4 +95,4 @@ const OrderList = (props) => {
     )
 };
 
-export default OrderList
+export default compose (withRouter, connect(undefined, mapDispatchToProps))(OrderList)

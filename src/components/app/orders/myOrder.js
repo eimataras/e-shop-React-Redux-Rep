@@ -29,8 +29,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchOrder: () => fetchOrder(),
-    updateOrderStatus: (order_id, user_id, status_id) => updateOrderStatus(order_id, user_id, status_id),
-    updateOrderItemQuantity: (order_item_id, order_id, book_id, quantity) => updateOrderItemQuantity(order_item_id, order_id, book_id, quantity),
+    updateOrderStatus: (order_id, user_id, status_id, props) => updateOrderStatus(order_id, user_id, status_id, props),
+    updateOrderItemQuantity: (order_item_id, order_id, book_id, quantity, props) => updateOrderItemQuantity(order_item_id, order_id, book_id, quantity, props),
 }, dispatch);
 
 
@@ -41,19 +41,18 @@ class MyOrder extends Component {
     }
 
     handleChangeStatus = (order_id, user_id, status_id) => {
-        this.props.updateOrderStatus(order_id, user_id, status_id)
+        this.props.updateOrderStatus(order_id, user_id, status_id, this.props)
     };
 
     handleQuantityPlus = (order_item_id, order_id, book_id, quantity) => {
-        this.props.updateOrderItemQuantity(order_item_id, order_id, book_id, quantity + 1)
+        this.props.updateOrderItemQuantity(order_item_id, order_id, book_id, quantity + 1, this.props)
     };
 
     handleQuantityMinus = (order_item_id, order_id, book_id, quantity) => {
-        this.props.updateOrderItemQuantity(order_item_id, order_id, book_id, quantity - 1)
+        this.props.updateOrderItemQuantity(order_item_id, order_id, book_id, quantity - 1, this.props)
     };
 
     render() {
-        // const loginUserId = Number(this.props.match.params.userId);
         const {isAuthenticated} = this.props.currentUser;
         const currentUserInfo = isAuthenticated ? (
             this.props.currentUser.data.roles.length ? (
@@ -62,15 +61,22 @@ class MyOrder extends Component {
                 })
             ) : undefined) : ('');
         const loginUserId = currentUserInfo.user_id;
-        const order = this.props.order.data;
-        const myOrder = order.find((order) => {
+        const orders = this.props.order.data;
+        const fetchOrderErrorMessage = orders.message;
+        const myOrder = !fetchOrderErrorMessage ? orders.find((order) => {
             return order.user_id === loginUserId && order.status_id === 1
-        });
+        }) : null;
 
-        if (myOrder == null) {
-            return (
+
+        return (
+            ((!orders.length) && (!fetchOrderErrorMessage)) ? (
+                <div align="center">
+                    <h1>My order</h1>
+                    <h3>Loading...</h3>
+                </div>
+            ) : (myOrder == null) ? (
                 <div align='center'>
-                    {isAuthenticated ? (
+                    {((isAuthenticated) && (fetchOrderErrorMessage !== "Access Denied")) ? (
                         <div>
                             <h1>Your purchase basket is empty</h1>
                             <Link component="button"
@@ -78,74 +84,80 @@ class MyOrder extends Component {
                                 shopping?</h1>
                             </Link>
                         </div>
-                    ) : (this.props.history.push('/signin')
+                    ) : (
+                        <div align="center">
+                            <h1>My order</h1>
+                            <h3>{fetchOrderErrorMessage}... Please <span> </span>
+                                <Link component="button" onClick={() => this.props.history.push('/signin')}>
+                                    <h3>log in</h3>
+                                </Link>
+                            </h3>
+                            {localStorage.removeItem('jwtToken')}
+                        </div>
                     )}
                 </div>
+            ) : (
+                <div align="center">
+                    <h1>My order</h1>
+                    <Container fixed maxWidth='md'>
+                        <Paper>
+                            <div style={{padding: 10}}>
+                                <div>Hello: <span style={{fontStyle: "italic"}}>{myOrder.name} {myOrder.surname}</span>,
+                                    {myOrder.items.length === 0 ? (
+                                        <p>You have no books in your basket. <Link component="button"
+                                                                                   onClick={() => this.props.history.push('/')}>Continue
+                                            shopping?</Link>
+                                        </p>
+                                    ) : (<p>this is your purchase basket</p>)}
+                                </div>
+                                {myOrder.items.map((item) => {
+                                    return (
+                                        <ul key={item.order_item_id}>
+                                            <ListItem>
+                                                <ListItemText secondary={(
+                                                    <span>"{item.title}" {item.author}<br/>Quantity: {item.quantity} </span>)}/>
+                                                <IconButton
+                                                    onClick={() => this.handleQuantityPlus(item.order_item_id, item.order_id, item.book_id, item.quantity)}>
+                                                    <AddBoxIcon fontSize="large" style={{color: "green"}}/>
+                                                </IconButton>
+                                                <IconButton
+                                                    onClick={() => this.handleQuantityMinus(item.order_item_id, item.order_id, item.book_id, item.quantity)}>
+                                                    <IndeterminateCheckBoxIcon fontSize="large" style={{color: "red"}}/>
+                                                </IconButton>
+                                            </ListItem>
+                                        </ul>
+                                    )
+                                })
+                                }
+                                <div align='left'>Order status: <span style={{fontWeight: "bold"}}>{myOrder.type}</span>
+                                    <br/>Order ID: {myOrder.order_id}
+                                    {myOrder.items.length === 0 ? (
+                                        <div style={{color: "red"}}> Cancel order:
+                                            <span style={style.sideMargin}/>
+                                            <Button
+                                                onClick={() => this.handleChangeStatus(myOrder.order_id, myOrder.user_id, 4)}
+                                                size="small" variant="contained">Cancel</Button>
+                                            <span style={style.sideMargin}/>
+                                        </div>
+                                    ) : (
+                                        <div style={{color: "red"}}> Confirm/cancel order:
+                                            <span style={style.sideMargin}/>
+                                            <Button
+                                                onClick={() => this.handleChangeStatus(myOrder.order_id, myOrder.user_id, 2)}
+                                                size="small" variant="contained">Confirm</Button>
+                                            <span style={style.sideMargin}/>
+                                            <Button
+                                                onClick={() => this.handleChangeStatus(myOrder.order_id, myOrder.user_id, 4)}
+                                                size="small" variant="contained">Cancel</Button>
+                                            <span style={style.sideMargin}/>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </Paper>
+                    </Container>
+                </div>
             )
-        }
-
-
-        return (
-            <div align="center">
-                <h1>My order</h1>
-                <Container fixed maxWidth='md'>
-                    <Paper>
-                        <div style={{padding: 10}}>
-                            <div>Hello: <span style={{fontStyle: "italic"}}>{myOrder.name} {myOrder.surname}</span>,
-                                {myOrder.items.length === 0 ? (
-                                    <p>You have no books in your basket. <Link component="button"
-                                                                               onClick={() => this.props.history.push('/')}>Continue
-                                        shopping?</Link>
-                                    </p>
-                                ) : (<p>this is your purchase basket</p>)}
-                            </div>
-                            {myOrder.items.map((item) => {
-                                return (
-                                    <ul key={item.order_item_id}>
-                                        <ListItem>
-                                            <ListItemText secondary={(
-                                                <span>"{item.title}" {item.author}<br/>Quantity: {item.quantity} </span>)}/>
-                                            <IconButton
-                                                onClick={() => this.handleQuantityPlus(item.order_item_id, item.order_id, item.book_id, item.quantity)}>
-                                                <AddBoxIcon fontSize="large" style={{color: "green"}}/>
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() => this.handleQuantityMinus(item.order_item_id, item.order_id, item.book_id, item.quantity)}>
-                                                <IndeterminateCheckBoxIcon fontSize="large" style={{color: "red"}}/>
-                                            </IconButton>
-                                        </ListItem>
-                                    </ul>
-                                )
-                            })
-                            }
-                            <div align='left'>Order status: <span style={{fontWeight: "bold"}}>{myOrder.type}</span>
-                                <br/>Order ID: {myOrder.order_id}
-                                {myOrder.items.length === 0 ? (
-                                    <div style={{color: "red"}}> Cancel order:
-                                        <span style={style.sideMargin}/>
-                                        <Button
-                                            onClick={() => this.handleChangeStatus(myOrder.order_id, myOrder.user_id, 4)}
-                                            size="small" variant="contained">Cancel</Button>
-                                        <span style={style.sideMargin}/>
-                                    </div>
-                                ) : (
-                                    <div style={{color: "red"}}> Confirm/cancel order:
-                                        <span style={style.sideMargin}/>
-                                        <Button
-                                            onClick={() => this.handleChangeStatus(myOrder.order_id, myOrder.user_id, 2)}
-                                            size="small" variant="contained">Confirm</Button>
-                                        <span style={style.sideMargin}/>
-                                        <Button
-                                            onClick={() => this.handleChangeStatus(myOrder.order_id, myOrder.user_id, 4)}
-                                            size="small" variant="contained">Cancel</Button>
-                                        <span style={style.sideMargin}/>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </Paper>
-                </Container>
-            </div>
         )
     };
 }

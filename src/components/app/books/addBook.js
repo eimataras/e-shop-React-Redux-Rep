@@ -10,7 +10,7 @@ import TextField from "@material-ui/core/TextField";
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    addBook: (book) => addBook(book)
+    addBook: (book, props) => addBook(book, props)
 }, dispatch);
 
 
@@ -32,7 +32,7 @@ const AddBook = props => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.addBook(book);
+        props.addBook(book, props);
         setBook({
             title: '',
             author: '',

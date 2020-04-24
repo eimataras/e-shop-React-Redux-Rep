@@ -48,7 +48,7 @@ export const fetchBook = () => {
 };
 
 
-export const addBook = (book) => {
+export const addBook = (book, props) => {
     return (dispatch) => {
         dispatch(requestAddBook());
         fetch('/book/add', {
@@ -67,7 +67,12 @@ export const addBook = (book) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveAddBook(json))
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveAddBook(json))
+                    }
                 })
             })
             .catch((error) => {
@@ -77,7 +82,7 @@ export const addBook = (book) => {
 };
 
 
-export const deleteBook = (id) => {
+export const deleteBook = (id, props) => {
     return (dispatch) => {
         dispatch(requestDeleteBook());
         fetch('/book/delete?book_id=' + id, {
@@ -89,7 +94,12 @@ export const deleteBook = (id) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveDeleteBook(json.book_id));
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveDeleteBook(json.book_id));
+                    }
                 })
             })
             .catch((error) => {

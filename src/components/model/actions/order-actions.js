@@ -57,7 +57,7 @@ export const fetchOrder = () => {
 };
 
 
-export const addOrder = (loginUserId, statusNewId, book_id) => {
+export const addOrder = (loginUserId, statusNewId, book_id, props) => {
     return (dispatch) => {
         dispatch(requestAddOrder());
         fetch('/order/add', {
@@ -74,7 +74,12 @@ export const addOrder = (loginUserId, statusNewId, book_id) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveAddOrder(json))
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveAddOrder(json))
+                    }
                 })
             })
             .catch((error) => {
@@ -84,7 +89,7 @@ export const addOrder = (loginUserId, statusNewId, book_id) => {
 };
 
 
-export const addOrderItem = (order_id, book_id) => {
+export const addOrderItem = (order_id, book_id, props) => {
     return (dispatch) => {
         dispatch(requestUpdateOrder());
         fetch('/orderItems/add', {
@@ -101,7 +106,12 @@ export const addOrderItem = (order_id, book_id) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveUpdateOrder(json))
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveUpdateOrder(json))
+                    }
                 })
             })
             .catch((error) => {
@@ -111,7 +121,7 @@ export const addOrderItem = (order_id, book_id) => {
 };
 
 
-export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quantity) => {
+export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quantity, props) => {
     return (dispatch) => {
         dispatch(requestUpdateOrder());
         fetch('/orderItems/edit', {
@@ -129,7 +139,12 @@ export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quanti
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveUpdateOrder(json))
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveUpdateOrder(json))
+                    }
                 })
             })
             .catch((error) => {
@@ -139,7 +154,7 @@ export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quanti
 };
 
 
-export const updateOrderStatus = (order_id, user_id, status_id) => {
+export const updateOrderStatus = (order_id, user_id, status_id, props) => {
     return (dispatch) => {
         dispatch(requestUpdateOrder());
         fetch('/order/edit', {
@@ -156,7 +171,12 @@ export const updateOrderStatus = (order_id, user_id, status_id) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveUpdateOrder(json))
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveUpdateOrder(json))
+                    }
                 })
             })
             .catch((error) => {
@@ -166,7 +186,7 @@ export const updateOrderStatus = (order_id, user_id, status_id) => {
 };
 
 
-export const deleteOrder = (order_id) => {
+export const deleteOrder = (order_id, props) => {
     return (dispatch) => {
         dispatch(requestDeleteOrder());
         fetch('/order/delete?order_id=' + order_id, {
@@ -178,7 +198,12 @@ export const deleteOrder = (order_id) => {
         })
             .then((result) => {
                 result.json().then((json) => {
-                    dispatch(receiveDeleteOrder(json.order_id));
+                    if (json.message === 'Access Denied') {
+                        localStorage.removeItem('jwtToken');
+                        props.history.push('/signin');
+                    } else {
+                        dispatch(receiveDeleteOrder(json.order_id));
+                    }
                 })
             })
             .catch((error) => {

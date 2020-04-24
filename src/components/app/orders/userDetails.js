@@ -13,7 +13,7 @@ import {deleteUser} from "../../model/actions/user-actions";
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    deleteUser: (id) => deleteUser(id),
+    deleteUser: (id, props) => deleteUser(id, props),
 }, dispatch);
 
 
@@ -26,7 +26,7 @@ const UserDetails = (props) => {
     };
 
     const handleDeleteUser = (id) => {
-        props.deleteUser(id);
+        props.deleteUser(id, props);
     };
 
     return (

@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import {Container} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {postLogin} from "../../model/actions/login-action";
+import {postLogin, saveCurrentUser} from "../../model/actions/login-action";
 
 const mapStateToProps = (state) => {
     return {
@@ -15,11 +15,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     postLogin: (username, password, props) => postLogin(username, password, props),
+    saveCurrentUser: (currentUser) => saveCurrentUser(currentUser),
 }, dispatch);
 
 const SignIn = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (!localStorage.jwtToken) {
+            console.log("SignIn useEffect saveCurrentUser()");
+            props.saveCurrentUser();
+        }
+    }, []);
 
 
     const handleSubmit = (e) => {

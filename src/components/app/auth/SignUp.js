@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     addClient: (user) => addClient(user),
-    addAdmin: (user) => addAdmin(user)
+    addAdmin: (user, props) => addAdmin(user, props)
 }, dispatch);
 
 
@@ -47,7 +47,7 @@ class SignUp extends Component {
 
     handleSubmitAdmin = () => {
         const user = this.state;
-        this.props.addAdmin(user);
+        this.props.addAdmin(user, this.props);
         this.setState({
             name: '',
             surname: '',
