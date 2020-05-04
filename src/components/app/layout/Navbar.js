@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -25,16 +25,17 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 const Navbar = (props) => {
 
+    const didRun = useRef(false);
+
     useEffect(() => {
-        if (localStorage.jwtToken) {
-            console.log("Navbar useEffect saveCurrentUser");
-            props.saveCurrentUser(jwt.decode(localStorage.jwtToken));
+        if (!didRun.current) {
+            if (localStorage.jwtToken) {
+                console.log("Navbar useEffect saveCurrentUser");
+                props.saveCurrentUser(jwt.decode(localStorage.jwtToken));
+            }
+            didRun.current = true;
         }
-        // else {
-        //     console.log("Navbar useEffect save no currentUser");
-        //     props.saveCurrentUser();
-        // }
-    }, []);
+    }, );
 
     const {isAuthenticated} = props.currentUser;
     return (

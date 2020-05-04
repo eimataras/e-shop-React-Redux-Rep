@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Button from "@material-ui/core/Button";
 import {Container} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
@@ -21,13 +21,17 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 const SignIn = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const didRun = useRef(false);
 
     useEffect(() => {
-        if (!localStorage.jwtToken) {
-            console.log("SignIn useEffect saveCurrentUser()");
-            props.saveCurrentUser();
+        if (!didRun.current) {
+            console.log('useRef');
+            if (!localStorage.jwtToken) {
+                props.saveCurrentUser();
+            }
+            didRun.current = true;
         }
-    }, []);
+    },);
 
 
     const handleSubmit = (e) => {
