@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import Link from "@material-ui/core/Link";
+import {auth} from "../../../firebase";
 
 
 const style = {
@@ -92,7 +93,10 @@ class MyOrder extends Component {
                                     <h3>log in</h3>
                                 </Link>
                             </h3>
-                            {localStorage.removeItem('jwtToken')}
+                            {auth.signOut().then(() => {
+                                localStorage.removeItem('jwtToken');
+                                localStorage.removeItem('firebaseToken')
+                            })}
                         </div>
                     )}
                 </div>

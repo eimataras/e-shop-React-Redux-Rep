@@ -1,4 +1,5 @@
 import setHeaders from "./login-action";
+import {auth} from "../../../firebase"
 
 export const REQUEST_USER_LIST = 'REQUEST_USER_LIST';
 export const RECEIVE_USER_LIST = 'RECEIVE_USER_LIST';
@@ -65,8 +66,13 @@ export const addClient = (user) => {
             })
         })
             .then((result) => {
-                result.json().then((json) => {
-                    dispatch(receiveAddUser(json));
+                auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
+                    auth.signOut().then(() => {
+                        console.log("new user created and logged out from firebase")
+                    });
+                    result.json().then((json) => {
+                        dispatch(receiveAddUser(json));
+                    });
                 });
             })
             .catch((error) => {
@@ -93,13 +99,13 @@ export const addAdmin = (user, props) => {
             })
         })
             .then((result) => {
-                result.json().then((json) => {
-                    if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
-                        props.history.push('/signin');
-                    } else {
+                auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
+                    auth.signOut().then(() => {
+                        console.log("new user created and logged out from firebase")
+                    });
+                    result.json().then((json) => {
                         dispatch(receiveAddUser(json));
-                    }
+                    });
                 });
             })
             .catch((error) => {
@@ -122,11 +128,13 @@ export const deleteUser = (id, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
+                        auth.signOut().then(() => {
+                            localStorage.removeItem('jwtToken');
+                            localStorage.removeItem('firebaseToken')
+                        });
                         props.history.push('/signin');
                     } else {
                         dispatch(receiveDeleteUser(json.user_id));
-
                     }
                 })
             })

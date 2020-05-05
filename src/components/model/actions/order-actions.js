@@ -1,4 +1,5 @@
 import setHeaders from "./login-action";
+import {auth} from "../../../firebase";
 
 export const REQUEST_ORDER_LIST = 'REQUEST_ORDER_LIST';
 export const RECEIVE_ORDER_LIST = 'RECEIVE_ORDER_LIST';
@@ -75,7 +76,10 @@ export const addOrder = (loginUserId, statusNewId, book_id, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
+                        auth.signOut().then(() => {
+                            localStorage.removeItem('jwtToken');
+                            localStorage.removeItem('firebaseToken')
+                        });
                         props.history.push('/signin');
                     } else {
                         dispatch(receiveAddOrder(json))
@@ -107,7 +111,10 @@ export const addOrderItem = (order_id, book_id, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
+                        auth.signOut().then(() => {
+                            localStorage.removeItem('jwtToken');
+                            localStorage.removeItem('firebaseToken')
+                        });
                         props.history.push('/signin');
                     } else {
                         dispatch(receiveUpdateOrder(json))
@@ -140,7 +147,10 @@ export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quanti
             .then((result) => {
                 result.json().then((json) => {
                     if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
+                        auth.signOut().then(() => {
+                            localStorage.removeItem('jwtToken');
+                            localStorage.removeItem('firebaseToken')
+                        });
                         props.history.push('/signin');
                     } else {
                         dispatch(receiveUpdateOrder(json))
@@ -172,7 +182,10 @@ export const updateOrderStatus = (order_id, user_id, status_id, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
+                        auth.signOut().then(() => {
+                            localStorage.removeItem('jwtToken');
+                            localStorage.removeItem('firebaseToken')
+                        });
                         props.history.push('/signin');
                     } else {
                         dispatch(receiveUpdateOrder(json))
@@ -199,7 +212,10 @@ export const deleteOrder = (order_id, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
+                        auth.signOut().then(() => {
+                            localStorage.removeItem('jwtToken');
+                            localStorage.removeItem('firebaseToken')
+                        });
                         props.history.push('/signin');
                     } else {
                         dispatch(receiveDeleteOrder(json.order_id));

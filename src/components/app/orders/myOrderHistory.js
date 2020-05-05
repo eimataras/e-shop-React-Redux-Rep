@@ -11,6 +11,7 @@ import {green} from "@material-ui/core/colors";
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
+import {auth} from "../../../firebase";
 
 const mapStateToProps = (state) => {
     return {
@@ -40,7 +41,6 @@ class MyOrderHistory extends Component {
         const orders = this.props.order.data;
         const fetchOrderErrorMessage = orders.message;
         const myOrders = !orders.error ? orders.filter((order) => order.user_id === loginUserId ? order : null) : null;
-
         return (
             ((!orders.length) && (!fetchOrderErrorMessage)) ? (
                 <div align="center">
@@ -55,7 +55,10 @@ class MyOrderHistory extends Component {
                             <h3>log in</h3>
                         </Link>
                     </h3>
-                    {localStorage.removeItem('jwtToken')}
+                    {auth.signOut().then(() => {
+                        localStorage.removeItem('jwtToken');
+                        localStorage.removeItem('firebaseToken')
+                    })}
                 </div>
             ) : (
                 <div>

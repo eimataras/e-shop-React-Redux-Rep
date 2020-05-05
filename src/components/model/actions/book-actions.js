@@ -1,4 +1,5 @@
 import setHeaders from "./login-action";
+import {auth} from "../../../firebase";
 
 export const REQUEST_BOOK_LIST = 'REQUEST_BOOK_LIST';
 export const RECEIVE_BOOK_LIST = 'RECEIVE_BOOK_LIST';
@@ -68,7 +69,10 @@ export const addBook = (book, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
+                        auth.signOut().then(() => {
+                            localStorage.removeItem('jwtToken');
+                            localStorage.removeItem('firebaseToken')
+                        });
                         props.history.push('/signin');
                     } else {
                         dispatch(receiveAddBook(json))
@@ -95,7 +99,10 @@ export const deleteBook = (id, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     if (json.message === 'Access Denied') {
-                        localStorage.removeItem('jwtToken');
+                        auth.signOut().then(() => {
+                            localStorage.removeItem('jwtToken');
+                            localStorage.removeItem('firebaseToken')
+                        });
                         props.history.push('/signin');
                     } else {
                         dispatch(receiveDeleteBook(json.book_id));

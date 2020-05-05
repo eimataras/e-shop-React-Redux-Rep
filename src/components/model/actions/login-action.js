@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import {auth} from "../../../firebase"
 
 export const REQUEST_CURRENT_USER = 'REQUEST_CURRENT_USER';
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
@@ -34,14 +35,26 @@ export const postLogin = (username, password, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     const token = json.jwt;
-                    if (token) {
-                        localStorage.setItem('jwtToken', token);
-                        dispatch(receiveCurrentUser(jwt.decode(token)));
-                        props.history.push('/')
-                    } else {
-                        localStorage.removeItem('jwtToken');
-                        dispatch(receiveCurrentUserFailure('loginFailed'));
-                    }
+                        // localStorage.setItem('jwtToken', token);
+                        // dispatch(receiveCurrentUser(jwt.decode(token)));
+                        // props.history.push('/');
+                    auth.signInWithEmailAndPassword(username, password).then((cred) => {
+                        console.log("Firebase Auth done. Cia yra firebase user info:");
+                        console.log(cred.user);
+                        console.log("");
+                        auth.currentUser.getIdToken(true).then((idToken) => {
+                            localStorage.setItem('jwtToken', token);
+                            localStorage.setItem('firebaseToken', idToken);
+                            dispatch(receiveCurrentUser(jwt.decode(token)));
+                            props.history.push('/')
+                        }).catch((error) => {
+                            console.log("getIdToken error...")
+                        });
+                    }).catch((error) => {
+                        // localStorage.removeItem('jwtToken');
+                        // localStorage.removeItem('firebaseToken');
+                        dispatch(receiveCurrentUserFailure('firebase login Failed'));
+                    });
                 });
             })
             .catch((error) => {
@@ -51,10 +64,11 @@ export const postLogin = (username, password, props) => {
 };
 
 export default function setHeaders(headers) {
-    if (localStorage.jwtToken) {
+    if ((localStorage.jwtToken) && (localStorage.firebaseToken)) {
         return {
             ...headers,
-            'Authorization': `Bearer ${localStorage.jwtToken}`
+            'Authorization': `Bearer ${localStorage.jwtToken}`,
+            'Firebase': `Bearer ${localStorage.firebaseToken}`
         }
     } else {
         return headers;

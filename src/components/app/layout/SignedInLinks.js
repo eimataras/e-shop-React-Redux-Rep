@@ -5,6 +5,7 @@ import {bindActionCreators, compose} from "redux";
 import {saveCurrentUser} from "../../model/actions/login-action";
 import AdminLinks from "./adminLinks";
 import ClientLinks from "./clientLinks";
+import {auth} from "../../../firebase"
 
 
 const mapStateToProps = (state) => {
@@ -32,7 +33,11 @@ const SignedInLinks = (props) => {
 
     const handleLogout = (e) => {
         // e.preventDefault();
-        localStorage.removeItem('jwtToken');
+        auth.signOut().then(() => {
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('firebaseToken')
+        });
+
         props.saveCurrentUser();
         props.history.push('/');
     };
