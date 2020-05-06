@@ -35,12 +35,15 @@ export const postLogin = (username, password, props) => {
             .then((result) => {
                 result.json().then((json) => {
                     const token = json.jwt;
+                    const customToken = json.customToken;
+                    console.log(token);
+                    console.log(customToken);
                         // localStorage.setItem('jwtToken', token);
                         // dispatch(receiveCurrentUser(jwt.decode(token)));
                         // props.history.push('/');
-                    auth.signInWithEmailAndPassword(username, password).then((cred) => {
+                    auth.signInWithCustomToken(customToken).then((cred) => {
                         console.log("Firebase Auth done. Cia yra firebase user info:");
-                        console.log(cred.user);
+                        console.log(cred);
                         console.log("");
                         auth.currentUser.getIdToken(true).then((idToken) => {
                             localStorage.setItem('jwtToken', token);
@@ -53,7 +56,8 @@ export const postLogin = (username, password, props) => {
                     }).catch((error) => {
                         // localStorage.removeItem('jwtToken');
                         // localStorage.removeItem('firebaseToken');
-                        dispatch(receiveCurrentUserFailure('firebase login Failed'));
+                        console.log("firebase login failed");
+                        dispatch(receiveCurrentUserFailure(error))
                     });
                 });
             })

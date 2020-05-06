@@ -66,14 +66,14 @@ export const addClient = (user) => {
             })
         })
             .then((result) => {
-                auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
-                    auth.signOut().then(() => {
-                        console.log("new user created and logged out from firebase")
-                    });
+                // auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
+                //     auth.signOut().then(() => {
+                //         console.log("new user created and logged out from firebase")
+                //     });
                     result.json().then((json) => {
                         dispatch(receiveAddUser(json));
                     });
-                });
+                // });
             })
             .catch((error) => {
                 dispatch(receiveAddUserFailure(error))
@@ -99,14 +99,14 @@ export const addAdmin = (user, props) => {
             })
         })
             .then((result) => {
-                auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
-                    auth.signOut().then(() => {
-                        console.log("new user created and logged out from firebase")
-                    });
+                // auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
+                //     auth.signOut().then(() => {
+                //         console.log("new user created and logged out from firebase")
+                //     });
                     result.json().then((json) => {
                         dispatch(receiveAddUser(json));
                     });
-                });
+                // });
             })
             .catch((error) => {
                 dispatch(receiveAddUserFailure(error))
