@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import {auth} from "../../../firebase"
 
 export const REQUEST_CURRENT_USER = 'REQUEST_CURRENT_USER';
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
@@ -18,7 +17,7 @@ export const saveCurrentUser = (currentUser) => {
 };
 
 
-export const postLogin = (username, password, props) => {
+export const postLogin = (props, idToken) => {
     return (dispatch) => {
         dispatch(requestCurrentUser());
         fetch('/api/auth', {
@@ -28,37 +27,16 @@ export const postLogin = (username, password, props) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                username: username,
-                password: password,
+                idToken: idToken
             })
         })
             .then((result) => {
                 result.json().then((json) => {
                     const token = json.jwt;
-                    const customToken = json.customToken;
-                    console.log(token);
-                    console.log(customToken);
-                        // localStorage.setItem('jwtToken', token);
-                        // dispatch(receiveCurrentUser(jwt.decode(token)));
-                        // props.history.push('/');
-                    auth.signInWithCustomToken(customToken).then((cred) => {
-                        console.log("Firebase Auth done. Cia yra firebase user info:");
-                        console.log(cred);
-                        console.log("");
-                        auth.currentUser.getIdToken(true).then((idToken) => {
-                            localStorage.setItem('jwtToken', token);
-                            localStorage.setItem('firebaseToken', idToken);
-                            dispatch(receiveCurrentUser(jwt.decode(token)));
-                            props.history.push('/')
-                        }).catch((error) => {
-                            console.log("getIdToken error...")
-                        });
-                    }).catch((error) => {
-                        // localStorage.removeItem('jwtToken');
-                        // localStorage.removeItem('firebaseToken');
-                        console.log("firebase login failed");
-                        dispatch(receiveCurrentUserFailure(error))
-                    });
+                    localStorage.setItem('jwtToken', token);
+                    localStorage.setItem('firebaseToken', idToken);
+                    dispatch(receiveCurrentUser(jwt.decode(token)));
+                    props.history.push('/');
                 });
             })
             .catch((error) => {

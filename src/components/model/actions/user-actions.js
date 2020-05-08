@@ -49,7 +49,7 @@ export const fetchUser = () => {
 };
 
 
-export const addClient = (user) => {
+export const addClient = (user, uid) => {
     return (dispatch) => {
         dispatch(requestAddUser());
         fetch('/user/add-client', {
@@ -63,17 +63,13 @@ export const addClient = (user) => {
                 surname: user.surname,
                 username: user.username,
                 password: user.password,
+                uid: uid
             })
         })
             .then((result) => {
-                // auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
-                //     auth.signOut().then(() => {
-                //         console.log("new user created and logged out from firebase")
-                //     });
-                    result.json().then((json) => {
-                        dispatch(receiveAddUser(json));
-                    });
-                // });
+                result.json().then((json) => {
+                    dispatch(receiveAddUser(json));
+                });
             })
             .catch((error) => {
                 dispatch(receiveAddUserFailure(error))
@@ -82,7 +78,7 @@ export const addClient = (user) => {
 };
 
 
-export const addAdmin = (user, props) => {
+export const addAdmin = (user, uid) => {
     return (dispatch) => {
         dispatch(requestAddUser());
         fetch('/user/add-admin', {
@@ -96,17 +92,13 @@ export const addAdmin = (user, props) => {
                 surname: user.surname,
                 username: user.username,
                 password: user.password,
+                uid: uid
             })
         })
             .then((result) => {
-                // auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
-                //     auth.signOut().then(() => {
-                //         console.log("new user created and logged out from firebase")
-                //     });
-                    result.json().then((json) => {
-                        dispatch(receiveAddUser(json));
-                    });
-                // });
+                result.json().then((json) => {
+                    dispatch(receiveAddUser(json));
+                });
             })
             .catch((error) => {
                 dispatch(receiveAddUserFailure(error))

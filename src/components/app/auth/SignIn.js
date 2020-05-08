@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {postLogin, saveCurrentUser} from "../../model/actions/login-action";
+import {auth} from "../../../firebase";
 
 const mapStateToProps = (state) => {
     return {
@@ -14,7 +15,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    postLogin: (username, password, props) => postLogin(username, password, props),
+    postLogin: (props, idToken) => postLogin(props, idToken),
     saveCurrentUser: (currentUser) => saveCurrentUser(currentUser),
 }, dispatch);
 
@@ -25,7 +26,6 @@ const SignIn = props => {
 
     useEffect(() => {
         if (!didRun.current) {
-            console.log('useRef');
             if (!localStorage.jwtToken) {
                 props.saveCurrentUser();
             }
@@ -36,9 +36,22 @@ const SignIn = props => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.postLogin(username, password, props);
+        auth.signInWithEmailAndPassword(username, password).then((cred) => {
+            auth.currentUser.getIdToken(true).then((idToken) => {
+                console.log(idToken);
+                props.postLogin(props, idToken);
+            }).catch((error) => {
+                console.log("getIdToken error...")
+            });
+        }).catch((error) => {
+            console.log("firebase login failed");
+        });
         setUsername('');
         setPassword('')
+
+        // const provider = new firebase.auth.GoogleAuthProvider();
+        // auth.signInWithPopup(provider).then(user => {
+        //     console.log(user);
     };
 
     const handleChangeUsername = e => {

@@ -6,6 +6,7 @@ import {addAdmin, addClient} from "../../model/actions/user-actions";
 import {Container} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
+import {auth} from "../../../firebase";
 
 
 const mapStateToProps = (state) => {
@@ -15,8 +16,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    addClient: (user) => addClient(user),
-    addAdmin: (user, props) => addAdmin(user, props)
+    addClient: (user, uid) => addClient(user, uid),
+    addAdmin: (user, uid) => addAdmin(user, uid)
 }, dispatch);
 
 
@@ -36,7 +37,13 @@ class SignUp extends Component {
 
     handleSubmitClient = () => {
         const user = this.state;
-        this.props.addClient(user);
+        auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
+            const uid = cred.user.uid;
+            console.log(uid);
+            auth.signOut().then(() => {
+                this.props.addClient(user, uid);
+            });
+        });
         this.setState({
             name: '',
             surname: '',
@@ -47,7 +54,13 @@ class SignUp extends Component {
 
     handleSubmitAdmin = () => {
         const user = this.state;
-        this.props.addAdmin(user, this.props);
+        auth.createUserWithEmailAndPassword(user.username, user.password).then(cred => {
+            const uid = cred.user.uid;
+            console.log(uid);
+            auth.signOut().then(() => {
+                this.props.addAdmin(user, uid);
+            });
+        });
         this.setState({
             name: '',
             surname: '',
