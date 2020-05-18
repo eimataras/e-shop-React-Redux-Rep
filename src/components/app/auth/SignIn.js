@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 const SignIn = props => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [firebaseLoginError, setFirebaseLoginError] = useState(false);
     const didRun = useRef(false);
 
     useEffect(() => {
@@ -41,10 +42,10 @@ const SignIn = props => {
                 console.log(idToken);
                 props.postLogin(props, idToken);
             }).catch((error) => {
-                console.log("getIdToken error...")
+                setFirebaseLoginError(true)
             });
         }).catch((error) => {
-            console.log("firebase login failed");
+            setFirebaseLoginError(true)
         });
         setUsername('');
         setPassword('')
@@ -68,7 +69,7 @@ const SignIn = props => {
                 <div align="center">
                     <form autoComplete="off">
                         <h1>Log In:</h1>
-                        {props.currentUser.error ? (
+                        {props.currentUser.error || firebaseLoginError ? (
                             <h5 style={{color: "red"}}>Wrong username or password!</h5>) : ''}
                         <TextField autoFocus id="username" name="username" type="username" variant="outlined"
                                    label="Username"

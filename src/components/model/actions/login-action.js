@@ -31,13 +31,16 @@ export const postLogin = (props, idToken) => {
             })
         })
             .then((result) => {
-                result.json().then((json) => {
-                    const token = json.jwt;
-                    localStorage.setItem('jwtToken', token);
-                    localStorage.setItem('firebaseToken', idToken);
-                    dispatch(receiveCurrentUser(jwt.decode(token)));
-                    props.history.push('/');
-                });
+                    result.json().then((json) => {
+                        const token = json.jwt;
+                        localStorage.setItem('jwtToken', token);
+                        localStorage.setItem('firebaseToken', idToken);
+                        dispatch(receiveCurrentUser(jwt.decode(token)));
+                        props.history.push('/');
+                    })
+                        .catch((error) => {
+                            dispatch(receiveCurrentUserFailure(error))
+                        });
             })
             .catch((error) => {
                 dispatch(receiveCurrentUserFailure(error))

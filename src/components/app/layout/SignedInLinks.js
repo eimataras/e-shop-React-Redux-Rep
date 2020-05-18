@@ -35,11 +35,11 @@ const SignedInLinks = (props) => {
         // e.preventDefault();
         auth.signOut().then(() => {
             localStorage.removeItem('jwtToken');
-            localStorage.removeItem('firebaseToken')
+            localStorage.removeItem('firebaseToken');
+            props.saveCurrentUser();
+            props.history.push('/');
         });
 
-        props.saveCurrentUser();
-        props.history.push('/');
     };
 
     return (
