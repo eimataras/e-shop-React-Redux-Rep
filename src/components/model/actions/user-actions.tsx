@@ -148,7 +148,7 @@ export const addAdmin = (user, uid: string | undefined) => (dispatch) => {
 };
 
 
-export const deleteUser = (id) => (dispatch) => {
+export const deleteUser = (id: number) => (dispatch) => {
     dispatch(requestDeleteUser());
     fetch(`/user/delete?user_id=${id}`, {
         method: 'delete',

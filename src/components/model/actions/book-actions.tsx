@@ -1,5 +1,6 @@
 import setHeaders, {receiveCurrentUserFailure} from './login-action';
 import {auth} from '../../../firebase';
+import {IBook} from "../../app/books/addBook";
 
 export const REQUEST_BOOK_LIST = 'REQUEST_BOOK_LIST';
 export const RECEIVE_BOOK_LIST = 'RECEIVE_BOOK_LIST';
@@ -70,7 +71,7 @@ export const fetchBook = () => (dispatch) => {
 };
 
 
-export const addBook = (book) => (dispatch) => {
+export const addBook = (book: IBook) => (dispatch) => {
     dispatch(requestAddBook());
     fetch('/book/add', {
         method: 'post',
@@ -110,7 +111,7 @@ export const addBook = (book) => (dispatch) => {
 };
 
 
-export const deleteBook = (id, history) => (dispatch) => {
+export const deleteBook = (id: number, history: any) => (dispatch) => {
     dispatch(requestDeleteBook());
     fetch(`/book/delete?book_id=${id}`, {
         method: 'delete',

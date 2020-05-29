@@ -27,7 +27,7 @@ export const saveCurrentUser = (currentUser?: CurrentUser) => (dispatch) => {
 };
 
 
-export const signInWithEmailAndPassword = (email, password) => (dispatch) => {
+export const signInWithEmailAndPassword = (email: string, password: string) => (dispatch) => {
     dispatch(requestCurrentUser());
     auth.signInWithEmailAndPassword(email, password)
         .then(() => {
@@ -49,7 +49,8 @@ export const signInWithEmailAndPassword = (email, password) => (dispatch) => {
                                     .then((json) => {
                                         localStorage.setItem('jwtToken', json.jwt);
                                         localStorage.setItem('firebaseToken', idToken);
-                                        dispatch(receiveCurrentUser(jwt.decode(json.jwt)));
+                                        const decodedJWT: CurrentUser | undefined = jwt.decode(json.jwt);
+                                        dispatch(receiveCurrentUser(decodedJWT));
                                     })
                                     .catch(() => {
                                         dispatch(receiveCurrentUserFailure('loginError'));

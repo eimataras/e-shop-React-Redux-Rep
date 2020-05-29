@@ -91,7 +91,7 @@ export const fetchOrder = () => (dispatch) => {
 };
 
 
-export const addOrder = (loginUserId, statusNewId, book_id, history) => (dispatch) => {
+export const addOrder = (loginUserId: number, statusNewId: number, book_id: number, history: any) => (dispatch) => {
     dispatch(requestAddOrder());
     fetch('/order/add', {
         method: 'post',
@@ -128,7 +128,7 @@ export const addOrder = (loginUserId, statusNewId, book_id, history) => (dispatc
 };
 
 
-export const addOrderItem = (order_id, book_id, history) => (dispatch) => {
+export const addOrderItem = (order_id: number, book_id: number, history: any) => (dispatch) => {
     dispatch(requestUpdateOrder());
     fetch('/orderItems/add', {
         method: 'post',
@@ -165,7 +165,7 @@ export const addOrderItem = (order_id, book_id, history) => (dispatch) => {
 };
 
 
-export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quantity, history) => (dispatch) => {
+export const updateOrderItemQuantity = (order_item_id: number, order_id: number, book_id: number, quantity: number) => (dispatch) => {
     dispatch(requestUpdateOrder());
     fetch('/orderItems/edit', {
         method: 'put',
@@ -202,7 +202,7 @@ export const updateOrderItemQuantity = (order_item_id, order_id, book_id, quanti
 };
 
 
-export const updateOrderStatus = (order_id, user_id, status_id) => (dispatch) => {
+export const updateOrderStatus = (order_id: number, user_id: number, status_id: number) => (dispatch) => {
     dispatch(requestUpdateOrder());
     fetch('/order/edit', {
         method: 'put',
@@ -238,7 +238,7 @@ export const updateOrderStatus = (order_id, user_id, status_id) => (dispatch) =>
 };
 
 
-export const deleteOrder = (order_id) => (dispatch) => {
+export const deleteOrder = (order_id: number) => (dispatch) => {
     dispatch(requestDeleteOrder());
     fetch(`/order/delete?order_id=${order_id}`, {
         method: 'delete',

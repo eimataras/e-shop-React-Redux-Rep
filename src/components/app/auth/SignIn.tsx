@@ -25,8 +25,8 @@ interface SignInProps extends RouteComponentProps<any> {
 }
 
 const SignIn: React.FC<SignInProps> = (props) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const {isFetching} = props.currentUser;
     const {isAuthenticated} = props.currentUser;
 

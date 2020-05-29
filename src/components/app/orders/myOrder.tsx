@@ -33,7 +33,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     fetchOrder: () => fetchOrder(),
     updateOrderStatus: (order_id, user_id, status_id) => updateOrderStatus(order_id, user_id, status_id),
-    updateOrderItemQuantity: (order_item_id, order_id, book_id, quantity, history) => updateOrderItemQuantity(order_item_id, order_id, book_id, quantity, history),
+    updateOrderItemQuantity: (order_item_id, order_id, book_id, quantity) => updateOrderItemQuantity(order_item_id, order_id, book_id, quantity),
 }, dispatch);
 
 interface MyOrderProps extends RouteComponentProps {
@@ -41,7 +41,7 @@ interface MyOrderProps extends RouteComponentProps {
     order: OrderState;
     fetchOrder: () => void;
     updateOrderStatus: (order_id: number, user_id: number, status_id: number) => void;
-    updateOrderItemQuantity: (order_item_id: number, order_id: number, book_id: number, quantity: number, history: any) => void;
+    updateOrderItemQuantity: (order_item_id: number, order_id: number, book_id: number, quantity: number) => void;
 }
 
 interface MyOrderState {
@@ -59,11 +59,11 @@ class MyOrder extends Component<MyOrderProps, MyOrderState> {
     };
 
     handleQuantityPlus = (order_item_id, order_id, book_id, quantity) => {
-        this.props.updateOrderItemQuantity(order_item_id, order_id, book_id, quantity + 1, this.props.history);
+        this.props.updateOrderItemQuantity(order_item_id, order_id, book_id, quantity + 1);
     };
 
     handleQuantityMinus = (order_item_id, order_id, book_id, quantity) => {
-        this.props.updateOrderItemQuantity(order_item_id, order_id, book_id, quantity - 1, this.props.history);
+        this.props.updateOrderItemQuantity(order_item_id, order_id, book_id, quantity - 1);
     };
 
     render() {

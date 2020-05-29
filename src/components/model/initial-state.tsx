@@ -33,7 +33,7 @@ const initialState: IInitialState = {
     currentUser: {
         isFetching: false,
         isAuthenticated: false,
-        data: {exp: -1, surnameFirstLetter: '', sub: '', nameFirstLetter: '', iat: -1, roles: []},
+        data: {exp: 0, surnameFirstLetter: '', sub: '', nameFirstLetter: '', iat: 0, roles: []},
         error: '',
     },
 

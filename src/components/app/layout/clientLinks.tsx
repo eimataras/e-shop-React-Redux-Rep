@@ -22,7 +22,7 @@ interface ClientLinksProps extends RouteComponentProps {
 }
 
 const ClientLinks: React.FC<ClientLinksProps> = (props) => {
-    const classes = useStyles();
+    const classes: any = useStyles();
     const {nameFirstLetter} = props;
     const {surnameFirstLetter} = props;
     const {handleLogout} = props;
