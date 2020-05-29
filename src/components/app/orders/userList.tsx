@@ -43,8 +43,6 @@ class UserList extends Component<UserListProps, UserListState> {
     render() {
         const {isAuthenticated} = this.props.currentUser;
         const {isFetching} = this.props.user;
-        const {exp} = this.props.currentUser.data;
-        console.log('exp: ', exp);
         const users: User[] = this.props.user.data;
         const orders: Order[] = this.props.order.data;
 
