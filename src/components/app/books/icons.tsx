@@ -18,18 +18,18 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    deleteBook: (id, history) => deleteBook(id, history),
-    addOrder: (loginUserId, statusNewId, book_id, history) => addOrder(loginUserId, statusNewId, book_id, history),
-    addOrderItem: (order_id, book_id, history) => addOrderItem(order_id, book_id, history),
+    deleteBook: (id) => deleteBook(id),
+    addOrder: (loginUserId, statusNewId, book_id) => addOrder(loginUserId, statusNewId, book_id),
+    addOrderItem: (order_id, book_id) => addOrderItem(order_id, book_id),
 }, dispatch);
 
 
 interface IconsProps extends RouteComponentProps {
     currentUser: CurrentUserState;
     order: OrderState;
-    deleteBook: (id: number, history: any) => void;
-    addOrderItem: (order_id: number, book_id: number, history: any) => void;
-    addOrder: (loginUserId: number, statusNewId: number, book_id: number, history: any) => void;
+    deleteBook: (id: number) => void;
+    addOrderItem: (order_id: number, book_id: number) => void;
+    addOrder: (loginUserId: number, statusNewId: number, book_id: number) => void;
 }
 
 interface PassedProps {
@@ -50,7 +50,7 @@ const Icons: React.FC<Props> = (props) => {
 
 
     const handleDeleteSubmit = (id) => {
-        props.deleteBook(id, props.history);
+        props.deleteBook(id);
     };
 
     const handleAddSubmit = (loginUserId, statusNewId, book_id) => {
@@ -62,9 +62,9 @@ const Icons: React.FC<Props> = (props) => {
             if (!loginUserId) {
                 props.history.push('/signin');
             } else if (order_id) {
-                props.addOrderItem(order_id, book_id, props.history);
+                props.addOrderItem(order_id, book_id);
             } else {
-                props.addOrder(loginUserId, statusNewId, book_id, props.history);
+                props.addOrder(loginUserId, statusNewId, book_id);
             }
         } else {
             props.history.push('/signin');

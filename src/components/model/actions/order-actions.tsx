@@ -91,7 +91,7 @@ export const fetchOrder = () => (dispatch) => {
 };
 
 
-export const addOrder = (loginUserId: number, statusNewId: number, book_id: number, history: any) => (dispatch) => {
+export const addOrder = (loginUserId: number, statusNewId: number, book_id: number) => (dispatch) => {
     dispatch(requestAddOrder());
     fetch('/order/add', {
         method: 'post',
@@ -113,13 +113,12 @@ export const addOrder = (loginUserId: number, statusNewId: number, book_id: numb
                     });
             } else {
                 dispatch(receiveAddOrderFailure('error'));
-                dispatch(receiveCurrentUserFailure('error'));
+                dispatch(receiveCurrentUserFailure('errorRedirectToSignIn'));
                 auth.signOut()
                     .then(() => {
                         localStorage.removeItem('jwtToken');
                         localStorage.removeItem('firebaseToken');
                     });
-                history.push('/signin');
             }
         })
         .catch((error) => {
@@ -128,7 +127,7 @@ export const addOrder = (loginUserId: number, statusNewId: number, book_id: numb
 };
 
 
-export const addOrderItem = (order_id: number, book_id: number, history: any) => (dispatch) => {
+export const addOrderItem = (order_id: number, book_id: number) => (dispatch) => {
     dispatch(requestUpdateOrder());
     fetch('/orderItems/add', {
         method: 'post',
@@ -150,13 +149,12 @@ export const addOrderItem = (order_id: number, book_id: number, history: any) =>
                     });
             } else {
                 dispatch(receiveUpdateOrderFailure('error'));
-                dispatch(receiveCurrentUserFailure('error'));
+                dispatch(receiveCurrentUserFailure('errorRedirectToSignIn'));
                 auth.signOut()
                     .then(() => {
                         localStorage.removeItem('jwtToken');
                         localStorage.removeItem('firebaseToken');
                     });
-                history.push('/signin');
             }
         })
         .catch((error) => {

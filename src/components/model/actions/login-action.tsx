@@ -19,11 +19,7 @@ export const receiveCurrentUserFailure = (error) => ({
 
 export const saveCurrentUser = (currentUser?: CurrentUser) => (dispatch) => {
     dispatch(requestCurrentUser());
-    if (currentUser) {
-        dispatch(receiveCurrentUser(currentUser));
-    } else {
-        dispatch(receiveCurrentUserFailure('noCurrentUser'))
-    }
+    dispatch(receiveCurrentUser(currentUser));
 };
 
 

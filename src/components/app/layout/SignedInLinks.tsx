@@ -22,7 +22,8 @@ interface SignedInLinksProps extends RouteComponentProps {
     saveCurrentUser: () => void;
 }
 
-interface PassedProps {}
+interface PassedProps {
+}
 
 type Props = SignedInLinksProps & PassedProps;
 

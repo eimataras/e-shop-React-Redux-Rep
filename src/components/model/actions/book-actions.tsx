@@ -111,7 +111,7 @@ export const addBook = (book: IBook) => (dispatch) => {
 };
 
 
-export const deleteBook = (id: number, history: any) => (dispatch) => {
+export const deleteBook = (id: number) => (dispatch) => {
     dispatch(requestDeleteBook());
     fetch(`/book/delete?book_id=${id}`, {
         method: 'delete',
@@ -128,13 +128,12 @@ export const deleteBook = (id: number, history: any) => (dispatch) => {
                     })
             } else {
                 dispatch(receiveDeleteBookFailure('error'));
-                dispatch(receiveCurrentUserFailure('error'));
+                dispatch(receiveCurrentUserFailure('errorRedirectToSignIn'));
                 auth.signOut()
                     .then(() => {
                         localStorage.removeItem('jwtToken');
                         localStorage.removeItem('firebaseToken');
                     });
-                history.push('/signin');
             }
         })
         .catch((error) => {
