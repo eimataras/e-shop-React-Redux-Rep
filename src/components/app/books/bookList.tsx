@@ -33,11 +33,18 @@ class BookList extends Component<BookListProps, BookListState> {
     }
 
     render() {
+        const {isFetching} = this.props.book;
+        const error: string | undefined = this.props.book.error;
         const books: Book[] = this.props.book.data;
-        return (!books.length ? (
+        return (isFetching ? (
                 <div className='center'>
                     <h1>Books for sale</h1>
                     <h3>Loading</h3>
+                </div>
+            ) : (error !== undefined) ? (
+                <div className='center'>
+                    <h1>Books for sale</h1>
+                    <h3 style={{color: 'red'}}>Ups... {error}...</h3>
                 </div>
             ) : (
                 <Container fixed maxWidth="md">

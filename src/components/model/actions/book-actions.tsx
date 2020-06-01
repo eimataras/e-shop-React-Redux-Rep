@@ -47,96 +47,148 @@ export const receiveDeleteBookFailure = (error) => ({
 });
 
 
-export const fetchBook = () => (dispatch) => {
-    dispatch(requestBookList());
-    fetch('/book/all', {
-        method: 'get',
-        headers: setHeaders({
-            Accept: 'application/json',
-        }),
-    })
-        .then((result) => {
-            if (result.status === 200) {
-                result.json()
-                    .then((json) => {
-                        dispatch(receiveBookList(json));
-                    });
-            } else {
-                dispatch(receiveBookListFailure(result));
-            }
-        })
-        .catch((error) => {
-            dispatch(receiveBookListFailure(error));
+export const fetchBook = () => async (dispatch) => {
+    try {
+        dispatch(requestBookList());
+        let response = await fetch('/book/all', {
+            method: 'get',
+            headers: setHeaders({
+                Accept: 'application/json',
+            }),
         });
+        if (response.status === 200) {
+            let json = await response.json();
+            dispatch(receiveBookList(json));
+        } else {
+            throw Error('error');
+        }
+    } catch (error) {
+        dispatch(receiveBookListFailure('Server error'));
+    }
+
+
+    // .then((result) => {
+    //     if (result.status === 200) {
+    //         result.json()
+    //             .then((json) => {
+    //                 dispatch(receiveBookList(json));
+    //             });
+    //     } else {
+    //         dispatch(receiveBookListFailure(result));
+    //     }
+    // })
+    // .catch((error) => {
+    //     dispatch(receiveBookListFailure(error));
+    // });
 };
 
 
-export const addBook = (book: IBook) => (dispatch) => {
-    dispatch(requestAddBook());
-    fetch('/book/add', {
-        method: 'post',
-        headers: setHeaders({
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-            title: book.title,
-            author: book.author,
-            published_date: book.published_date,
-            book_cover: book.book_cover,
-            quantity: book.quantity,
-        }),
-    })
-        .then((result) => {
-            if (result.status === 200) {
-                result.json()
-                    .then((json) => {
-                        dispatch(receiveAddBook(json));
-                    })
-            } else if (result.status === 400 || result.status === 500) {
-                dispatch(receiveAddBookFailure('Bad Request'))
-            } else {
-                dispatch(receiveAddBookFailure('error'));
-                dispatch(receiveCurrentUserFailure('error'));
-                auth.signOut()
-                    .then(() => {
-                        localStorage.removeItem('jwtToken');
-                        localStorage.removeItem('firebaseToken');
-                    });
-            }
-        })
-        .catch((error) => {
-            dispatch(receiveAddBookFailure(error));
+export const addBook = (book: IBook) => async (dispatch) => {
+    try {
+        dispatch(requestAddBook());
+        let response = await fetch('/book/add', {
+            method: 'post',
+            headers: setHeaders({
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify({
+                title: book.title,
+                author: book.author,
+                published_date: book.published_date,
+                book_cover: book.book_cover,
+                quantity: book.quantity,
+            }),
         });
+        if (response.status === 200) {
+            let json = await response.json();
+            dispatch(receiveAddBook(json));
+        } else if (response.status === 400 || response.status === 500) {
+            dispatch(receiveAddBookFailure('Bad Request'))
+        } else if (response.status === 403) {
+            dispatch(receiveAddBookFailure('error'));
+            dispatch(receiveCurrentUserFailure('error'));
+            auth.signOut()
+                .then(() => {
+                    localStorage.removeItem('jwtToken');
+                    localStorage.removeItem('firebaseToken');
+                });
+        } else {
+            throw Error('error');
+        }
+    } catch (error) {
+        dispatch(receiveAddBookFailure(error));
+    }
+
+    // .then((result) => {
+    //     if (result.status === 200) {
+    //         result.json()
+    //             .then((json) => {
+    //                 dispatch(receiveAddBook(json));
+    //             })
+    //     } else if (result.status === 400 || result.status === 500) {
+    //         dispatch(receiveAddBookFailure('Bad Request'))
+    //     } else {
+    //         dispatch(receiveAddBookFailure('error'));
+    //         dispatch(receiveCurrentUserFailure('error'));
+    //         auth.signOut()
+    //             .then(() => {
+    //                 localStorage.removeItem('jwtToken');
+    //                 localStorage.removeItem('firebaseToken');
+    //             });
+    // }
+    // })
+    // .catch((error) => {
+    //     dispatch(receiveAddBookFailure(error));
+    // });
 };
 
 
-export const deleteBook = (id: number) => (dispatch) => {
-    dispatch(requestDeleteBook());
-    fetch(`/book/delete?book_id=${id}`, {
-        method: 'delete',
-        body: JSON.stringify(id),
-        headers: setHeaders({
-            'Content-Type': 'application/json',
-        }),
-    })
-        .then((result) => {
-            if (result.status === 200) {
-                result.json()
-                    .then((json) => {
-                        dispatch(receiveDeleteBook(json.book_id));
-                    })
-            } else {
-                dispatch(receiveDeleteBookFailure('error'));
-                dispatch(receiveCurrentUserFailure('errorRedirectToSignIn'));
-                auth.signOut()
-                    .then(() => {
-                        localStorage.removeItem('jwtToken');
-                        localStorage.removeItem('firebaseToken');
-                    });
-            }
-        })
-        .catch((error) => {
-            dispatch(receiveDeleteBookFailure(error));
+export const deleteBook = (id: number) => async (dispatch) => {
+    try {
+        dispatch(requestDeleteBook());
+        let response = await fetch(`/book/delete?book_id=${id}`, {
+            method: 'delete',
+            body: JSON.stringify(id),
+            headers: setHeaders({
+                'Content-Type': 'application/json',
+            }),
         });
+        if (response.status === 200) {
+            let json = await response.json();
+            dispatch(receiveDeleteBook(json.book_id));
+        } else if (response.status === 403) {
+            dispatch(receiveDeleteBookFailure('error'));
+            dispatch(receiveCurrentUserFailure('errorRedirectToSignIn'));
+            auth.signOut()
+                .then(() => {
+                    localStorage.removeItem('jwtToken');
+                    localStorage.removeItem('firebaseToken');
+                });
+        } else {
+            throw Error('error');
+        }
+    } catch (error) {
+        dispatch(receiveDeleteBookFailure(error));
+    }
+
+    // .then((result) => {
+    //     if (result.status === 200) {
+    //         result.json()
+    //             .then((json) => {
+    //                 dispatch(receiveDeleteBook(json.book_id));
+    //             })
+    //     } else {
+    //         dispatch(receiveDeleteBookFailure('error'));
+    //         dispatch(receiveCurrentUserFailure('errorRedirectToSignIn'));
+    //         auth.signOut()
+    //             .then(() => {
+    //                 localStorage.removeItem('jwtToken');
+    //                 localStorage.removeItem('firebaseToken');
+    //             });
+    //     }
+    // })
+    // .catch((error) => {
+    //     dispatch(receiveDeleteBookFailure(error));
+    // });
 };

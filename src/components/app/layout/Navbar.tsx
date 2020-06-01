@@ -36,7 +36,7 @@ interface PassedProps {
 type Props = NavBarProps & UseRefProps & PassedProps;
 
 const Navbar: React.FC<Props> = (props) => {
-    const didRun: UseRefProps = useRef(false);
+    const didRun: UseRefProps = useRef<boolean>(false);
 
     useEffect(() => {
         if (!didRun.current) {
