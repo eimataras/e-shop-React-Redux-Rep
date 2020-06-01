@@ -23,46 +23,31 @@ export const saveCurrentUser = (currentUser?: CurrentUser) => (dispatch) => {
 };
 
 
-export const signInWithEmailAndPassword = (email: string, password: string) => (dispatch) => {
-    dispatch(requestCurrentUser());
-    auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-            if (auth.currentUser)
-                auth.currentUser.getIdToken(true)
-                    .then((idToken) => {
-                        fetch('/api/auth', {
-                            method: 'post',
-                            headers: {
-                                Accept: 'application/json',
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                idToken,
-                            }),
-                        })
-                            .then((result) => {
-                                result.json()
-                                    .then((json) => {
-                                        localStorage.setItem('jwtToken', json.jwt);
-                                        localStorage.setItem('firebaseToken', idToken);
-                                        const decodedJWT: CurrentUser | undefined = jwt.decode(json.jwt);
-                                        dispatch(receiveCurrentUser(decodedJWT));
-                                    })
-                                    .catch(() => {
-                                        dispatch(receiveCurrentUserFailure('loginError'));
-                                    });
-                            })
-                            .catch(() => {
-                                dispatch(receiveCurrentUserFailure('loginError'));
-                            });
-                    })
-                    .catch(() => {
-                        dispatch(receiveCurrentUserFailure('loginError'));
-                    });
-        })
-        .catch(() => {
-            dispatch(receiveCurrentUserFailure('loginError'));
-        });
+export const logInWithEmailAndPassword = (email: string, password: string) => async (dispatch) => {
+    try {
+        dispatch(requestCurrentUser());
+        await auth.signInWithEmailAndPassword(email, password);
+        if (auth.currentUser) {
+            let idToken = await auth.currentUser.getIdToken(true);
+            let result = await fetch('/api/auth', {
+                method: 'post',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    idToken,
+                }),
+            });
+            let json = await result.json();
+            localStorage.setItem('jwtToken', json.jwt);
+            localStorage.setItem('firebaseToken', idToken);
+            const decodedJWT: CurrentUser | undefined = jwt.decode(json.jwt);
+            dispatch(receiveCurrentUser(decodedJWT));
+        }
+    } catch (error) {
+        dispatch(receiveCurrentUserFailure('loginError'));
+    }
 };
 
 export default function setHeaders(headers) {

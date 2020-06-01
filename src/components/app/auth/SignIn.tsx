@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {signInWithEmailAndPassword} from '../../model/actions/login-action';
+import {logInWithEmailAndPassword} from '../../model/actions/login-action';
 import {CurrentUserState} from "../../model/dataTypes/CurrentUserState";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 
@@ -15,13 +15,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    signInWithEmailAndPassword: (email, password) => signInWithEmailAndPassword(email, password),
+    logInWithEmailAndPassword: (email, password) => logInWithEmailAndPassword(email, password),
 }, dispatch);
 
 
 interface SignInProps extends RouteComponentProps<any> {
     currentUser: CurrentUserState;
-    signInWithEmailAndPassword: (email: string, password: string) => void;
+    logInWithEmailAndPassword: (email: string, password: string) => void;
 }
 
 const SignIn: React.FC<SignInProps> = (props) => {
@@ -32,7 +32,7 @@ const SignIn: React.FC<SignInProps> = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.signInWithEmailAndPassword(username, password);
+        props.logInWithEmailAndPassword(username, password);
         setUsername('');
         setPassword('');
     };

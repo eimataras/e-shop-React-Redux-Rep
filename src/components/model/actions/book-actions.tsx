@@ -60,7 +60,7 @@ export const fetchBook = () => async (dispatch) => {
             let json = await response.json();
             dispatch(receiveBookList(json));
         } else {
-            throw Error('error');
+            dispatch(receiveBookListFailure('Server error'));
         }
     } catch (error) {
         dispatch(receiveBookListFailure('Server error'));
@@ -114,7 +114,7 @@ export const addBook = (book: IBook) => async (dispatch) => {
                     localStorage.removeItem('firebaseToken');
                 });
         } else {
-            throw Error('error');
+            dispatch(receiveAddBookFailure('error'));
         }
     } catch (error) {
         dispatch(receiveAddBookFailure(error));
@@ -166,7 +166,7 @@ export const deleteBook = (id: number) => async (dispatch) => {
                     localStorage.removeItem('firebaseToken');
                 });
         } else {
-            throw Error('error');
+            dispatch(receiveDeleteBookFailure('error'));
         }
     } catch (error) {
         dispatch(receiveDeleteBookFailure(error));
