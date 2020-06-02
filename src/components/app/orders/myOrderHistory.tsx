@@ -69,7 +69,7 @@ class MyOrderHistory extends Component<MyOrderHistoryProps, MyOrderHistoryState>
                                         <Grid container spacing={0}>
                                             <div>
                                                 Buyer:{' '}{order.name}{' '}{order.surname}<br/>
-                                                Order ID:{order.order_id}<br/>
+                                                Order ID:{' '}{order.order_id}<br/>
                                                 Order status:{' '}{order.type}<br/>
                                                 Ordered items:
                                             </div>

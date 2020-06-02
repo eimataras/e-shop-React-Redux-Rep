@@ -48,8 +48,8 @@ export const receiveDeleteBookFailure = (error) => ({
 
 
 export const fetchBook = () => async (dispatch) => {
+    dispatch(requestBookList());
     try {
-        dispatch(requestBookList());
         let response = await fetch('/book/all', {
             method: 'get',
             headers: setHeaders({
@@ -84,8 +84,8 @@ export const fetchBook = () => async (dispatch) => {
 
 
 export const addBook = (book: IBook) => async (dispatch) => {
+    dispatch(requestAddBook());
     try {
-        dispatch(requestAddBook());
         let response = await fetch('/book/add', {
             method: 'post',
             headers: setHeaders({
@@ -145,8 +145,8 @@ export const addBook = (book: IBook) => async (dispatch) => {
 
 
 export const deleteBook = (id: number) => async (dispatch) => {
+    dispatch(requestDeleteBook());
     try {
-        dispatch(requestDeleteBook());
         let response = await fetch(`/book/delete?book_id=${id}`, {
             method: 'delete',
             body: JSON.stringify(id),

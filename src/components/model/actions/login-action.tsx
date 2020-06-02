@@ -24,8 +24,8 @@ export const saveCurrentUser = (currentUser?: CurrentUser) => (dispatch) => {
 
 
 export const logInWithEmailAndPassword = (email: string, password: string) => async (dispatch) => {
+    dispatch(requestCurrentUser());
     try {
-        dispatch(requestCurrentUser());
         await auth.signInWithEmailAndPassword(email, password);
         if (auth.currentUser) {
             let idToken = await auth.currentUser.getIdToken(true);

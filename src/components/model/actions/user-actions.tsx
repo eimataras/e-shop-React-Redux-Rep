@@ -46,134 +46,191 @@ export const receiveDeleteUserFailure = (error) => ({
 });
 
 
-export const fetchUser = () => (dispatch) => {
+export const fetchUser = () => async (dispatch) => {
     dispatch(requestUserList());
-    fetch('/user/all', {
-        method: 'get',
-        headers: setHeaders({
-            Accept: 'application/json',
-        }),
-    })
-        .then((result) => {
-            if (result.status === 200) {
-                result.json()
-                    .then((json) => {
-                        dispatch(receiveUserList(json));
-                    });
+    try {
+        let response = await fetch('/user/all', {
+            method: 'get',
+            headers: setHeaders({
+                Accept: 'application/json',
+            }),
+        });
+        if (response.status === 200) {
+            let json = await response.json();
+            dispatch(receiveUserList(json));
+        } else if (response.status === 403) {
+            dispatch(receiveUserListFailure('error'));
+            dispatch(receiveCurrentUserFailure('error'));
+            auth.signOut()
+                .then(() => {
+                    localStorage.removeItem('jwtToken');
+                    localStorage.removeItem('firebaseToken');
+                });
+        } else {
+            dispatch(receiveUserListFailure('error'));
+        }
+    } catch (error) {
+        dispatch(receiveUserListFailure(error));
+    }
+
+    // then((result) => {
+    //     if (result.status === 200) {
+    //         result.json()
+    //             .then((json) => {
+    //                 dispatch(receiveUserList(json));
+    //             });
+    //     } else {
+    //         dispatch(receiveUserListFailure('error'));
+    //         dispatch(receiveCurrentUserFailure('error'));
+    //         auth.signOut()
+    //             .then(() => {
+    //                 localStorage.removeItem('jwtToken');
+    //                 localStorage.removeItem('firebaseToken');
+    //             });
+    //     }
+    // })
+    //     .catch((error) => {
+    //         dispatch(receiveUserListFailure(error));
+    //     });
+};
+
+
+export const addClient = (user, uid: string | undefined) => async (dispatch) => {
+    if (!uid) {
+        dispatch(receiveAddUserFailure('error'));
+    } else {
+        dispatch(requestAddUser());
+        try {
+            let response = await fetch('/user/add-client', {
+                method: 'post',
+                headers: setHeaders({
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                }),
+                body: JSON.stringify({
+                    name: user.name,
+                    surname: user.surname,
+                    username: user.username,
+                    password: user.password,
+                    uid,
+                }),
+            });
+            if (response.status === 200) {
+                let json = await response.json();
+                dispatch(receiveAddUser(json));
             } else {
-                dispatch(receiveUserListFailure('error'));
+                dispatch(receiveAddUserFailure('error'));
+            }
+        } catch (error) {
+            dispatch(receiveAddUserFailure(error));
+        }
+    }
+};
+
+
+export const addAdmin = (user, uid: string | undefined) => async (dispatch) => {
+    if (!uid) {
+        dispatch(receiveAddUserFailure('error'));
+    } else {
+        dispatch(requestAddUser());
+        try {
+            let response = await fetch('/user/add-admin', {
+                method: 'post',
+                headers: setHeaders({
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                }),
+                body: JSON.stringify({
+                    name: user.name,
+                    surname: user.surname,
+                    username: user.username,
+                    password: user.password,
+                    uid,
+                }),
+            });
+            if (response.status === 200) {
+                let json = await response.json();
+                dispatch(receiveAddUser(json));
+            } else if (response.status === 403) {
+                dispatch(receiveAddUserFailure('error'));
                 dispatch(receiveCurrentUserFailure('error'));
                 auth.signOut()
                     .then(() => {
                         localStorage.removeItem('jwtToken');
                         localStorage.removeItem('firebaseToken');
-                    });
-            }
-        })
-        .catch((error) => {
-            dispatch(receiveUserListFailure(error));
-        });
-};
-
-
-export const addClient = (user, uid: string | undefined) => (dispatch) => {
-    if (!uid) {
-        dispatch(receiveAddUserFailure('error'));
-    } else {
-        dispatch(requestAddUser());
-        fetch('/user/add-client', {
-            method: 'post',
-            headers: setHeaders({
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            }),
-            body: JSON.stringify({
-                name: user.name,
-                surname: user.surname,
-                username: user.username,
-                password: user.password,
-                uid,
-            }),
-        })
-            .then((result) => {
-                if (result.status === 200) {
-                    result.json()
-                        .then((json) => {
-                            dispatch(receiveAddUser(json));
-                        });
-                } else {
-                    dispatch(receiveAddUserFailure('error'));
-                }
-            })
-            .catch((error) => {
-                dispatch(receiveAddUserFailure(error));
-            });
-    }
-};
-
-
-export const addAdmin = (user, uid: string | undefined) => (dispatch) => {
-    if (!uid) {
-        dispatch(receiveAddUserFailure('error'));
-    } else {
-        dispatch(requestAddUser());
-        fetch('/user/add-admin', {
-            method: 'post',
-            headers: setHeaders({
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            }),
-            body: JSON.stringify({
-                name: user.name,
-                surname: user.surname,
-                username: user.username,
-                password: user.password,
-                uid,
-            }),
-        })
-            .then((result) => {
-                if (result.status === 200) {
-                    result.json()
-                        .then((json) => {
-                            dispatch(receiveAddUser(json));
-                        });
-                } else {
-                    dispatch(receiveAddUserFailure('error'));
-                }
-            })
-            .catch((error) => {
-                dispatch(receiveAddUserFailure(error));
-            });
-    }
-};
-
-
-export const deleteUser = (id: number) => (dispatch) => {
-    dispatch(requestDeleteUser());
-    fetch(`/user/delete?user_id=${id}`, {
-        method: 'delete',
-        body: JSON.stringify(id),
-        headers: setHeaders({
-            'Content-Type': 'application/json',
-        }),
-    })
-        .then((result) => {
-            if (result.status === 200) {
-                result.json()
-                    .then((json) => {
-                        dispatch(receiveDeleteUser(json.user_id));
                     })
             } else {
-                dispatch(receiveDeleteUserFailure('error'));
-                dispatch(receiveCurrentUserFailure('error'));
-                auth.signOut()
-                    .then(() => {
-                        localStorage.removeItem('jwtToken');
-                        localStorage.removeItem('firebaseToken');
-                    });
+                dispatch(receiveAddUserFailure('error'));
             }
-        })
-        .catch((error) => {
-            dispatch(receiveDeleteUserFailure(error));
+        } catch (error) {
+            dispatch(receiveAddUserFailure(error));
+        }
+
+    }
+
+
+    // .then((result) => {
+    //     if (result.status === 200) {
+    //         result.json()
+    //             .then((json) => {
+    //                 dispatch(receiveAddUser(json));
+    //             });
+    //     } else {
+    //         dispatch(receiveAddUserFailure('error'));
+    //     }
+    // })
+    // .catch((error) => {
+    //     dispatch(receiveAddUserFailure(error));
+    // });
+};
+
+
+export const deleteUser = (id: number) => async (dispatch) => {
+    dispatch(requestDeleteUser());
+    try {
+        let response = await fetch(`/user/delete?user_id=${id}`, {
+            method: 'delete',
+            body: JSON.stringify(id),
+            headers: setHeaders({
+                'Content-Type': 'application/json',
+            }),
         });
+        if (response.status === 200) {
+            let json = await response.json();
+            dispatch(receiveDeleteUser(json.user_id));
+        } else if (response.status === 403) {
+            dispatch(receiveDeleteUserFailure('error'));
+            dispatch(receiveCurrentUserFailure('error'));
+            auth.signOut()
+                .then(() => {
+                    localStorage.removeItem('jwtToken');
+                    localStorage.removeItem('firebaseToken');
+                });
+        } else {
+            dispatch(receiveCurrentUserFailure('error'));
+        }
+    } catch (error) {
+        dispatch(receiveDeleteUserFailure(error));
+    }
+
+
+    // then((result) => {
+    //     if (result.status === 200) {
+    //         result.json()
+    //             .then((json) => {
+    //                 dispatch(receiveDeleteUser(json.user_id));
+    //             })
+    //     } else {
+    //         dispatch(receiveDeleteUserFailure('error'));
+    //         dispatch(receiveCurrentUserFailure('error'));
+    //         auth.signOut()
+    //             .then(() => {
+    //                 localStorage.removeItem('jwtToken');
+    //                 localStorage.removeItem('firebaseToken');
+    //             });
+    //     }
+    // })
+    //     .catch((error) => {
+    //         dispatch(receiveDeleteUserFailure(error));
+    //     });
 };
