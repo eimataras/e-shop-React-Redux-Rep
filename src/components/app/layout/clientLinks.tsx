@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Toolbar from '@material-ui/core/Toolbar';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 
@@ -23,9 +23,9 @@ interface ClientLinksProps extends RouteComponentProps {
 
 const ClientLinks: React.FC<ClientLinksProps> = (props) => {
     const classes: any = useStyles();
-    const {nameFirstLetter} = props;
-    const {surnameFirstLetter} = props;
-    const {handleLogout} = props;
+    const { nameFirstLetter } = props;
+    const { surnameFirstLetter } = props;
+    const { handleLogout } = props;
     return (
         <Toolbar>
             <Button color="inherit" onClick={() => props.history.push('/')}>Home</Button>

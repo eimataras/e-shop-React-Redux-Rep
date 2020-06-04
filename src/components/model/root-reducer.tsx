@@ -6,11 +6,11 @@ import loginReducer from './reducers/login-reducer';
 import firebaseReducer from './reducers/firebase-reducer';
 
 const rootReducer = combineReducers({
-  book: bookReducer,
-  user: userReducer,
-  order: orderReducer,
-  currentUser: loginReducer,
-  firebase: firebaseReducer,
+    book: bookReducer,
+    user: userReducer,
+    order: orderReducer,
+    currentUser: loginReducer,
+    firebase: firebaseReducer,
 });
 
 export default rootReducer;

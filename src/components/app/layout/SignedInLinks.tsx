@@ -1,12 +1,12 @@
 import React from 'react';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {bindActionCreators, compose} from 'redux';
-import {saveCurrentUser} from '../../model/actions/login-action';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
+import { saveCurrentUser } from '../../model/actions/login-action';
 import AdminLinks from './adminLinks';
 import ClientLinks from './clientLinks';
-import {auth} from '../../../firebase';
-import {CurrentUserRole, CurrentUserState} from "../../model/dataTypes/CurrentUserState";
+import { auth } from '../../../firebase';
+import { CurrentUserRole, CurrentUserState } from '../../model/dataTypes/CurrentUserState';
 
 
 const mapStateToProps = (state) => ({
@@ -28,14 +28,12 @@ interface PassedProps {
 type Props = SignedInLinksProps & PassedProps;
 
 const SignedInLinks: React.FC<Props> = (props) => {
-    const {isAuthenticated} = props.currentUser;
-    const {nameFirstLetter} = props.currentUser.data;
-    const {surnameFirstLetter} = props.currentUser.data;
-    const currentUserInfo: CurrentUserRole | undefined = isAuthenticated ? (
-        props.currentUser.data.roles.length ? (
-            props.currentUser.data.roles.find((info) => info)
-        ) : undefined) : undefined;
-    const loginUserRole: string | undefined = currentUserInfo ? (currentUserInfo.role_name) : undefined;
+    const { isAuthenticated } = props.currentUser;
+    const { nameFirstLetter } = props.currentUser.data;
+    const { surnameFirstLetter } = props.currentUser.data;
+    const currentUserInfo: CurrentUserRole | undefined = isAuthenticated && props.currentUser?.data?.roles ? (
+        props.currentUser.data.roles.find((info) => info)) : undefined;
+    const loginUserRole: string | undefined = currentUserInfo ? (currentUserInfo.roleName) : undefined;
 
     const handleLogout = () => {
         auth.signOut().then(() => {
@@ -45,22 +43,24 @@ const SignedInLinks: React.FC<Props> = (props) => {
             props.history.push('/');
         });
     };
-
-    return (
-        (loginUserRole === 'ADMIN') ? (
+    if (loginUserRole === 'ADMIN') {
+        return (
             <AdminLinks
                 handleLogout={handleLogout}
                 nameFirstLetter={nameFirstLetter}
                 surnameFirstLetter={surnameFirstLetter}
             />
-        ) : (loginUserRole === 'CLIENT') ? (
-            <ClientLinks
-                handleLogout={handleLogout}
-                nameFirstLetter={nameFirstLetter}
-                surnameFirstLetter={surnameFirstLetter}
-            />
-        ) : null
+        );
+    }
+    // else if (loginUserRole === 'CLIENT') {
+    return (
+        <ClientLinks
+            handleLogout={handleLogout}
+            nameFirstLetter={nameFirstLetter}
+            surnameFirstLetter={surnameFirstLetter}
+        />
     );
+    // }
 };
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(SignedInLinks) as React.ComponentType<PassedProps>;

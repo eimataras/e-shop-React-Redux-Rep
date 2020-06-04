@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import {bindActionCreators, compose} from 'redux';
-import {connect} from 'react-redux';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {Container} from '@material-ui/core';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import {addBook} from '../../model/actions/book-actions';
-import {BookState} from "../../model/dataTypes/BookState";
-import {CurrentUserState} from "../../model/dataTypes/CurrentUserState";
-import AccessDenied from "../auth/accessDenied";
+import { addBook } from '../../model/actions/book-actions';
+import { BookState } from '../../model/dataTypes/BookState';
+import { CurrentUserState } from '../../model/dataTypes/CurrentUserState';
+import AccessDenied from '../auth/accessDenied';
 
 const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
@@ -31,20 +31,20 @@ interface AddBookProps extends RouteComponentProps {
 export interface IBook {
     title: string;
     author: string;
-    published_date: string;
-    book_cover: string;
+    publishedDate: string;
+    bookCover: string;
     quantity: string;
 }
 
 
 const AddBook: React.FC<AddBookProps> = (props) => {
-    const {isAuthenticated} = props.currentUser;
-    const {error} = props.book;
+    const { isAuthenticated } = props.currentUser;
+    const { error } = props.book;
     const [book, setBook] = useState<IBook>({
         title: '',
         author: '',
-        published_date: '',
-        book_cover: '',
+        publishedDate: '',
+        bookCover: '',
         quantity: '',
     });
 
@@ -61,14 +61,14 @@ const AddBook: React.FC<AddBookProps> = (props) => {
         setBook({
             title: '',
             author: '',
-            published_date: '',
-            book_cover: '',
+            publishedDate: '',
+            bookCover: '',
             quantity: '',
         });
     };
 
     if (!isAuthenticated) {
-        return (<AccessDenied/>)
+        return (<AccessDenied/>);
     }
 
     return (
@@ -78,7 +78,7 @@ const AddBook: React.FC<AddBookProps> = (props) => {
                     <form autoComplete="off">
                         <h1>Add a new book:</h1>
                         {error === 'Bad Request' ? (
-                            <h5 style={{color: 'red'}}>Bad request! Make sure you fill up the form
+                            <h5 style={{ color: 'red' }}>Bad request! Make sure you fill up the form
                                 correctly.</h5>) : ''}
                         <TextField
                             id="title"
@@ -98,14 +98,14 @@ const AddBook: React.FC<AddBookProps> = (props) => {
                             id="published_date"
                             variant="outlined"
                             label="Published date"
-                            value={book.published_date}
+                            value={book.publishedDate}
                             onChange={handleChange}
                         />
                         <TextField
                             id="book_cover"
                             variant="outlined"
                             label="Book cover http://..."
-                            value={book.book_cover}
+                            value={book.bookCover}
                             onChange={handleChange}
                         />
                         <TextField

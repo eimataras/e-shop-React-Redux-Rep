@@ -3,14 +3,14 @@ import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
 import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
-import {Container, ListItemText} from '@material-ui/core';
+import { Container, ListItemText } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {bindActionCreators, compose} from 'redux';
-import {deleteUser} from '../../model/actions/user-actions';
-import {User, UserRole} from "../../model/dataTypes/UserState";
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
+import { deleteUser } from '../../model/actions/user-actions';
+import { User, UserRole } from '../../model/dataTypes/UserState';
 
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -24,13 +24,14 @@ interface UserDetailsProps extends RouteComponentProps {
 interface PassedProps {
     user: User;
     myRole: UserRole;
+    hiddenPassword: string | undefined;
 }
 
 type Props = UserDetailsProps & PassedProps;
 
 const UserDetails: React.FC<Props> = (props) => {
-    const {user} = props;
-    const {myRole} = props;
+    const { user } = props;
+    const { myRole } = props;
 
     const handleSelectedUserOrders = (id) => {
         props.history.push(`/userlist/${id}`);
@@ -46,7 +47,7 @@ const UserDetails: React.FC<Props> = (props) => {
                 <Paper>
                     <ListItem
                         button
-                        onClick={() => handleSelectedUserOrders(user.user_id)}
+                        onClick={() => handleSelectedUserOrders(user.userId)}
                     >
                         <Grid container spacing={0}>
                             <ListItemText
@@ -58,12 +59,12 @@ const UserDetails: React.FC<Props> = (props) => {
                                 secondary={(
                                     <>
                                         Username:{' '}{user.username}<br/>
-                                        Password:{' '}{user.password}<br/>
-                                        Role:{' '}{myRole.role_name}{' '}
+                                        Password:{' '}{props.hiddenPassword}<br/>
+                                        Role:{' '}{myRole.roleName}{' '}
                                     </>
                                 )}
                             />
-                            <IconButton onClick={() => handleDeleteUser(user.user_id)}>
+                            <IconButton onClick={() => handleDeleteUser(user.userId)}>
                                 <Icon
                                     className="material-icons"
                                     color="secondary"

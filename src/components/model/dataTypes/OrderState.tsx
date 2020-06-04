@@ -1,22 +1,22 @@
 export interface OrderItemsAndBook {
-    order_item_id: number;
-    order_id: number;
-    book_id: number;
+    orderItemId: number;
+    orderId: number;
+    bookId: number;
     title: string;
     author: string;
-    published_date: string;
-    book_cover: string;
+    publishedDate: string;
+    bookCover: string;
     quantity: number;
 }
 
 export interface Order {
-    order_id: number;
-    user_id: number;
+    orderId: number;
+    userId: number;
     name: string;
     surname: string;
     username: string;
     password: string;
-    status_id: number;
+    statusId: number;
     type: string;
     items: OrderItemsAndBook[];
 }

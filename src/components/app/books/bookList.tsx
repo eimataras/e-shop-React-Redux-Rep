@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {Container} from '@material-ui/core';
-import {fetchBook} from '../../model/actions/book-actions';
-import {fetchOrder} from '../../model/actions/order-actions';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Container } from '@material-ui/core';
+import { fetchBook } from '../../model/actions/book-actions';
+import { fetchOrder } from '../../model/actions/order-actions';
 import BookInfo from './bookInfo';
-import {Book, BookState} from "../../model/dataTypes/BookState";
+import { Book, BookState } from '../../model/dataTypes/BookState';
 
 
 const mapStateToProps = (state) => ({
@@ -18,8 +18,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 interface BookListProps {
-    fetchBook: () => any;
-    fetchOrder: () => any;
+    fetchBook: () => void;
+    fetchOrder: () => void;
     book: BookState;
 }
 
@@ -33,26 +33,33 @@ class BookList extends Component<BookListProps, BookListState> {
     }
 
     render() {
-        const {isFetching} = this.props.book;
-        const error: string | undefined = this.props.book.error;
+        const { isFetching } = this.props.book;
+        const { error } = this.props.book;
         const books: Book[] = this.props.book.data;
-        return (isFetching ? (
+
+        if (isFetching) {
+            return (
                 <div className='center'>
                     <h1>Books for sale</h1>
                     <h3>Loading</h3>
                 </div>
-            ) : (error !== undefined) ? (
+            );
+        }
+
+        if (error !== undefined) {
+            return (
                 <div className='center'>
                     <h1>Books for sale</h1>
-                    <h3 style={{color: 'red'}}>Ups... {error}...</h3>
+                    <h3 style={{ color: 'red' }}>Ups... {error}...</h3>
                 </div>
-            ) : (
-                <Container fixed maxWidth="md">
-                    <h1>Books for sale</h1>
-                    {books.map((book) => <BookInfo key={book.book_id} book={book}/>)}
-                </Container>
-            )
-        );
+            );
+        }
+
+        return (
+            <Container fixed maxWidth="md">
+                <h1>Books for sale</h1>
+                {books.map((book) => <BookInfo key={book.bookId} book={book}/>)}
+            </Container>);
     }
 }
 

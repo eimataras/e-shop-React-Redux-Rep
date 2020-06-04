@@ -1,3 +1,27 @@
 {
-  "extends": "airbnb"
+  "extends": [
+    "airbnb-typescript/base",
+    "plugin:react/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "react/prop-types": 0, //needs to be enabled
+    "@typescript-eslint/indent": ["error", 4],
+    "max-len": ["error", 250],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never",
+        "": "never"
+      }
+    ]
+  }
 }

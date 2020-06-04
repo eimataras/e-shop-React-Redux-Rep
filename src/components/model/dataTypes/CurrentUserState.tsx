@@ -1,8 +1,8 @@
 export interface CurrentUserRole {
-    user_role_id: number;
-    user_id: number;
-    role_id: number;
-    role_name: string;
+    userRoleId: number;
+    userId: number;
+    roleId: number;
+    roleName: string;
     length: number;
 }
 

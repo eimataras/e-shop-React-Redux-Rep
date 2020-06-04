@@ -1,7 +1,7 @@
-import {CurrentUserState} from "./dataTypes/CurrentUserState";
-import {BookState} from "./dataTypes/BookState";
-import {OrderState} from "./dataTypes/OrderState";
-import {UserState} from "./dataTypes/UserState";
+import { CurrentUserState } from './dataTypes/CurrentUserState';
+import { BookState } from './dataTypes/BookState';
+import { OrderState } from './dataTypes/OrderState';
+import { UserState } from './dataTypes/UserState';
 
 interface IInitialState {
     book: BookState;
@@ -33,7 +33,9 @@ const initialState: IInitialState = {
     currentUser: {
         isFetching: false,
         isAuthenticated: false,
-        data: {exp: 0, surnameFirstLetter: '', sub: '', nameFirstLetter: '', iat: 0, roles: []},
+        data: {
+            exp: 0, surnameFirstLetter: '', sub: '', nameFirstLetter: '', iat: 0, roles: [],
+        },
         error: '',
     },
 

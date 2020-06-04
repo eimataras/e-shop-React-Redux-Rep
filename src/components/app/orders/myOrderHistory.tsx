@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import {bindActionCreators, compose} from 'redux';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { bindActionCreators, compose } from 'redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
-import {Container} from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import {green} from '@material-ui/core/colors';
+import { green } from '@material-ui/core/colors';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Grid from '@material-ui/core/Grid';
-import {fetchOrder} from '../../model/actions/order-actions';
-import {Order, OrderState} from "../../model/dataTypes/OrderState";
-import {CurrentUserRole, CurrentUserState} from "../../model/dataTypes/CurrentUserState";
-import AccessDenied from "../auth/accessDenied";
+import { fetchOrder } from '../../model/actions/order-actions';
+import { Order, OrderState } from '../../model/dataTypes/OrderState';
+import { CurrentUserRole, CurrentUserState } from '../../model/dataTypes/CurrentUserState';
+import AccessDenied from '../auth/accessDenied';
 
 const mapStateToProps = (state) => ({
     order: state.order,
@@ -38,18 +38,17 @@ class MyOrderHistory extends Component<MyOrderHistoryProps, MyOrderHistoryState>
     }
 
     render() {
-        const {isAuthenticated} = this.props.currentUser;
-        const {isFetching} = this.props.order;
-        const currentUserInfo: CurrentUserRole | undefined = isAuthenticated ? (
-            this.props.currentUser.data.roles.length ? (
-                this.props.currentUser.data.roles.find((info) => info)
-            ) : undefined) : undefined;
-        const loginUserId: number | undefined = currentUserInfo ? (currentUserInfo.user_id) : undefined;
+        const { isAuthenticated } = this.props.currentUser;
+        const { isFetching } = this.props.order;
+        const currentUserInfo: CurrentUserRole | undefined = isAuthenticated && this.props.currentUser?.data?.roles ? (
+            this.props.currentUser.data.roles.find((info) => info)
+        ) : undefined;
+        const loginUserId: number | undefined = currentUserInfo ? (currentUserInfo.userId) : undefined;
         const orders: Order[] = this.props.order.data;
-        const myOrders: Order[] = orders.filter((order) => (order.user_id === loginUserId ? order : null));
+        const myOrders: Order[] = orders.filter((order) => (order.userId === loginUserId ? order : null));
 
         if (!isAuthenticated) {
-            return (<AccessDenied/>)
+            return (<AccessDenied/>);
         }
 
         return (
@@ -62,14 +61,14 @@ class MyOrderHistory extends Component<MyOrderHistoryProps, MyOrderHistoryState>
                 <div>
                     <h1>Orders history</h1>
                     {myOrders.map((order) => (
-                        <Container fixed maxWidth="md" key={order.order_id}>
+                        <Container fixed maxWidth="md" key={order.orderId}>
                             <List>
                                 <Paper>
                                     <ListItem>
                                         <Grid container spacing={0}>
                                             <div>
                                                 Buyer:{' '}{order.name}{' '}{order.surname}<br/>
-                                                Order ID:{' '}{order.order_id}<br/>
+                                                Order ID:{' '}{order.orderId}<br/>
                                                 Order status:{' '}{order.type}<br/>
                                                 Ordered items:
                                             </div>
@@ -78,7 +77,7 @@ class MyOrderHistory extends Component<MyOrderHistoryProps, MyOrderHistoryState>
                                                 {order.items.map((item) => (
                                                     <Container
                                                         fixed maxWidth="sm"
-                                                        key={item.order_item_id}
+                                                        key={item.orderItemId}
                                                     >
                                                         <List>
                                                             <Paper>
@@ -90,8 +89,8 @@ class MyOrderHistory extends Component<MyOrderHistoryProps, MyOrderHistoryState>
                                                                             padding: 30,
                                                                         }}
                                                                     />
-                                                                    "{item.title}"{' '}{item.author}<br/>
-                                                                    Published in{' '}{item.published_date}<br/>
+                                                                    &quot;{item.title}&quot;{' '}{item.author}<br/>
+                                                                    Published in{' '}{item.publishedDate}<br/>
                                                                     Ordered quantity:{' '}{item.quantity}
                                                                 </ListItem>
                                                             </Paper>

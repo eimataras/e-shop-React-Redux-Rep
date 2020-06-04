@@ -1,6 +1,8 @@
 import React from 'react';
-import './App.css';
-import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {
+    HashRouter, Redirect, Route, Switch,
+} from 'react-router-dom';
+import { connect } from 'react-redux';
 import SignUp from './auth/SignUp';
 import AddBook from './books/addBook';
 import UserList from './orders/userList';
@@ -9,8 +11,7 @@ import MyOrderHistory from './orders/myOrderHistory';
 import BookList from './books/bookList';
 import NavBar from './layout/Navbar';
 import SignIn from './auth/SignIn';
-import {connect} from "react-redux";
-import {CurrentUserState} from "../model/dataTypes/CurrentUserState";
+import { CurrentUserState } from '../model/dataTypes/CurrentUserState';
 
 const mapStateToProps = (state) => ({
     currentUser: state.currentUser,

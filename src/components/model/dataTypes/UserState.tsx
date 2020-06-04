@@ -1,12 +1,12 @@
 export interface UserRole {
-    user_role_id: number;
-    user_id: number;
-    role_id: number;
-    role_name: string;
+    userRoleId: number;
+    userId: number;
+    roleId: number;
+    roleName: string;
 }
 
 export interface User {
-    user_id: number;
+    userId: number;
     name: string;
     surname: string;
     username: string;

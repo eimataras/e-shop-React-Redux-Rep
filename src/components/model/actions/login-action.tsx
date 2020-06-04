@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
-import {auth} from '../../../firebase';
-import {CurrentUser} from "../dataTypes/CurrentUserState";
+import { auth } from '../../../firebase';
+import { CurrentUser } from '../dataTypes/CurrentUserState';
 
 export const REQUEST_CURRENT_USER = 'REQUEST_CURRENT_USER';
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const RECEIVE_CURRENT_USER_FAILURE = 'RECEIVE_CURRENT_USER_FAILURE';
 
-export const requestCurrentUser = () => ({type: REQUEST_CURRENT_USER});
+export const requestCurrentUser = () => ({ type: REQUEST_CURRENT_USER });
 export const receiveCurrentUser = (user?: CurrentUser) => ({
     type: RECEIVE_CURRENT_USER,
     payload: user,
@@ -28,8 +28,8 @@ export const logInWithEmailAndPassword = (email: string, password: string) => as
     try {
         await auth.signInWithEmailAndPassword(email, password);
         if (auth.currentUser) {
-            let idToken = await auth.currentUser.getIdToken(true);
-            let result = await fetch('/api/auth', {
+            const idToken = await auth.currentUser.getIdToken(true);
+            const result = await fetch('/api/auth', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json',
@@ -39,7 +39,7 @@ export const logInWithEmailAndPassword = (email: string, password: string) => as
                     idToken,
                 }),
             });
-            let json = await result.json();
+            const json = await result.json();
             localStorage.setItem('jwtToken', json.jwt);
             localStorage.setItem('firebaseToken', idToken);
             const decodedJWT: CurrentUser | undefined = jwt.decode(json.jwt);

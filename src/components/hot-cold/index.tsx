@@ -11,9 +11,9 @@ export const HotApp = hot(App);
 export const store = configureStore();
 
 export const ColdApp = () => (
-  <Provider store={store}>
-    <Router>
-      <HotApp />
-    </Router>
-  </Provider>
+    <Provider store={store}>
+        <Router>
+            <HotApp />
+        </Router>
+    </Provider>
 );

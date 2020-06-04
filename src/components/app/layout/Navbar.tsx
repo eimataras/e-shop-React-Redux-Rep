@@ -1,16 +1,16 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as jwt from 'jsonwebtoken';
-import {bindActionCreators, compose} from 'redux';
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import {saveCurrentUser} from '../../model/actions/login-action';
+import { saveCurrentUser } from '../../model/actions/login-action';
 import SignedOutLinks from './SingedOutLinks';
 import SignedInLinks from './SignedInLinks';
-import {CurrentUser, CurrentUserRole, CurrentUserState} from "../../model/dataTypes/CurrentUserState";
+import { CurrentUser, CurrentUserRole, CurrentUserState } from '../../model/dataTypes/CurrentUserState';
 
 
 const mapStateToProps = (state) => ({
@@ -47,17 +47,17 @@ const Navbar: React.FC<Props> = (props) => {
         }
     });
 
-    const {isAuthenticated} = props.currentUser;
+    const { isAuthenticated } = props.currentUser;
     const currentUserInfo: CurrentUserRole[] | undefined = isAuthenticated ? (props.currentUser.data.roles) : undefined;
     return (
-        <AppBar position="static" style={{backgroundColor: 'darkred'}}>
+        <AppBar position="static" style={{ backgroundColor: 'darkred' }}>
             <Toolbar>
                 <Button
-                    style={{flexGrow: 1, textAlign: 'left'}}
+                    style={{ flexGrow: 1, textAlign: 'left' }}
                     color="inherit"
                     onClick={() => props.history.push('/')}
                 >
-                    <Typography variant="h5" style={{flexGrow: 1, padding: 5}}>Book shop</Typography>
+                    <Typography variant="h5" style={{ flexGrow: 1, padding: 5 }}>Book shop</Typography>
                 </Button>
                 {(isAuthenticated && currentUserInfo) ? (<SignedInLinks/>) : (<SignedOutLinks/>)}
             </Toolbar>

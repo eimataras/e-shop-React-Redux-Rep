@@ -7,10 +7,10 @@ import rootReducer from './root-reducer';
 const composerEnhancer = composeWithDevTools({});
 
 export default function configureStore() {
-  return createStore(
-    rootReducer,
-    composerEnhancer(
-      applyMiddleware(thunk),
-    ),
-  );
+    return createStore(
+        rootReducer,
+        composerEnhancer(
+            applyMiddleware(thunk),
+        ),
+    );
 }

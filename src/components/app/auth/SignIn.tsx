@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import {Container} from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import {bindActionCreators, compose} from 'redux';
-import {connect} from 'react-redux';
-import {logInWithEmailAndPassword} from '../../model/actions/login-action';
-import {CurrentUserState} from "../../model/dataTypes/CurrentUserState";
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { logInWithEmailAndPassword } from '../../model/actions/login-action';
+import { CurrentUserState } from '../../model/dataTypes/CurrentUserState';
 
 
 const mapStateToProps = (state) => ({
@@ -27,8 +27,8 @@ interface SignInProps extends RouteComponentProps<any> {
 const SignIn: React.FC<SignInProps> = (props) => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const {isFetching} = props.currentUser;
-    const {isAuthenticated} = props.currentUser;
+    const { isFetching } = props.currentUser;
+    const { isAuthenticated } = props.currentUser;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -49,8 +49,9 @@ const SignIn: React.FC<SignInProps> = (props) => {
         return (
             <h3 className="center">Logging user...</h3>
         );
-    } else if (isAuthenticated) {
-        props.history.push('/')
+    }
+    if (isAuthenticated) {
+        props.history.push('/');
     }
 
     return (
@@ -60,7 +61,7 @@ const SignIn: React.FC<SignInProps> = (props) => {
                     <form autoComplete="off">
                         <h1>Log In:</h1>
                         {props.currentUser.error === 'loginError' ? (
-                            <h5 style={{color: 'red'}}>Wrong username or password!</h5>) : ''}
+                            <h5 style={{ color: 'red' }}>Wrong username or password!</h5>) : ''}
                         <TextField
                             autoFocus
                             id="username"

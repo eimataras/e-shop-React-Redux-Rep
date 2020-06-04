@@ -1,11 +1,11 @@
-import {cloneDeep} from 'lodash';
+import { cloneDeep } from 'lodash';
 import initialState from '../initial-state';
-import {RECEIVE_CURRENT_USER, RECEIVE_CURRENT_USER_FAILURE, REQUEST_CURRENT_USER} from '../actions/login-action';
+import { RECEIVE_CURRENT_USER, RECEIVE_CURRENT_USER_FAILURE, REQUEST_CURRENT_USER } from '../actions/login-action';
 
 
 const loginReducer = (state = cloneDeep(initialState.currentUser), action) => {
     switch (action.type) {
-        // --------------POST LOGIN ---------------------------
+    // --------------POST LOGIN ---------------------------
         case REQUEST_CURRENT_USER: {
             return {
                 ...state,
