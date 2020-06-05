@@ -39,3 +39,8 @@ h1 {
 .left {
     text-align: left;
 }
+
+.sideMargin {
+    margin-left: 5px;
+    margin-right: 5px;
+}

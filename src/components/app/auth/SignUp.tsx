@@ -56,9 +56,7 @@ class SignUp extends Component<SignUpProps, SignUpState> {
         auth.createUserWithEmailAndPassword(user.username, user.password).then((cred) => {
             if (cred.user !== null) {
                 const { uid } = cred.user;
-                // auth.signOut().then(() => {
                 this.props.addClient(user, uid);
-                // });
             }
         })
             .catch(() => {
@@ -81,9 +79,7 @@ class SignUp extends Component<SignUpProps, SignUpState> {
             .then((cred) => {
                 if (cred.user !== null) {
                     const { uid } = cred.user;
-                    // auth.signOut().then(() => {
                     this.props.addAdmin(user, uid);
-                    // });
                 }
             })
             .catch(() => {

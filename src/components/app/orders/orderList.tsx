@@ -13,12 +13,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { deleteOrder, updateOrderStatus } from '../../model/actions/order-actions';
 import { Order } from '../../model/dataTypes/OrderState';
 
-const style = {
-    sideMargin: {
-        marginLeft: 5,
-        marginRight: 5,
-    },
-};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     updateOrderStatus: (orderId, userId, statusId) => updateOrderStatus(orderId, userId, statusId),
@@ -84,7 +78,7 @@ const OrderList: React.FC<Props> = (props) => {
                                         Order ID:{' '}{order.orderId}
                                         <div style={{ color: 'red' }}>
                                             Change status to:
-                                            <span style={style.sideMargin}/>
+                                            <span className='sideMargin'/>
                                             <Button
                                                 onClick={() => handleChangeStatus(order.orderId, order.userId, 3)}
                                                 size="small"
@@ -92,7 +86,7 @@ const OrderList: React.FC<Props> = (props) => {
                                             >
                                                 Sent
                                             </Button>
-                                            <span style={style.sideMargin}/>
+                                            <span className='sideMargin'/>
                                             <Button
                                                 onClick={() => handleChangeStatus(order.orderId, order.userId, 4)}
                                                 size="small"
@@ -100,7 +94,7 @@ const OrderList: React.FC<Props> = (props) => {
                                             >
                                                 Canceled
                                             </Button>
-                                            <span style={style.sideMargin}/>
+                                            <span className='sideMargin'/>
                                         </div>
                                     </div>
                                 </Grid>

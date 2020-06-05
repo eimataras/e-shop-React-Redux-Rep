@@ -13,6 +13,7 @@ import { fetchOrder } from '../../model/actions/order-actions';
 import { Order, OrderState } from '../../model/dataTypes/OrderState';
 import { CurrentUserRole, CurrentUserState } from '../../model/dataTypes/CurrentUserState';
 import AccessDenied from '../auth/accessDenied';
+import Spinner from '../layout/spinner';
 
 const mapStateToProps = (state) => ({
     order: state.order,
@@ -55,7 +56,7 @@ class MyOrderHistory extends Component<MyOrderHistoryProps, MyOrderHistoryState>
             (isFetching) ? (
                 <div className='center'>
                     <h1>My orders history</h1>
-                    <h3>Loading...</h3>
+                    <Spinner/>
                 </div>
             ) : (
                 <div>

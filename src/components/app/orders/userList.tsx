@@ -11,6 +11,7 @@ import { Order, OrderState } from '../../model/dataTypes/OrderState';
 import { User, UserRole, UserState } from '../../model/dataTypes/UserState';
 import { CurrentUserState } from '../../model/dataTypes/CurrentUserState';
 import AccessDenied from '../auth/accessDenied';
+import Spinner from '../layout/spinner';
 
 const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
@@ -54,7 +55,7 @@ class UserList extends Component<UserListProps, UserListState> {
         return (isFetching) ? (
             <div className='center'>
                 <h1>User list</h1>
-                <h3>Loading...</h3>
+                <Spinner/>
             </div>
         ) : (
             <div className='center'>

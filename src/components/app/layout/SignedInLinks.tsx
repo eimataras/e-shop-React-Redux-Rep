@@ -52,7 +52,6 @@ const SignedInLinks: React.FC<Props> = (props) => {
             />
         );
     }
-    // else if (loginUserRole === 'CLIENT') {
     return (
         <ClientLinks
             handleLogout={handleLogout}
@@ -60,7 +59,6 @@ const SignedInLinks: React.FC<Props> = (props) => {
             surnameFirstLetter={surnameFirstLetter}
         />
     );
-    // }
 };
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(SignedInLinks) as React.ComponentType<PassedProps>;

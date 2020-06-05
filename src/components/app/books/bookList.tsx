@@ -6,6 +6,7 @@ import { fetchBook } from '../../model/actions/book-actions';
 import { fetchOrder } from '../../model/actions/order-actions';
 import BookInfo from './bookInfo';
 import { Book, BookState } from '../../model/dataTypes/BookState';
+import Spinner from '../layout/spinner';
 
 
 const mapStateToProps = (state) => ({
@@ -41,7 +42,7 @@ class BookList extends Component<BookListProps, BookListState> {
             return (
                 <div className='center'>
                     <h1>Books for sale</h1>
-                    <h3>Loading</h3>
+                    <Spinner/>
                 </div>
             );
         }

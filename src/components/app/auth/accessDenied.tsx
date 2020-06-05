@@ -13,7 +13,7 @@ type Props = AccessDeniedProps & PassedProps;
 
 const AccessDenied: React.FC<Props> = (props) => <div className="center">
     <h1>Ups...</h1>
-    <h3>Access denied... Please <span> </span>
+    <h3>Access denied... Please{' '}
         <Link component="button" onClick={() => props.history.push('/signin')}>
             <h3>log in</h3>
         </Link>

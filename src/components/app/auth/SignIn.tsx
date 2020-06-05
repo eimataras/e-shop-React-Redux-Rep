@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { logInWithEmailAndPassword } from '../../model/actions/login-action';
 import { CurrentUserState } from '../../model/dataTypes/CurrentUserState';
+import Spinner from '../layout/spinner';
 
 
 const mapStateToProps = (state) => ({
@@ -47,9 +48,10 @@ const SignIn: React.FC<SignInProps> = (props) => {
 
     if (isFetching) {
         return (
-            <h3 className="center">Logging user...</h3>
+            <Spinner/>
         );
     }
+
     if (isAuthenticated) {
         props.history.push('/');
     }

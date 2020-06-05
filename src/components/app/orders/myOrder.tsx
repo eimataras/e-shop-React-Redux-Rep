@@ -14,6 +14,7 @@ import { fetchOrder, updateOrderItemQuantity, updateOrderStatus } from '../../mo
 import { CurrentUserRole, CurrentUserState } from '../../model/dataTypes/CurrentUserState';
 import { Order, OrderState } from '../../model/dataTypes/OrderState';
 import AccessDenied from '../auth/accessDenied';
+import Spinner from '../layout/spinner';
 
 
 const style = {
@@ -80,7 +81,7 @@ class MyOrder extends Component<MyOrderProps, MyOrderState> {
             return (
                 <div className="center">
                     <h1>My order</h1>
-                    <h3>Loading...</h3>
+                    <Spinner/>
                 </div>
             );
         }
