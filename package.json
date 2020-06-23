@@ -30,7 +30,7 @@
     "thunk": "0.0.1",
     "typescript": "^3.9.3"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:8081",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -64,6 +64,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "webpack-cli": "^3.3.11"
   }
 }

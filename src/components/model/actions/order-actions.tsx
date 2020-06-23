@@ -236,9 +236,7 @@ export const deleteOrder = (orderId: number) => async (dispatch) => {
     try {
         const response = await fetch(`/order/delete?orderId=${orderId}`, {
             method: 'delete',
-            body: JSON.stringify({
-                orderId,
-            }),
+            body: JSON.stringify({ orderId }),
             headers: setHeaders({
                 'Content-Type': 'application/json',
             }),

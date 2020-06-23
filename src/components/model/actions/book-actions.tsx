@@ -110,7 +110,7 @@ export const addBook = (book: IBook) => async (dispatch) => {
 export const deleteBook = (id: number) => async (dispatch) => {
     dispatch(requestDeleteBook());
     try {
-        const response = await fetch(`/book/delete?book_id=${id}`, {
+        const response = await fetch(`/book/delete?bookId=${id}`, {
             method: 'delete',
             body: JSON.stringify(id),
             headers: setHeaders({
