@@ -152,7 +152,7 @@ export const addAdmin = (user, uid: string | undefined) => async (dispatch) => {
 export const deleteUser = (id: number) => async (dispatch) => {
     dispatch(requestDeleteUser());
     try {
-        const response = await fetch(`/user/delete?user_id=${id}`, {
+        const response = await fetch(`/user/delete?userId=${id}`, {
             method: 'delete',
             body: JSON.stringify(id),
             headers: setHeaders({
@@ -161,7 +161,7 @@ export const deleteUser = (id: number) => async (dispatch) => {
         });
         if (response.status === 200) {
             const json = await response.json();
-            dispatch(receiveDeleteUser(json.user_id));
+            dispatch(receiveDeleteUser(json.userId));
         } else if (response.status === 403) {
             dispatch(receiveDeleteUserFailure('error'));
             dispatch(receiveCurrentUserFailure('error'));
