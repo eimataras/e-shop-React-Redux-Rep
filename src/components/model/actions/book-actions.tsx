@@ -119,7 +119,7 @@ export const deleteBook = (id: number) => async (dispatch) => {
         });
         if (response.status === 200) {
             const json = await response.json();
-            dispatch(receiveDeleteBook(json.book_id));
+            dispatch(receiveDeleteBook(json.bookId));
         } else if (response.status === 403) {
             dispatch(receiveDeleteBookFailure('error'));
             dispatch(receiveCurrentUserFailure('errorRedirectToSignIn'));
